@@ -1,1381 +1,823 @@
-sample,old_rank1,old_rank2,pca,rank1,rank2,morpho_type,rank3
-alisacraig,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-bgv004584,slc_ma_small_2,slc_mix,0,spxsl,slc_col,slc_cherry,slcxsll
-bgv005895,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,slc_wild_like,slc_world
-bgv005912,slc_ecu_south,,0,slc_ecu,slc_ecu_big,slc_ecu_big,slc_ecu_big
-bgv006148,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_wild,slc_cherry,slc_ecu_guayaquil
-bgv006175,slc_ma_small_2,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-bgv006208,sp,,0,sp_ecu_south,sp_ecu_south,sp_montane,sp_montane
-bgv006225,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_tom_leaf,slc_ecu_1
-bgv006229,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv006230,,,0,slc_ecu,slc_ecu_center,slc_ecu_tom_leaf,slc_ecu_1
-bgv006231,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv006232,slc_ecu_center,,0,slc_ecu,slc_ecu_center,,slc_ecu_1
-bgv006234,slc_ecu_south,,0,slc_ecu,slc_ecu_big,slc_ecu_big,slc_ecu_big
-bgv006235,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_cherry,slc_ecu_1
-bgv006327,sp,,0,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006336,sp,,0,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006347,sp,,3,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006353,sp,,3,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006363,sp,,0,sp_per,sp_peru_coast,sp_slc,sp_peru
-bgv006370,sp,,0,sp_peru_mix,sp_peruxecu,sp_coast,sp_peru
-bgv006454,sp,,0,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006457,sp,,0,sp_per,sp_piura_inland,sp_coast,sp_peru
-bgv006478,sp,,0,sp_per,sp_peru_coast,sp_slc,sp_peru
-bgv006753,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_ecu_rib_flat,slc_ecu_north
-bgv006767,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_wild,slc_wild_like,slcxsll
-bgv006768,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_cherry,slc_ecu_north
-bgv006775,sp_ecu,,0,sp_ecu_north,sp_ecu_north,slc_wild_like,
-bgv006777,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_ecu_tom_leaf,slc_ecu_north
-bgv006779,slc_ecu_north_guayaquil,,0,slc_ecu,sp_per_x_sl_2,slc_ecu_tom_leaf,slc_ecu_north
-bgv006792,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_ecu_tom_leaf,slc_ecu_north
-bgv006806,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_ecu_rib_flat,slc_ecu_north
-bgv006825,slc_ecu_north_guayaquil,,0,spxsl,sp_per_x_sl_2,slc_ecu_rib_flat,slcxsll
-bgv006828,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,slc_ecu_rib_flat,slc_ecu_guayaquil
-bgv006852,,,0,slc_ecu,slc_ecu_north,slc_ecu_rib_flat,slc_ecu_north
-bgv006859,slc_ecu_center,,0,slc_ecu,slc_ecu_center,sp_north_ecu,slc_ecu_1
-bgv006865,slc_ecu_center,,0,slc_ecu,slc_ecu_center,,slc_ecu_1
-bgv006867,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_wild_like,slc_ecu_1
-bgv006881,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_tom_leaf,slc_ecu_1
-bgv006896,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_tom_leaf,slc_ecu_1
-bgv006899,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv006901,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv006904,slc_ecu_center,,0,slc_ecu,slc_ecu_center,,slc_ecu_1
-bgv006906,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_tom_leaf,slc_ecu_1
-bgv006907,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv006910,slc_ecu_center,,0,slc_ecu,slc_ecu_center,sp_north_ecu,slc_ecu_1
-bgv006927,slc_ecu_south,,0,slc_ecu,slc_ecu_big,slc_ecu_big,slc_ecu_big
-bgv006931,slc_ecu_south,,0,slc_ecu,slc_ecu_big,slc_ecu_big,slc_ecu_big
-bgv006934,slc_ecu_south,,0,slc_ecu,slc_ecu_big,slc_ecu_big,slc_ecu_big
-bgv007015,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_cherry,
-bgv007017,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_cherry,
-bgv007023,slc_ecu_center,,0,slc_ecu,slc_ecu_center,slc_ecu_rib_flat,slc_ecu_1
-bgv007109,sp_ecu,,1,sp_ecu_north,sp_ecu_north,sp_slc,sp_ecu
-bgv007111,sp_ecu,,1,sp_ecu_north,sp_ecu_north,sp_slc,sp_ecu
-bgv007149,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007151,sp,,0,sp_ecu_south,sp_ecu_south,sp_north_ecu,sp_montane
-bgv007152,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007158,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007161,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007169,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007181,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007194,sp_ecu,,0,sp_ecu_north,sp_ecu_north,sp_north_ecu,sp_ecu
-bgv007198,sp,,0,sp_ecu_south,sp_peruxecu,sp_north_ecu,sp_montane
-bgv007339,sp,,0,sp_ecu_south,sp_ecu_south,sp_montane,sp_montane
-bgv007366,sp,,0,sp_ecu_south,sp_ecu_south,sp_montane,sp_montane
-bgv007854,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007857,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007860,sll_mex,sll_mex_1,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007862,sll_3,,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007863,slc_ma_small_2,,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007864,sll_mex,sll_mex_1,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007865,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007867,sll_mex,sll_mex_1,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007870,sll_mex,,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007871,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007872,sll_mex,sll_mex_1,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007875,sll_mex,,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007876,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007878,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007894,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_mex_small
-bgv007895,sll_mex,sll_mex_2,0,sll_mex,sll_mex,,sll_mex
-bgv007899,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_mex_small
-bgv007900,slc_ma_small_2,slc_mix,,,slc_world,,
-bgv007901,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007902,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007908,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007909,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007910,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007911,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007918,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007920,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_cherry,slc_mex_small
-bgv007921,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv007927,slc_ma_small_1,,0,spxsl,slc_sinaloa,slc_cherry,spxsl_mex
-bgv007931,slc_ma_small_1,,0,spxsl,slc_sinaloa,sp_slc,spxsl_mex
-bgv007933,slc_ma_small_1,,0,spxsl,slc_sinaloa,sp_slc,spxsl_mex
-bgv007934,slc_ma_small_1,,0,spxsl,slc_sinaloa,slc_wild_like,spxsl_mex
-bgv007935,slc_ma_small_1,,0,spxsl,slc_sinaloa,,spxsl_mex
-bgv007936,sll_mex,sll_mex_1,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv007981,slc_peru_1,,0,slc_per_small,slc_peru_south_1,slc_ecu_rib_flat,slc_peru_south
-bgv007989,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,slc_cherry,slc_peru_south
-bgv007990,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,,slc_peru_south
-bgv007992,spxsl1,,0,spxsl,sp_ecu_x_sl,,spxsl_peru
-bgv008036,slc_ma_small_2,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,slc_cherry,slc_peru_south
-bgv008037,slc_tarapoto,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,slc_wild_like,slc_peru_south
-bgv008041,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,slc_cherry,slc_peru_south
-bgv008042,spxsl1,,0,spxsl,sp_per_x_sl_3,slc_cherry,spxsl_peru
-bgv008051,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv008058,slc_ma_small_1,,0,spxsl,sp_per_x_sl_2,sp_north_ecu,spxsl_mex
-bgv008061,slc_ma_small_2,slc_mix,,slc_close_to_sll,slc_world,slc_peru_north,
-bgv008065,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,slc_peru_north,slc_tarapoto
-bgv008067,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv008070,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv008077,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,slc_cherry,slc_peru_south
-bgv008095,slc_peru_1,slc_peru_big_1,0,slc_per_big,slc_moyobamba,slc_peru_north,slc_peru_south
-bgv008096,slc_peru_1,,0,slc_per_big,slc_moyobamba,,slc_moyobamba
-bgv008098,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,slc_peru_north,slc_tarapoto
-bgv008100,slc_peru_1,,0,slc_per_big,slc_moyobamba,slc_peru_north,slc_moyobamba
-bgv008106,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_peru_mex,slc_cherry,slc_peru_south
-bgv008108,slc_ma_small_1,slc_ma_small_2,,spxsl,slc_sinaloa,slc_wild_like,
-bgv008189,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,,slc_peru_south
-bgv008218,slc_ma_small_2,slc_ma_small_1,0,slc_ma,slc_ca_small,slc_wild_like,slc_ca_small
-bgv008219,slc_ma_small_1,,0,slc_ma,slc_mex_small,slc_cherry,slc_ca_small
-bgv008221,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_ca_small
-bgv008223,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_ca_small
-bgv008224,sll_mex,sll_mex_2,0,sll_mex,sll_mex,sll_mex,sll_mex
-bgv008225,slc_ma_small_1,,0,spxsl,sp_per_x_sl_2,slc_wild_like,spxsl_mex
-bgv008345,slc_ma_small_2,slc_ma_small_1,0,slc_ma,slc_ca_small,slc_wild_like,slc_ca_small
-bgv008348,slc_ma_small_2,,0,slc_ma,slc_ca_small,slc_cherry,slc_ca_small
-bgv008354,slc_ma_small_2,sll_mex_2,0,slc_ma,slc_ca_small,slc_peru_north,slc_ca_small
-bgv012613,spxsl1,,0,spxsl,sp_per_x_sl_1,,spxsl_peru
-bgv012614,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv012615,spxsl1,,0,slc_ecu,slc_ecu_wild,sp_slc,slcxsll
-bgv012625,,,0,spxsl,sp_per_x_sl_2,slc_cherry,spxsl_peru
-bgv012626,spxsl1,,0,spxsl,sp_per_x_sl_1,,slcxsll
-bgv012627,slc_ma_small_2,slc_ma_small_1,0,slc_ma,slc_ca_small,slc_cherry,slc_ca_small
-bgv012639,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-bgv012640,slc_ma_small_2,slc_mix,0,slc_per_small,slc_peru_south_2,slc_cherry,slc_peru_south
-bgv013134,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,slc_wild_like,slc_mex_small
-bgv013161,slc_peru_1,,0,slc_per_big,slc_moyobamba,slc_cherry,slc_moyobamba
-bgv013175,slc_ma_small_1,slc_ma_small_2,0,spxsl,slc_sinaloa,slc_cherry,spxsl_mex
-bgv013945,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,slc_cherry,slc_peru_south
-bgv014508,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014514,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014515,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014516,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014518,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014519,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv014522,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv015380,sp,,2,sp_utcubamba,sp_utcubamba,,sp_montane
-bgv015382,sp,,0,sp_utcubamba,sp_utcubamba,sp_montane,sp_montane
-bgv015726,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv015727,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-bgv015730,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_moyobamba,,slc_moyobamba
-bgv015734,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-catie-11106-1,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,,slc_ca_small
-ea00027,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ea00157,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea00325,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ea00371,sll_3,,0,modern,modern,,modern3
-ea00375,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ea00448,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea00465,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ea00526,spxsl1,,0,spxsl,sp_per_x_sl_3,,slcxsll
-ea00581,gal,,0,gal,gal,,gal
-ea00652,sp,,0,galxsp,galxsp,,galxsp
-ea00674,sp,,0,sp_peru_mix,sp_peru_coastxutcu,,sp_peru
-ea00676,sp,,0,sp_per,sp_peru_coastxutcu,,sp_peru
-ea00892,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea00940,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea00990,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01019,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01037,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01049,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01088,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01155,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea01640,,sll_world,0,sll_vint,sll_old_german,,sll_old_german
-ea01835,sll_2,sll_world,,,sll_vint,,
-ea01854,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ea01965,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ea02054,sll_3,,0,modern,modern,,modern3
-ea02617,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-ea02655,sll_modern_1,,0,modern,modern,,modern3
-ea02724,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea02960,,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ea02994,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ea03058,sll_2,sll_mex_2,0,sll_mex,sll_mex,,sll_mex
-ea03107,sp,,0,sp_per,sp_peru_coast,,sp_peru
-ea03221,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea03222,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea03306,spxsl1,,0,spxsl,sp_per_x_sl_1,,slcxsll
-ea03362,sll_3,slc_mix,0,sll_vint,sll_vint_small,,sll_vint_small
-ea03701,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea04243,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ea04710,spxsl1,,0,spxsl,sp_per_x_sl_1,,slcxsll
-ea04828,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea04861,sll_vint_small,sll_world,0,sll_vint,sll_vint,,sll_vint
-ea04939,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ea05170,slc_ma_small_1,,0,spxsl,slc_sinaloa,,spxsl_mex
-ea05581,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ea05701,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ea05891,spxsl1,,0,spxsl,sp_ecu_x_sl,,spxsl_peru
-ea06086,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-la0767,slc_ma_small_2,slc_ma_small_1,0,slc_ma,slc_ca_small,,slc_ca_small
-la1712,slc_ma_small_2,,0,slc_ma,slc_ca_small,slc_wild_like,slc_ca_small
-la2309,slc_tarapoto,,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-la2697,slc_ma_small_1,,,spxsl,slc_sinaloa,,
-moneymaker,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-pas014479,sp,,2,sp_utcubamba,sp_utcubamba,,sp_montane
-pi129026,slc_ma_small_2,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-pi129033,,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-pi129088,slc_ma_small_2,slc_ma_small_1,0,spxsl,slc_col,,slcxsll
-pi378994,spxsl1,,0,spxsl,sp_per_x_sl_1,,spxsl_peru
-pi406890,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_moyobamba,,slc_moyobamba
-pi487625,slc_ma_small_2,,,,sp_per_x_sl_2,,
-tegucigalpa,sll_3,,0,sll_vint,sll_vint,,sll_vint
-tr00003,sll_modern_1,,0,modern,modern,,modern3
-tr00018,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-tr00019,sll_vint_small,slc_mix,0,slc_close_to_sll,slc_peru_mex,,slc_peru_south
-tr00020,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-tr00021,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-tr00022,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-tr00023,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-tr00024,spxsl1,,0,spxsl,sp_per_x_sl_1,,slcxsll
-tr00026,,slc_ma_small_2,0,slc_ma,slc_world,,slc_mex_small
-tr00027,spxsl1,,0,slc_ecu,slc_ecu_north,,slc_ecu_north
-tr00028,sp,,0,sp_per,sp_piura_inland,,sp_peru
-tr00029,gal,,0,gal,gal,,gal
-ts-1,sll_modern_1,,0,sll_vint,sll_vint,,sll_vint
-ts-10,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-100,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-103,sll_modern_1,,0,modern,modern,,modern3
-ts-104,sll_3,sll_world,0,sll_vint,modern,,sll_vint_small
-ts-105,slc_ma_small_2,slc_ma_small_1,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-106,slc_ma_small_2,slc_ma_small_1,0,slc_ma,slc_ca_small,,slc_ca_small
-ts-234,,sll_world,0,sll_vint,sll_old_german,,sll_old_german
-ts-609,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-4,,,0,sll_f1,sll_f1,,sll_f1
-ts-647,modern_1,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-525,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-523,sll_modern,,,,,,
-ts-528,modern_1,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-613,,sll_world,0,sll_vint,sll_old_german,,sll_old_german
-ts-624,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-620,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-566,,sll_world,0,sll_vint,sll_old_german,,sll_old_german
-ts-537,,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-658,slc_ma_small_2,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-539,,sll_world,0,sll_vint,sll_old_german,,sll_old_german
-ts-651,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-548,sll_2,,0,modern,modern,,modern3
-ts-111,,,0,sll_vint,modern,,sll_vint
-ts-115,sll_modern,,,,,,
-ts-576,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-591,,,0,sll_vint,sll_old_german,,sll_old_german
-ts-109,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-582,modern_1,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-586,modern_1,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-585,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-254,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-174,,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-78,sll_modern_1,,0,modern,modern,,modern3
-ts-90,,sll_world,,,modern,,
-ts-8,,,0,modern,modern,,modern3
-ts-7,,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-128,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-45,,,0,sll_vint,sll_vint,,sll_vint
-ts-245,sll_3,,0,sll_vint,modern,,sll_vint
-ts-168,sll_modern_1,,0,modern,modern,,modern3
-plovdiv,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-296,,,,spxsl,slc_cherry_cultivars_2,,
-ts-317,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-318,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-319,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-320,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-321,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-450,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-509,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-54,sll_modern,,,,,,
-ts-598,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-623,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-626,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-628,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-652,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-654,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-657,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-85,sll_modern_1,,0,modern,modern,,modern3
-ts-186,sll_modern_1,,0,modern,modern,,modern3
-ts-3,sll_modern_1,,0,modern,modern,,modern3
-ts-138,sll_modern_1,,0,modern,modern,,modern3
-ts-190,sll_modern_1,,0,modern,modern,,modern3
-ts-209,cherry,,,,,,
-ts-59,,,,spxsl,modern,,
-ts-409,spxsl1,,,spxsl,sp_per_x_sl_2,,
-ts-614,spxsl1,,,spxsl,sp_per_x_sl_1,,
-ts-418,,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-427,,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-248,slc_peru_1,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-13,,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-cervil,,,,spxsl,sp_per_x_sl_1,,
-ts-66,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,,slc_peru_south
-ts-74,slc_peru_1,slc_mix,0,slc_per_small,slc_peru_south_1,,slc_peru_south
-ts-438,,,,spxsl,sp_peru_coastxutcu,,
-ts-437,sp,,,,,,
-ts-435,sp,,0,sp_per,sp_peru_coast,,sp_peru
-ts-439,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-434,sp,,0,sp_per,sp_peru_coast,,sp_peru
-ts-440,sp,,0,galxsp,galxsp,,sp_montane
-ts-416,sp,,0,sp_peru_mix,sp_peruxecu,,sp_peru
-ts-415,sp,,0,sp_per,sp_peru_coast,,sp_peru
-ts-414,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-419,,,,spxsl,sp_peru_coastxutcu,,
-ts-417,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-411,sp,,0,sp_peru_mix,sp_peru_coastxutcu,,sp_peru
-ts-425,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-424,sp,,0,sp_per,sp_peru_coast,,sp_peru
-ts-429,sp,,,spxsl,sp_peru_coastxutcu,,
-ts-422,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-421,sp,,0,sp_peru_mix,sp_peru_coastxutcu,,sp_peru
-ts-420,sp,,0,sp_utcubamba,sp_utcubamba,,sp_montane
-ts-116,,,,,,,
-ts-244,sp,,0,sp_peru_mix,sp_peru_coastxutcu,,sp_peru
-ts-156,sp,,0,sp_utcubamba,sp_utcubamba,,sp_montane
-ecu570b,sp,,0,sp_per,sp_piura_inland,,sp_peru
-ts-79,sp,,,,,,
-ts-77,sp,,0,sp_peru_mix,sp_peru_coast,,sp_peru
-ts-19,sp,,,,,,
-ts-18,sp,,,,,,
-ts-17,sp,,,,,,
-ts-16,sp,,,,sp_ecu_south,,
-ts-14,sp,,0,sp_ecu_south,sp_peruxecu,,sp_montane
-ts-23,,,,,,,
-ts-22,,,,,,,
-ts-21,sp,,,,,,
-glp27b,gal,,0,gal,gal,,gal
-glp37a,gal,,0,gal,gal,,gal
-la0436,gal,,0,gal,gal,,gal
-ts-207,gal,,0,gal,gal,,gal
-ts-208,gal,,0,gal,gal,,gal
-ts-199,gal,,0,gal,gal,,gal
-ts-602,sll_modern_1,,0,modern,modern,,modern3
-ts-634,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-633,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-637,sll_2,,0,sll_f1,sll_f1,,sll_f1
-ts-631,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-levovil,sll_modern_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-656,sll_2,,0,sll_f1,sll_f1,,sll_f1
-ts-653,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-316,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-315,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-314,sll_modern_1,,,,,,
-ts-313,sll_modern_1,,,,,,
-ts-312,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-311,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-310,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-306,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-305,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-309,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-308,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-307,sll_modern_1,,,,,,
-ts-400,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-210,sll_modern_1,,0,modern,modern,,modern3
-ts-211,,sll_world,0,sll_vint,modern,,sll_vint
-ts-12,sll_modern_1,,0,modern,modern,,modern3
-ts-11,sll_modern_1,,0,modern,modern,,modern3
-ts-175,sll_2,,0,sll_vint,old_brooks,,old_brooks
-ts-590,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-57,slc_peru_1,,0,spxsl,sp_per_x_sl_2,,spxsl_peru
-ts-71,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-187,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-64,sll_modern,,,,,,
-ts-205,,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-129,slc_tarapoto,,0,slc_per_big,slc_moyobamba,,slc_moyobamba
-ts-247,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,,slc_peru_south
-ts-221,slc_ma_small_2,slc_mix,,slc_close_to_sll,slc_world,,
-ts-256,sll_3,slc_mix,0,slc_per_big,slc_moyobamba,,slc_moyobamba
-ts-601,spxsl1,,0,spxsl,sp_per_x_sl_1,,slcxsll
-ts-430,spxsl1,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-431,spxsl1,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-20,,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-410,,,,spxsl,sp_per_x_sl_1,,slcxsll
-ts-127,,,0,spxsl,sp_per_x_sl_2,,spxsl_peru
-ts-216,spxsl,,,,,,
-ts-262,,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-304,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-ts-184,slc_tarapoto,,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-ts-287,sll_modern,,,,,,
-ts-545,modern_1,,0,spxsl,slc_cherry_cultivars_1,,sl_cherry_cultivars
-ts-231,,,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-220,cherry,,,,,,
-ts-48,sll_3,,,slc_close_to_sll,sll_vint,,
-ts-428,slc_peru_other,,,,,,
-ts-273,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,,slc_peru_south
-ts-56,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_2,,slc_peru_south
-ts-148,spxsl1,,0,spxsl,sp_ecu_x_sl,,spxsl_peru
-ts-94,sll_modern,,,,,,
-ts-236,sll_and_close,sll_world,,,,,
-criollo,spxsl1,,,slc_ecu,sp_per_x_sl_2,,slc_ecu_guayaquil
-ts-84,slc_tarapoto,slc_peru_big_2,0,slc_per_big,slc_tarapoto,,slc_tarapoto
-ts-413,,,0,sp_ecu_south,sp_ecu_south,,sp_montane
-ts-118,slc_ecu,,slc_ecu,,,,
-ts-224,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-ts-53,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_guayaquil,,slc_ecu_guayaquil
-ts-50,sp,,slc_ecu,,,,
-ecu1516b,sp_ecu,,0,sp_ecu_north,sp_ecu_north,,sp_ecu
-ecu1032,slc_ecu_north_guayaquil,,0,slc_ecu,slc_ecu_north,,slc_ecu_north
-ts-299,slc_ecu_south,,,slc_ecu,sp_per_x_sl_2,,slc_ecu_guayaquil
-glp-12,,,,,,,
-la1420,,,0,slc_ecu,slc_ecu_north,,slc_ecu_north
-ts-158,spxsl1,,0,spxsl,sp_ecu_x_sl,,spxsl_peru
-ts-423,spxsl1,,0,spxsl,sp_per_x_sl_3,,spxsl_peru
-ts-608,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-603,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-600,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-607,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-604,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-5,sll_3,,,sll_vint,sll_vint,,
-ts-2,sll_vint_small,,0,sll_vint,money_ailsa,,money_ailsa
-ts-9,,,0,sll_vint,money_ailsa,,money_ailsa
-ts-6,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-515,sll_3,sll_world,,sll_vint,sll_vint,,
-ts-636,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-514,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-635,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-yellow_pear,sll_vint_small,sll_world,0,slc_close_to_sll,slc_world,,slc_world
-ts-513,sll_and_close,sll_world,,,,,
-ts-512,sll_3,sll_world,,,sll_vint,,
-ts-519,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-639,sll_3,,0,sll_vint,modern,,sll_vint
-ts-518,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-517,sll_1,,0,sll_vint,sll_vint,,sll_vint
-ts-638,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-516,,sll_world,0,sll_vint,modern,,sll_vint
-ts-632,sll_modern_1,,0,sll_f1,sll_f1,,sll_f1
-ts-511,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-510,,,0,sll_vint,sll_vint,,sll_vint
-ts-630,sll_modern_1,,0,modern,modern,,modern3
-ferum,sll_modern_1,,0,modern,modern,,modern3
-ts-526,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-646,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-524,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-645,sll_1,,0,sll_vint,sll_vint,,sll_vint
-ts-644,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-529,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-649,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-648,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-527,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-522,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-643,sll_modern,,,,,,
-ts-642,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-521,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-641,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-520,,,,spxsl,slc_cherry_cultivars_2,,
-ts-640,sll_modern_1,,0,sll_vint,modern,,sll_vint
-ts-619,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-612,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-611,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-618,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-617,sll_modern_1,,0,modern,modern,,modern3
-ts-616,sll_vint_small,sll_world,,,sll_vint,,
-ts-615,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-610,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-625,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-504,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-503,sll_1,,0,sll_vint,sll_vint,,sll_vint
-ts-502,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-622,sll_modern_1,,0,modern,modern,,modern3
-ts-501,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-629,sll_vint_small,sll_world,0,slc_close_to_sll,slc_world,,slc_world
-ts-508,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-507,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-627,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-506,,,0,sll_vint,sll_vint,,sll_vint
-ts-505,sll_vint_small,sll_world,,,sll_vint_small,,
-ts-621,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-559,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-558,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-436,,slc_ma_small_1,0,spxsl,sp_per_x_sl_2,,slcxsll
-ts-557,,,0,sll_vint,sll_vint,,sll_vint
-ts-556,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-551,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-550,sll_3,sll_world,,,modern,,
-ts-555,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-554,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-553,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-552,sll_3,,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-569,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-568,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-567,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-204,sll_modern_1,,0,modern,modern,,modern3
-ts-562,sll_modern_1,,0,sll_vint,sll_vint,,sll_vint
-ts-561,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-560,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-203,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-565,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-564,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-201,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-200,sll_modern,,,,,,
-ts-563,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-ts-536,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,,slc_mex_small
-ts-535,,,0,sll_vint,money_ailsa,,money_ailsa
-ts-655,sll_1,sll_world,,sll_vint,sll_vint,,
-ts-534,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-659,,,,,slc_world,,
-ts-538,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-650,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-533,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-532,sll_modern_1,,0,sll_vint,modern,,sll_vint
-ts-531,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-530,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-547,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-546,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-549,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-540,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint_small
-ts-302,sll_vint_small,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-544,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-543,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-542,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-541,,,,,slc_world,,
-ts-239,,,0,modern,modern,,modern3
-ts-117,sll_3,sll_world,,sll_vint,sll_vint_small,,
-ts-595,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-594,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_mex_small
-ts-110,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-593,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-592,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-599,,,,,modern,,
-ts-114,sll_3,,,,modern,,
-ts-597,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-112,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-596,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-250,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-249,sll_mex,sll_mex_1,0,sll_mex,sll_mex,,sll_mex
-ts-243,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-120,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-240,slc_ma_small_1,slc_ma_small_2,0,spxsl,slc_sinaloa,,spxsl_mex
-ts-246,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-580,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-218,sll_modern_1,sll_world,0,sll_vint,sll_vint,,sll_vint_small
-ts-579,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint_small
-ts-578,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-573,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-572,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-571,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-570,sll_2,sll_world,0,sll_vint,old_brooks,,sll_vint
-ts-577,sll_modern_1,,0,modern,modern,,modern3
-ts-213,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-575,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-212,sll_modern_1,,0,modern,modern,,modern3
-ts-574,sll_modern_1,,0,sll_vint,sll_vint,,sll_vint
-ts-229,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_ca_small
-ts-589,sll_2,sll_world,0,sll_vint,old_brooks,,old_brooks
-ts-584,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-583,,,0,sll_vint,sll_vint,,sll_vint
-ts-581,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-225,sll_modern,,,,,,
-ts-588,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-587,,,0,sll_vint,sll_vint,,sll_vint
-ts-283,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-162,sll_3,sll_world,0,modern,modern,,modern3
-ts-282,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-161,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-160,sll_2,,0,sll_vint,modern,,sll_vint
-ts-47,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-280,slc_ma_small_2,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-46,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-44,sll_3,sll_world,,sll_vint,sll_vint,,
-ts-154,slc_ma_small_1,slc_ma_small_2,0,slc_ma,slc_mex_small,,slc_mex_small
-ts-43,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-ts-152,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-42,sll_3,sll_world,0,sll_vint,modern,,sll_vint_small
-ts-159,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-41,slc_ma_small_2,slc_ma_small_1,0,sll_mex,slc_ca_small,,sll_mex
-ts-157,sll_modern,,,,,,
-ts-173,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-294,sll_and_close,sll_world,,,,,
-ts-293,sll_3,sll_world,0,sll_vint,modern,,sll_vint
-ts-172,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-58,sll_3,sll_world,,sll_vint,sll_vint,,
-ts-170,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-165,slc_ma_small_1,,0,slc_ma,slc_mex_small,,slc_mex_small
-ts-55,sll_1,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-285,sll_and_close,,,,,,
-ts-163,sll_3,,,sll_vint,sll_vint,,
-ts-284,slc_ma_small_2,slc_mix,,slc_close_to_sll,slc_world,,
-ts-169,sll_3,,,sll_vint,sll_vint,,
-ts-51,sll_3,sll_world,,sll_vint,sll_vint,,
-ts-167,sll_and_close,sll_world,,,,,
-ts-261,slc_ma_small_2,,0,sll_vint,sll_vint,,sll_vint
-ts-140,sll_modern_1,,0,modern,modern,,modern3
-ts-69,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_mex_small,,slc_mex_small
-ts-139,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-259,,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-67,sll_3,,0,sll_vint,sll_vint_small,,sll_vint
-ts-253,sll_3,,0,sll_vint,modern,,sll_vint
-ts-132,,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-131,sll_vint_small,slc_mix,0,slc_close_to_sll,slc_world,,slc_world
-ts-252,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-65,slc_ma_small_1,slc_ma_small_1,0,slc_ma,slc_world,,slc_ca_small
-ts-251,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-63,sll_vint_small,sll_world,0,slc_close_to_sll,slc_world,,slc_world
-ts-137,sll_3,sll_world,,sll_vint,sll_vint_small,,
-ts-135,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-60,sll_1,,0,sll_vint,sll_vint,,sll_vint
-ts-255,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-76,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-142,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-ts-141,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-75,sll_vint_small,sll_world,0,slc_close_to_sll,slc_world,,slc_world
-ts-73,sll_3,sll_world,,sll_vint,sll_vint_small,,
-ts-72,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-la0147,sll_vint_small,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-ts-198,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-197,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-180,,sll_world,,,modern,,
-ts-183,,,0,sll_vint,money_ailsa,,money_ailsa
-ts-181,sll_and_close,slc_ma_small_2,,,,,
-stupicke,,,0,sll_vint,sll_vint,,sll_vint
-ts-177,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-178,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-191,sll_2,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-194,,sll_world,,,sll_vint,,
-ts-193,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-192,,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-189,sll_3,,0,sll_vint,sll_vint_small,,sll_vint
-ts-81,sll_2,sll_world,,,sll_vint,,
-ts-80,sll_and_close,sll_world,,,,,
-ts-89,,,,,modern,,
-ts-88,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-86,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-ts-83,slc_ma_small_2,slc_ma_small_1,,slc_close_to_sll,slc_world,,
-voyage,slc_ma_small_2,slc_ma_small_1,,,slc_ca_small,,
-ts-99,sll_vint_small,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-95,,sll_world,0,sll_vint,money_ailsa,,money_ailsa
-heinz1706genome,sll_3,,0,sll_vint,sll_vint,,sll_vint
-ts-93,sll_3,sll_world,0,sll_vint,sll_vint_small,,sll_vint_small
-ts-605,,,0,sll_vint,sll_old_german,,sll_old_german
-ts-606,sll_2,,0,sll_vint,sll_vint,,sll_vint
-ts-258,slc_peru_1,,0,spxsl,slc_cherry_cultivars_2,,sl_cherry_cultivars
-ts-433,,,0,spxsl,sp_per_x_sl_2,,spxsl_peru
-ts-242,slc_peru_1,slc_peru_big_1,0,slc_per_small,slc_peru_south_1,,slc_peru_south
-ts-113,sll_3,sll_world,0,sll_vint,sll_vint,,sll_vint
-bgv007118,,,keep_morpho,,,sp_north_ecu,
-bgv006827,,,,,,slc_cherry,
-pt-170,,,,,,slc_peru_north,
-bgv007232,,,keep_morpho,,,sp_slc,
-bgv007113,,,keep_morpho,,,sp_north_ecu,
-bgv007112,,,,,,slc_wild_like,
-bgv007233,,,keep_morpho,,,sp_north_ecu,
-bgv007928,,,,,,slc_wild_like,
-bgv007929,,,,,,slc_ecu_tom_leaf,
-pt-186,,,,,,slc_peru_north,
-pt-187,,,,,,sll_mex,
-pt-185,,,,,,slc_peru_north,
-pi-129062,,,,,,slc_wild_like,
-pt-183,,,,,,slc_peru_north,
-pt-181,,,,,,slc_peru_north,
-bgv009300,,,keep_morpho,,,sp_north_ecu,
-bgv007243,,,keep_morpho,,,sp_north_ecu,
-bgv006398,,,keep_morpho,,,sp_coast,
-bgv007123,,,keep_morpho,,,sp_north_ecu,
-bgv009304,,,keep_morpho,,,sp_north_ecu,
-pt-188,,,,,,slc_peru_north,
-bgv007138,,,keep_morpho,,,sp_north_ecu,
-bgv007930,,,,,,slc_wild_like,
-bgv008109,,,,,,slc_wild_like,
-bgv006608,,,keep_morpho,,,sp_coast,
-bgv006609,,,keep_morpho,,,sp_coast,
-mex-068_r,,,,,,sll_mex,
-bgv007250,,,keep_morpho,,,sp_north_ecu,
-bgv009310,,,keep_morpho,,,sp_north_ecu,
-bgv007135,,,keep_morpho,,,sp_north_ecu,
-bgv008347,,,,,,slc_wild_like,
-bgv007137,,,keep_morpho,,,sp_slc,
-pt-199,,,,,,slc_peru_north,
-bgv007257,,,keep_morpho,,,sp_north_ecu,
-bgv006857,,,,,,slc_cherry,
-bgv013946,,,,,,slc_peru_north,
-mex-062,,,,,,sll_mex,
-pi-129088,,,,,,slc_cherry,
-mex-059,,,,,,slc_cherry,
-bgv007264,,,keep_morpho,,,sp_north_ecu,
-bgv008110,,,,,,slc_wild_like,
-bgv007145,,,keep_morpho,,,sp_north_ecu,
-bgv007148,,,keep_morpho,,,sp_north_ecu,
-bgv006226,,,,,,slc_cherry,
-bgv006349,,,keep_morpho,,,sp_coast,
-bgv006227,,,,,,slc_ecu_tom_leaf,
-bgv006348,,,keep_morpho,,,sp_coast,
-bgv006469,,,keep_morpho,,,sp_coast,
-bgv006902,,,,,,slc_ecu_rib_flat,
-bgv006905,,,,,,slc_ecu_rib_flat,
-bgv006909,,,keep_morpho,,,sp_north_ecu,
-pt-131,,,,,,slc_peru_north,
-bgv009292,,,keep_morpho,,,sp_north_ecu,
-mex-069,,,,,,slc_ecu_south,
-pt-139,,,,,,slc_cherry,
-bgv006341,,,keep_morpho,,,sp_coast,
-bgv006462,,,keep_morpho,,,sp_coast,
-bgv006340,,,keep_morpho,,,sp_coast,
-bgv007208,,,keep_morpho,,,sp_slc,
-bgv006913,,,,,,slc_ecu_south,
-pt-142,,,,,,slc_peru_north,
-bgv006471,,,keep_morpho,,,sp_coast,
-bgv006470,,,keep_morpho,,,sp_coast,
-bgv006352,,,keep_morpho,,,sp_coast,
-bgv006473,,,keep_morpho,,,sp_coast,
-bgv006472,,,keep_morpho,,,sp_coast,
-bgv006233,,,,,,slc_wild_like,
-bgv007201,,,keep_morpho,,,sp_north_ecu,
-bgv006474,,,keep_morpho,,,sp_coast,
-bgv007200,,,keep_morpho,,,sp_north_ecu,
-bgv007202,,,keep_morpho,,,sp_north_ecu,
-bgv007215,,,keep_morpho,,,sp_north_ecu,
-bgv006923,,,,,,slc_cherry,
-bgv007219,,,keep_morpho,,,sp_north_ecu,
-bgv007210,,,keep_morpho,,,sp_north_ecu,
-bgv006485,,,keep_morpho,,,sp_coast,
-bgv007106,,,keep_morpho,,,sp_north_ecu,
-bgv007349,,,keep_morpho,,,sp_slc,
-bgv006492,,,keep_morpho,,,sp_coast,
-bgv007222,,,keep_morpho,,,sp_north_ecu,
-bgv007104,,,,,,slc_wild_like,
-bgv007225,,,keep_morpho,,,sp_north_ecu,
-bgv007103,,,keep_morpho,,,sp_slc,
-pt-167,,,,,,slc_peru_north,
-bgv007997,,,keep_morpho,,,sp_slc,
-glp-07,,,keep_morpho,,,sp_north_ecu,
-bgv006426,,,keep_morpho,,,sp_coast,
-glp-05,,,keep_morpho,,,sp_slc,
-bgv007070,,,keep_morpho,,,sp_north_ecu,
-pi-406890,,,,,,slc_wild_like,
-bgv007991,,,keep_morpho,,,sp_slc,
-bgv006783,,,,,,slc_ecu_tom_leaf,
-bgv006661,,,keep_morpho,,,sp_coast,
-bgv006784,,,,,,slc_ecu_tom_leaf,
-bgv007873,,,,,,sll_mex,
-bgv008048,,,keep_morpho,,,sp_north_ecu,
-bgv007085,,,keep_morpho,,,sp_north_ecu,
-bgv006329,,,keep_morpho,,,sp_coast,
-bgv008060,,,,,,slc_peru_north,
-bgv008069,,,,,,slc_cherry,
-bgv006335,,,keep_morpho,,,sp_coast,
-bgv007303,,,keep_morpho,,,sp_montane,
-bgv006337,,,keep_morpho,,,sp_coast,
-bgv007308,,,keep_morpho,,,sp_montane,
-bgv015728,,,,,,slc_ecu_tom_leaf,
-bgv006339,,,keep_morpho,,,sp_coast,
-bgv007307,,,keep_morpho,,,sp_montane,
-bgv015729,,,,,,slc_wild_like,
-bgv006332,,,keep_morpho,,,sp_coast,
-bgv007300,,,,,,slc_cherry,
-bgv006452,,,keep_morpho,,,sp_coast,
-bgv006500,,,keep_morpho,,,sp_coast,
-bgv006863,,,,,,slc_ecu_tom_leaf,
-bgv013717,,,keep_morpho,,,sp_montane,
-bgv013715,,,keep_morpho,,,sp_coast,
-bgv013156,,,,,,slc_cherry,
-pi-487625,,,,,,slc_cherry,
-bgv007272,,,keep_morpho,,,sp_north_ecu,
-bgv007150,,,keep_morpho,,,sp_slc,
-bgv008001,,,keep_morpho,,,sp_slc,
-bgv007155,,,keep_morpho,,,sp_north_ecu,
-bgv007276,,,keep_morpho,,,sp_north_ecu,
-bgv007156,,,keep_morpho,,,sp_north_ecu,
-bgv007279,,,keep_morpho,,,sp_slc,
-bgv008004,,,keep_morpho,,,sp_slc,
-bgv006875,,,,,,slc_ecu_tom_leaf,
-bgv006756,,,keep_morpho,,,sp_slc,
-bgv006877,,,,,,slc_ecu_south,
-bgv006638,,,keep_morpho,,,sp_coast,
-bgv013720,,,keep_morpho,,,sp_coast,
-bgv013163,,,keep_morpho,,,sp_slc,
-bgv006192,,,keep_morpho,,,sp_slc,
-bgv006195,,,keep_morpho,,,sp_coast,
-bgv007163,,,keep_morpho,,,sp_north_ecu,
-bgv007287,,,keep_morpho,,,sp_slc,
-bgv006645,,,keep_morpho,,,sp_coast,
-bgv006406,,,keep_morpho,,,sp_coast,
-bgv006769,,,,,,slc_ecu_tom_leaf,
-la2188,,,keep_morpho,,,sp_montane,
-bgv006640,,,keep_morpho,,,sp_coast,
-bgv006642,,,keep_morpho,,,sp_coast,
-bgv006883,,,,,,slc_cherry,
-bgv006776,,,,,,slc_ecu_rib_flat,
-bgv006657,,,keep_morpho,,,sp_north_ecu,
-bgv006778,,,keep_morpho,,,sp_montane,
-bgv007866,,,,,,sll_mex,
-bgv007869,,,,,,sll_mex,
-bgv007868,,,,,,sll_mex,
-pe-73,,,keep_morpho,,,sp_coast,
-bgv007060,,,keep_morpho,,,sp_north_ecu,
-bgv007063,,,keep_morpho,,,sp_north_ecu,
-bgv007184,,,keep_morpho,,,sp_north_ecu,
-bgv007183,,,keep_morpho,,,sp_north_ecu,
-bgv007065,,,keep_morpho,,,sp_north_ecu,
-bgv007188,,,keep_morpho,,,sp_north_ecu,
-pt-203,,,,,,slc_peru_north,
-bgv007066,,,keep_morpho,,,sp_north_ecu,
-bgv007069,,,keep_morpho,,,sp_north_ecu,
-bgv007861,,,,,,sll_mex,
-bgv007982,,,,,,slc_peru_north,
-bgv007068,,,keep_morpho,,,sp_north_ecu,
-bgv007189,,,keep_morpho,,,sp_north_ecu,
-bgv006895,,,,,,slc_cherry,
-la2182,,,keep_morpho,,,sp_montane,
-bgv006660,,,keep_morpho,,,sp_montane,
-bgv006355,,,keep_morpho,,,sp_montane,
-pt-53,,,keep_morpho,,,sp_montane,
-pt-60,,,keep_morpho,,,sp_montane,
-bgv006508,,,keep_morpho,,,sp_montane,
-bgv006196,,,keep_morpho,,,sp_montane,
-bgv006211,,,keep_morpho,,,sp_montane,
-bgv006691,,,keep_morpho,,,sp_montane,
-bgv007345,,,keep_morpho,,,sp_montane,
-bgv007358,,,keep_morpho,,,sp_montane,
-bgv007359,,,keep_morpho,,,sp_montane,
-bgv006712,,,keep_morpho,,,sp_montane,
-bgv007364,,,keep_morpho,,,sp_montane,
-bgv007361,,,keep_morpho,,,sp_montane,
-bgv006167,,,keep_morpho,,,sp_montane,
-bgv006183,,,keep_morpho,,,sp_montane,
-bgv006188,,,keep_morpho,,,sp_montane,
-bgv006186,,,keep_morpho,,,sp_montane,
-la-2697,,,,,,,
-bgv006753 0,,,,,,,
-ts-240 0,,,,,,,
-bgv008036 0,,,,,,,
-ts-617 0,,,,,,,
-levovil 0,,,,,,,
-bgv006904 0,,,,,,,
-bgv006865 0,,,,,,,
-ts-503 0,,,,,,,
-ts-604 0,,,,,,,
-bgv007015 0,,,,,,,
-bgv007870 0,,,,,,,
-ts-11 0,,,,,,,
-ts-67 0,,,,,,,
-bgv008096 0,,,,,,,
-bgv007921 0,,,,,,,
-ts-210 0,,,,,,,
-ts-522 0,,,,,,,
-ts-253 0,,,,,,,
-bgv007990 0,,,,,,,
-ts-592 0,,,,,,,
-ts-249 0,,,,,,,
-ts-564 0,,,,,,,
-ts-411 1,,,,,,,
-ts-526 0,,,,,,,
-ts-319 0,,,,,,,
-bgv015382 -1,,,,,,,
-bgv007911 0,,,,,,,
-ts-421 1,,,,,,,
-bgv007149 2,,,,,,,
-glp37a 3,,,,,,,
-bgv006899 0,,,,,,,
-ecu570b 1,,,,,,,
-bgv007989 0,,,,,,,
-ts-597 0,,,,,,,
-ts-440 -1,,,,,,,
-pi129088 0,,,,,,,
-bgv007908 0,,,,,,,
-ts-583 0,,,,,,,
-ea02655 0,,,,,,,
-bgv007854 0,,,,,,,
-ts-293 0,,,,,,,
-ts-282 0,,,,,,,
-ts-631 0,,,,,,,
-ts-3 0,,,,,,,
-ts-618 0,,,,,,,
-bgv007992 0,,,,,,,
-ts-656 0,,,,,,,
-ts-69 0,,,,,,,
-ts-423 0,,,,,,,
-tegucigalpa 0,,,,,,,
-bgv008106 0,,,,,,,
-ts-304 0,,,,,,,
-bgv006231 0,,,,,,,
-ts-644 0,,,,,,,
-bgv008345 0,,,,,,,
-bgv006779 0,,,,,,,
-ts-653 0,,,,,,,
-bgv006454 1,,,,,,,
-ts-642 0,,,,,,,
-ts-127 -1,,,,,,,
-ts-45 0,,,,,,,
-ts-95 0,,,,,,,
-ts-12 0,,,,,,,
-bgv012614 0,,,,,,,
-bgv008051 0,,,,,,,
-bgv006353 1,,,,,,,
-bgv013945 0,,,,,,,
-ts-193 0,,,,,,,
-bgv006347 1,,,,,,,
-ts-213 0,,,,,,,
-bgv007933 0,,,,,,,
-ea02054 0,,,,,,,
-bgv014519 0,,,,,,,
-bgv008042 0,,,,,,,
-bgv007981 0,,,,,,,
-ea00990 0,,,,,,,
-ts-197 0,,,,,,,
-ea00940 0,,,,,,,
-ts-590 4,,,,,,,
-ts-251 0,,,,,,,
-bgv014508 0,,,,,,,
-ts-657 -1,,,,,,,
-ts-259 0,,,,,,,
-ts-60 0,,,,,,,
-ts-589 0,,,,,,,
-bgv007366 -1,,,,,,,
-ts-547 0,,,,,,,
-ts-208 3,,,,,,,
-la0147 0,,,,,,,
-ts-120 0,,,,,,,
-ts-88 0,,,,,,,
-ts-248 0,,,,,,,
-ts-168 0,,,,,,,
-bgv006881 0,,,,,,,
-ts-77 1,,,,,,,
-bgv013134 0,,,,,,,
-bgv006907 0,,,,,,,
-bgv008354 0,,,,,,,
-ea01088 0,,,,,,,
-ts-630 0,,,,,,,
-ts-602 0,,,,,,,
-ts-258 0,,,,,,,
-ts-280 0,,,,,,,
-bgv006775 -1,,,,,,,
-ts-165 0,,,,,,,
-bgv006852 0,,,,,,,
-tr00019 0,,,,,,,
-bgv006828 0,,,,,,,
-ts-170 0,,,,,,,
-ts-425 1,,,,,,,
-ts-575 0,,,,,,,
-ea00652 -1,,,,,,,
-ts-566 0,,,,,,,
-bgv005895 0,,,,,,,
-ts-560 0,,,,,,,
-ts-66 0,,,,,,,
-bgv008098 0,,,,,,,
-ea02960 -1,,,,,,,
-bgv008100 0,,,,,,,
-ts-71 1,,,,,,,
-bgv012627 0,,,,,,,
-bgv007920 0,,,,,,,
-ea01049 0,,,,,,,
-bgv008067 0,,,,,,,
-ts-548 0,,,,,,,
-ts-2 0,,,,,,,
-ts-318 0,,,,,,,
-ts-530 0,,,,,,,
-bgv007860 0,,,,,,,
-ts-128 0,,,,,,,
-ts-139 0,,,,,,,
-ts-177 0,,,,,,,
-bgv006777 0,,,,,,,
-pas014479 -1,,,,,,,
-bgv008058 0,,,,,,,
-bgv013161 0,,,,,,,
-bgv007198 -1,,,,,,,
-ts-639 0,,,,,,,
-ts-610 0,,,,,,,
-yellow_pear 0,,,,,,,
-ts-649 0,,,,,,,
-ts-172 0,,,,,,,
-ts-63 0,,,,,,,
-bgv015380 -1,,,,,,,
-ts-4 0,,,,,,,
-ts-619 0,,,,,,,
-ts-623 4,,,,,,,
-bgv012640 0,,,,,,,
-ts-568 0,,,,,,,
-ts-205 0,,,,,,,
-ts-579 0,,,,,,,
-ts-192 0,,,,,,,
-ts-132 0,,,,,,,
-tr00026 0,,,,,,,
-bgv007111 2,,,,,,,
-ts-316 0,,,,,,,
-ts-310 0,,,,,,,
-ts-558 0,,,,,,,
-ts-532 0,,,,,,,
-bgv007109 2,,,,,,,
-bgv008189 0,,,,,,,
-ts-580 0,,,,,,,
-ts-529 0,,,,,,,
-ts-585 0,,,,,,,
-ts-109 0,,,,,,,
-ts-603 0,,,,,,,
-ts-1 0,,,,,,,
-ts-245 0,,,,,,,
-bgv008070 0,,,,,,,
-ts-641 0,,,,,,,
-ea00526 -1,,,,,,,
-ts-424 1,,,,,,,
-moneymaker 0,,,,,,,
-bgv007895 0,,,,,,,
-ts-647 -1,,,,,,,
-bgv014515 0,,,,,,,
-ts-212 0,,,,,,,
-ts-43 0,,,,,,,
-ts-309 0,,,,,,,
-ts-549 0,,,,,,,
-ts-554 0,,,,,,,
-ts-112 0,,,,,,,
-bgv006234 0,,,,,,,
-ts-178 0,,,,,,,
-bgv006768 0,,,,,,,
-ts-629 0,,,,,,,
-bgv008037 0,,,,,,,
-bgv008041 0,,,,,,,
-ts-261 0,,,,,,,
-ts-99 0,,,,,,,
-bgv006457 1,,,,,,,
-ea05701 0,,,,,,,
-ts-129 0,,,,,,,
-ts-6 0,,,,,,,
-ts-612 0,,,,,,,
-ts-103 0,,,,,,,
-ts-159 0,,,,,,,
-ea00027 0,,,,,,,
-ts-76 0,,,,,,,
-ts-567 0,,,,,,,
-ea03701 0,,,,,,,
-ea05170 0,,,,,,,
-ts-552 0,,,,,,,
-ts-450 0,,,,,,,
-ts-160 0,,,,,,,
-bgv006370 -1,,,,,,,
-bgv007871 0,,,,,,,
-ts-626 0,,,,,,,
-ts-648 0,,,,,,,
-bgv006901 0,,,,,,,
-bgv008225 0,,,,,,,
-ts-175 0,,,,,,,
-ts-431 -1,,,,,,,
-ts-569 0,,,,,,,
-bgv006229 0,,,,,,,
-bgv007935 0,,,,,,,
-bgv007865 0,,,,,,,
-tr00027 -1,,,,,,,
-bgv008223 0,,,,,,,
-bgv006327 1,,,,,,,
-ts-601 1,,,,,,,
-ts-198 0,,,,,,,
-bgv006931 0,,,,,,,
-ts-9 0,,,,,,,
-ts-256 0,,,,,,,
-ea06086 4,,,,,,,
-ts-622 0,,,,,,,
-ts-528 4,,,,,,,
-bgv006336 1,,,,,,,
-ts-640 0,,,,,,,
-bgv007017 0,,,,,,,
-ts-632 0,,,,,,,
-bgv015734 0,,,,,,,
-ts-78 0,,,,,,,
-ts-525 0,,,,,,,
-ts-85 0,,,,,,,
-ts-433 0,,,,,,,
-bgv012613 1,,,,,,,
-la0436 3,,,,,,,
-ts-273 0,,,,,,,
-bgv007864 0,,,,,,,
-tr00020 0,,,,,,,
-bgv006896 0,,,,,,,
-ea05891 -1,,,,,,,
-bgv008065 0,,,,,,,
-ts-156 1,,,,,,,
-ts-507 0,,,,,,,
-ts-141 0,,,,,,,
-ea00375 -1,,,,,,,
-bgv008077 0,,,,,,,
-pi129033 0,,,,,,,
-ts-559 0,,,,,,,
-pi129026 0,,,,,,,
-ts-242 0,,,,,,,
-ts-302 0,,,,,,,
-ts-244 -1,,,,,,,
-ts-74 -1,,,,,,,
-ts-537 0,,,,,,,
-ts-158 0,,,,,,,
-ts-524 0,,,,,,,
-tr00022 0,,,,,,,
-bgv006208 -1,,,,,,,
-ts-41 0,,,,,,,
-ts-254 0,,,,,,,
-bgv008348 0,,,,,,,
-ts-315 0,,,,,,,
-ts-516 0,,,,,,,
-ts-415 1,,,,,,,
-ts-186 -1,,,,,,,
-bgv007181 2,,,,,,,
-ts-75 0,,,,,,,
-ts-57 0,,,,,,,
-bgv008219 0,,,,,,,
-ts-311 0,,,,,,,
-ea02724 0,,,,,,,
-ts-189 0,,,,,,,
-ts-572 0,,,,,,,
-ea00448 0,,,,,,,
-ts-518 0,,,,,,,
-ea00676 1,,,,,,,
-ts-13 -1,,,,,,,
-ts-199 3,,,,,,,
-ts-105 -1,,,,,,,
-ts-400 0,,,,,,,
-ts-652 0,,,,,,,
-bgv006148 -1,,,,,,,
-ts-413 -1,,,,,,,
-ea01155 0,,,,,,,
-ea04828 0,,,,,,,
-ts-584 0,,,,,,,
-ts-113 0,,,,,,,
-ts-651 0,,,,,,,
-ts-620 4,,,,,,,
-stupicke 0,,,,,,,
-ea03222 0,,,,,,,
-ts-283 0,,,,,,,
-tr00018 0,,,,,,,
-bgv012639 0,,,,,,,
-bgv007931 0,,,,,,,
-ts-628 -1,,,,,,,
-ts-561 0,,,,,,,
-bgv007857 0,,,,,,,
-ts-517 0,,,,,,,
-ts-511 0,,,,,,,
-ts-637 0,,,,,,,
-bgv007151 -1,,,,,,,
-ts-247 0,,,,,,,
-ts-20 -1,,,,,,,
-ts-46 0,,,,,,,
-bgv007872 0,,,,,,,
-ts-104 0,,,,,,,
-ts-72 0,,,,,,,
-ts-138 0,,,,,,,
-bgv014516 0,,,,,,,
-ts-255 0,,,,,,,
-ea02617 0,,,,,,,
-ts-538 0,,,,,,,
-bgv015726 0,,,,,,,
-ts-93 0,,,,,,,
-ts-173 0,,,,,,,
-ea01965 0,,,,,,,
-bgv007194 2,,,,,,,
-ea03107 -1,,,,,,,
-ts-544 0,,,,,,,
-ts-211 0,,,,,,,
-ts-519 0,,,,,,,
-tr00024 -1,,,,,,,
-ts-543 0,,,,,,,
-ts-509 0,,,,,,,
-ts-84 0,,,,,,,
-ts-131 0,,,,,,,
-bgv006867 0,,,,,,,
-ts-207 3,,,,,,,
-bgv007899 0,,,,,,,
-ts-533 0,,,,,,,
-bgv006825 0,,,,,,,
-ts-239 0,,,,,,,
-ts-577 0,,,,,,,
-ea04861 0,,,,,,,
-ts-418 -1,,,,,,,
-ts-535 0,,,,,,,
-bgv006235 0,,,,,,,
-ts-562 0,,,,,,,
-ts-581 0,,,,,,,
-ea02994 1,,,,,,,
-catie-11106-1 0,,,,,,,
-ts-571 0,,,,,,,
-ts-436 0,,,,,,,
-ea03362 0,,,,,,,
-bgv007936 0,,,,,,,
-ts-184 0,,,,,,,
-bgv006175 0,,,,,,,
-ts-650 0,,,,,,,
-ts-615 0,,,,,,,
-ea01019 0,,,,,,,
-ts-609 0,,,,,,,
-ts-556 0,,,,,,,
-bgv008218 0,,,,,,,
-bgv007863 0,,,,,,,
-ts-306 0,,,,,,,
-ts-510 0,,,,,,,
-bgv015730 0,,,,,,,
-ts-312 0,,,,,,,
-la2309 0,,,,,,,
-bgv012625 0,,,,,,,
-bgv007910 0,,,,,,,
-ts-565 0,,,,,,,
-ferum 0,,,,,,,
-bgv007169 2,,,,,,,
-ts-246 0,,,,,,,
-ts-587 0,,,,,,,
-bgv014522 0,,,,,,,
-ts-148 0,,,,,,,
-ts-596 0,,,,,,,
-bgv013175 0,,,,,,,
-ea05581 0,,,,,,,
-ts-573 0,,,,,,,
-ts-111 0,,,,,,,
-ts-501 0,,,,,,,
-ts-191 0,,,,,,,
-ea03221 0,,,,,,,
-bgv006906 0,,,,,,,
-ts-174 0,,,,,,,
-ts-508 0,,,,,,,
-ts-56 0,,,,,,,
-bgv007023 0,,,,,,,
-ts-218 0,,,,,,,
-tr00003 0,,,,,,,
-bgv006767 -1,,,,,,,
-ts-591 0,,,,,,,
-ts-308 0,,,,,,,
-bgv007158 2,,,,,,,
-ts-555 0,,,,,,,
-ts-439 1,,,,,,,
-bgv006792 0,,,,,,,
-ecu1516b 2,,,,,,,
-ts-534 0,,,,,,,
-ts-594 0,,,,,,,
-ts-161 0,,,,,,,
-ts-427 -1,,,,,,,
-ea00892 0,,,,,,,
-heinz1706genome 0,,,,,,,
-ts-420 1,,,,,,,
-ts-183 0,,,,,,,
-ts-545 1,,,,,,,
-ts-250 0,,,,,,,
-ts-234 0,,,,,,,
-ts-553 0,,,,,,,
-ts-154 0,,,,,,,
-bgv008221 0,,,,,,,
-bgv006927 0,,,,,,,
-ts-627 0,,,,,,,
-ts-608 0,,,,,,,
-ts-434 1,,,,,,,
-ts-320 0,,,,,,,
-tr00028 -1,,,,,,,
-ts-576 0,,,,,,,
-ts-231 0,,,,,,,
-ts-224 0,,,,,,,
-bgv015727 0,,,,,,,
-bgv006859 0,,,,,,,
-pi406890 0,,,,,,,
-bgv006934 0,,,,,,,
-bgv007894 0,,,,,,,
-plovdiv -1,,,,,,,
-ts-514 0,,,,,,,
-bgv007901 0,,,,,,,
-ts-417 1,,,,,,,
-ts-204 0,,,,,,,
-ts-578 0,,,,,,,
-ts-658 0,,,,,,,
-bgv006478 1,,,,,,,
-ts-570 0,,,,,,,
-ea03058 0,,,,,,,
-bgv007862 0,,,,,,,
-ts-142 0,,,,,,,
-ea04710 -1,,,,,,,
-bgv007902 0,,,,,,,
-bgv007876 0,,,,,,,
-bgv007927 0,,,,,,,
-ts-557 0,,,,,,,
-ts-625 0,,,,,,,
-bgv007918 0,,,,,,,
-ea04939 0,,,,,,,
-ea00157 0,,,,,,,
-ts-506 0,,,,,,,
-ts-140 0,,,,,,,
-ts-10 0,,,,,,,
-ts-100 0,,,,,,,
-bgv007878 0,,,,,,,
-ts-305 0,,,,,,,
-ts-593 0,,,,,,,
-bgv006232 0,,,,,,,
-bgv008095 0,,,,,,,
-ea04243 0,,,,,,,
-ts-646 0,,,,,,,
-ts-414 1,,,,,,,
-ts-152 0,,,,,,,
-ts-187 4,,,,,,,
-pi378994 1,,,,,,,
-ts-540 0,,,,,,,
-ts-435 1,,,,,,,
-ea01037 0,,,,,,,
-tr00029 3,,,,,,,
-bgv007161 2,,,,,,,
-bgv007909 0,,,,,,,
-bgv007867 0,,,,,,,
-ts-229 0,,,,,,,
-bgv006363 1,,,,,,,
-la1712 0,,,,,,,
-glp27b 3,,,,,,,
-ts-14 -1,,,,,,,
-bgv014514 0,,,,,,,
-ts-635 0,,,,,,,
-ts-611 0,,,,,,,
-ts-551 0,,,,,,,
-bgv006230 0,,,,,,,
-ts-586 -1,,,,,,,
-bgv012615 0,,,,,,,
-ts-624 -1,,,,,,,
-bgv007339 -1,,,,,,,
-ea00465 0,,,,,,,
-ts-574 0,,,,,,,
-bgv006806 -1,,,,,,,
-ts-106 0,,,,,,,
-ts-162 0,,,,,,,
-ea00674 1,,,,,,,
-ts-607 0,,,,,,,
-ts-504 0,,,,,,,
-ts-598 0,,,,,,,
-bgv014518 0,,,,,,,
-ts-531 0,,,,,,,
-ts-539 0,,,,,,,
-ts-634 0,,,,,,,
-ea01640 0,,,,,,,
-bgv007934 0,,,,,,,
-ts-546 0,,,,,,,
-ts-521 0,,,,,,,
-ts-527 0,,,,,,,
-ts-416 -1,,,,,,,
-ts-563 0,,,,,,,
-la1420 0,,,,,,,
-la0767 0,,,,,,,
-ea00325 -1,,,,,,,
-bgv012626 -1,,,,,,,
-ts-110 0,,,,,,,
-ts-203 0,,,,,,,
-ts-53 -1,,,,,,,
-ts-422 1,,,,,,,
-ts-252 0,,,,,,,
-ts-317 0,,,,,,,
-ts-65 0,,,,,,,
-ts-536 0,,,,,,,
-ts-502 0,,,,,,,
-bgv008224 0,,,,,,,
-ts-542 0,,,,,,,
-ts-638 0,,,,,,,
-ts-582 -1,,,,,,,
-ts-243 0,,,,,,,
-ea03306 -1,,,,,,,
-ts-595 0,,,,,,,
-ts-190 0,,,,,,,
-alisacraig 0,,,,,,,
-ts-654 4,,,,,,,
-ts-55 0,,,,,,,
-tr00023 0,,,,,,,
-bgv005912 0,,,,,,,
-bgv007875 0,,,,,,,
-ea00581 3,,,,,,,
-bgv007152 2,,,,,,,
-ea00371 0,,,,,,,
-ts-7 -1,,,,,,,
-ts-262 -1,,,,,,,
-ts-645 0,,,,,,,
-ts-321 0,,,,,,,
-bgv006910 0,,,,,,,
-ts-613 0,,,,,,,
-ts-135 0,,,,,,,
-ts-8 0,,,,,,,
-ts-621 0,,,,,,,
-ts-606 0,,,,,,,
-ts-605 0,,,,,,,
-ts-430 0,,,,,,,
-ts-47 0,,,,,,,
-ecu1032 0,,,,,,,
-ts-201 0,,,,,,,
-ts-636 0,,,,,,,
-ts-600 0,,,,,,,
-ts-633 0,,,,,,,
-bgv004584 0,,,,,,,
-ea01854 0,,,,,,,
-bgv006225 0,,,,,,,
-ts-42 0,,,,,,,
-ts-588 0,,,,,,,
-ts-86 0,,,,,,,
-tr00021 0,,,,,,,
-1,,,cluster_0,,,,
+"sample","old_rank1","old_rank2","pca","rank1","rank2","morpho_type","rank3"
+"ea00581","gal",,0,"gal","gal",,"gal"
+"tr00029","gal",,0,"gal","gal",,"gal"
+"glp27b","gal",,0,"gal","gal",,"gal"
+"glp37a","gal",,0,"gal","gal",,"gal"
+"la0436","gal",,0,"gal","gal",,"gal"
+"ts-207","gal",,0,"gal","gal",,"gal"
+"ts-208","gal",,0,"gal","gal",,"gal"
+"ts-199","gal",,0,"gal","gal",,"gal"
+"ea00652","sp",,0,"galxsp","galxsp",,"galxsp"
+"ts-440","sp",,0,"galxsp","galxsp",,"sp_montane"
+"bgv008218","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca","slc_wild_like","slc_ca_small"
+"bgv008345","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca","slc_wild_like","slc_ca_small"
+"bgv008348","slc_ma_small_2",,0,"slc_ma","slc_ca","slc_cherry","slc_ca_small"
+"bgv008354","slc_ma_small_2","sll_mex_2",0,"slc_ma","slc_ca","slc_peru_north","slc_ca_small"
+"bgv012627","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca","slc_cherry","slc_ca_small"
+"la0767","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca",,"slc_ca_small"
+"la1712","slc_ma_small_2",,0,"slc_ma","slc_ca","slc_wild_like","slc_ca_small"
+"ts-106","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca",,"slc_ca_small"
+"ts-41","slc_ma_small_2","slc_ma_small_1",0,"slc_ma","slc_ca",,"sll_mex"
+"voyage","slc_ma_small_2","slc_ma_small_1",,"slc_ma","slc_ca",,
+"bgv004584","slc_ma_small_2","slc_mix",0,"slc_col","slc_col","slc_cherry","slcxsll"
+"bgv013175","slc_ma_small_1","slc_ma_small_2",0,"slc_col","slc_col","slc_cherry","spxsl_mex"
+"pi129088","slc_ma_small_2","slc_ma_small_1",0,"slc_col","slc_col",,"slcxsll"
+"bgv006225","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_tom_leaf","slc_ecu_1"
+"bgv006229","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006230",,,0,"slc_ec","slc_ec_c_800m","slc_ecu_tom_leaf","slc_ecu_1"
+"bgv006231","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006232","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m",,"slc_ecu_1"
+"bgv006235","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_cherry","slc_ecu_1"
+"bgv006859","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","sp_north_ecu","slc_ecu_1"
+"bgv006865","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m",,"slc_ecu_1"
+"bgv006867","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_wild_like","slc_ecu_1"
+"bgv006881","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_tom_leaf","slc_ecu_1"
+"bgv006896","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_tom_leaf","slc_ecu_1"
+"bgv006899","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006901","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006904","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m",,"slc_ecu_1"
+"bgv006906","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_tom_leaf","slc_ecu_1"
+"bgv006907","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006910","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","sp_north_ecu","slc_ecu_1"
+"bgv007015","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_cherry",
+"bgv007017","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_cherry",
+"bgv007023","slc_ecu_center",,0,"slc_ec","slc_ec_c_800m","slc_ecu_rib_flat","slc_ecu_1"
+"bgv006175","slc_ma_small_2",,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"bgv012639","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"pi129026","slc_ma_small_2",,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"pi129033",,,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"ts-224","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"ts-53","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_guayaquil",,"slc_ecu_guayaquil"
+"bgv006753","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_ecu_rib_flat","slc_ecu_north"
+"bgv006767","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_wild_like","slcxsll"
+"bgv006768","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_cherry","slc_ecu_north"
+"bgv006777","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_ecu_tom_leaf","slc_ecu_north"
+"bgv006792","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_ecu_tom_leaf","slc_ecu_north"
+"bgv006806","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_ecu_rib_flat","slc_ecu_north"
+"bgv006828","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m","slc_ecu_rib_flat","slc_ecu_guayaquil"
+"bgv006852",,,0,"slc_ec","slc_ec_n_600m","slc_ecu_rib_flat","slc_ecu_north"
+"tr00027","spxsl1",,0,"slc_ec","slc_ec_n_600m",,"slc_ecu_north"
+"ecu1032","slc_ecu_north_guayaquil",,0,"slc_ec","slc_ec_n_600m",,"slc_ecu_north"
+"la1420",,,0,"slc_ec","slc_ec_n_600m",,"slc_ecu_north"
+"bgv005912","slc_ecu_south",,0,"slc_ec","slc_ec_s_1000m","slc_ecu_big","slc_ecu_big"
+"bgv006234","slc_ecu_south",,0,"slc_ec","slc_ec_s_1000m","slc_ecu_big","slc_ecu_big"
+"bgv006927","slc_ecu_south",,0,"slc_ec","slc_ec_s_1000m","slc_ecu_big","slc_ecu_big"
+"bgv006931","slc_ecu_south",,0,"slc_ec","slc_ec_s_1000m","slc_ecu_big","slc_ecu_big"
+"bgv006934","slc_ecu_south",,0,"slc_ec","slc_ec_s_1000m","slc_ecu_big","slc_ecu_big"
+"bgv007894","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_mex_small"
+"bgv007899","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_mex_small"
+"bgv007901","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007902","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007908","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007909","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007910","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007911","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007918","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv007920","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_cherry","slc_mex_small"
+"bgv007921","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv008051","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv008067","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv008070","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv008219","slc_ma_small_1",,0,"slc_ma","slc_me","slc_cherry","slc_ca_small"
+"bgv008221","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_ca_small"
+"bgv008223","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_ca_small"
+"bgv012614","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"bgv013134","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me","slc_wild_like","slc_mex_small"
+"catie-11106-1","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me",,"slc_ca_small"
+"ts-536","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me",,"slc_mex_small"
+"ts-594","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_mex_small"
+"ts-229","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_ca_small"
+"ts-154","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me",,"slc_mex_small"
+"ts-165","slc_ma_small_1",,0,"slc_ma","slc_me",,"slc_mex_small"
+"ts-69","slc_ma_small_1","slc_ma_small_1",0,"slc_ma","slc_me",,"slc_mex_small"
+"bgv007927","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa","slc_cherry","spxsl_mex"
+"bgv007931","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa","sp_slc","spxsl_mex"
+"bgv007933","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa","sp_slc","spxsl_mex"
+"bgv007934","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa","slc_wild_like","spxsl_mex"
+"bgv007935","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa",,"spxsl_mex"
+"ea05170","slc_ma_small_1",,0,"slc_ma","slc_me_sinaloa",,"spxsl_mex"
+"la2697","slc_ma_small_1",,,"slc_ma","slc_me_sinaloa",,
+"ts-240","slc_ma_small_1","slc_ma_small_2",0,"slc_ma","slc_me_sinaloa",,"spxsl_mex"
+"bgv007981","slc_peru_1",,0,"slc_pe","slc_pe_c","slc_ecu_rib_flat","slc_peru_south"
+"bgv007989","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"bgv007990","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"bgv008036","slc_ma_small_2","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"bgv008037","slc_tarapoto","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_wild_like","slc_peru_south"
+"bgv008041","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"bgv008077","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"bgv008189","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"bgv012640","slc_ma_small_2","slc_mix",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"bgv013945","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"ts-66","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"ts-74","slc_peru_1","slc_mix",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"ts-247","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"ts-273","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"ts-56","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"ts-242","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"bgv008095","slc_peru_1","slc_peru_big_1",0,"slc_pe","slc_pe_n_1000m","slc_peru_north","slc_peru_south"
+"bgv008096","slc_peru_1",,0,"slc_pe","slc_pe_n_1000m",,"slc_moyobamba"
+"bgv008100","slc_peru_1",,0,"slc_pe","slc_pe_n_1000m","slc_peru_north","slc_moyobamba"
+"bgv013161","slc_peru_1",,0,"slc_pe","slc_pe_n_1000m","slc_cherry","slc_moyobamba"
+"bgv015730","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_1000m",,"slc_moyobamba"
+"pi406890","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_1000m",,"slc_moyobamba"
+"ts-129","slc_tarapoto",,0,"slc_pe","slc_pe_n_1000m",,"slc_moyobamba"
+"ts-256","sll_3","slc_mix",0,"slc_pe","slc_pe_n_1000m",,"slc_moyobamba"
+"bgv008065","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m","slc_peru_north","slc_tarapoto"
+"bgv008098","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m","slc_peru_north","slc_tarapoto"
+"bgv014508","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014514","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014515","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014516","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014518","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014519","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv014522","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv015726","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv015727","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv015734","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"la2309","slc_tarapoto",,0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"ts-304","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"ts-184","slc_tarapoto",,0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"ts-84","slc_tarapoto","slc_peru_big_2",0,"slc_pe","slc_pe_n_400m",,"slc_tarapoto"
+"bgv008106","slc_ma_small_2","slc_mix",0,"slc_pe","slc_pe_c","slc_cherry","slc_peru_south"
+"tr00019","sll_vint_small","slc_mix",0,"slc_pe","slc_pe_c",,"slc_peru_south"
+"bgv005895","slc_ma_small_2","slc_mix",0,"slc_world","slc_world","slc_wild_like","slc_world"
+"bgv007900","slc_ma_small_2","slc_mix",,"slc_world","slc_world",,
+"bgv008061","slc_ma_small_2","slc_mix",,"slc_world","slc_world","slc_peru_north",
+"ea04243","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ea04939","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"tr00026",,"slc_ma_small_2",0,"slc_world","slc_world",,"slc_mex_small"
+"ts-221","slc_ma_small_2","slc_mix",,"slc_world","slc_world",,
+"yellow_pear","sll_vint_small","sll_world",0,"slc_world","slc_world",,"slc_world"
+"ts-629","sll_vint_small","sll_world",0,"slc_world","slc_world",,"slc_world"
+"ts-659",,,,"slc_world","slc_world",,
+"ts-302","sll_vint_small","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-541",,,,"slc_world","slc_world",,
+"ts-250","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-243","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-120","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-280","slc_ma_small_2","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-284","slc_ma_small_2","slc_mix",,"slc_world","slc_world",,
+"ts-131","sll_vint_small","slc_mix",0,"slc_world","slc_world",,"slc_world"
+"ts-65","slc_ma_small_1","slc_ma_small_1",0,"slc_world","slc_world",,"slc_ca_small"
+"ts-63","sll_vint_small","sll_world",0,"slc_world","slc_world",,"slc_world"
+"ts-75","sll_vint_small","sll_world",0,"slc_world","slc_world",,"slc_world"
+"ts-83","slc_ma_small_2","slc_ma_small_1",,"slc_world","slc_world",,
+"ts-4",,,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-317","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-318","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-319","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-320","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-321","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-634","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-633","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-637","sll_2",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-631","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-656","sll_2",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-653","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-316","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-315","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-312","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-311","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-310","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-306","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-305","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-309","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-308","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-400","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-636","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-635","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-638","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"ts-632","sll_modern_1",,0,"sll_f1","sll_f1",,"sll_f1"
+"bgv007854","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007857","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007860","sll_mex","sll_mex_1",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007862","sll_3",,0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007863","slc_ma_small_2",,0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007864","sll_mex","sll_mex_1",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007865","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007867","sll_mex","sll_mex_1",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007870","sll_mex",,0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007871","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007872","sll_mex","sll_mex_1",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007875","sll_mex",,0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007876","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007878","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv007895","sll_mex","sll_mex_2",0,"sll_me","sll_me",,"sll_mex"
+"bgv007936","sll_mex","sll_mex_1",0,"sll_me","sll_me","sll_mex","sll_mex"
+"bgv008224","sll_mex","sll_mex_2",0,"sll_me","sll_me","sll_mex","sll_mex"
+"ea03058","sll_2","sll_mex_2",0,"sll_me","sll_me",,"sll_mex"
+"ts-249","sll_mex","sll_mex_1",0,"sll_me","sll_me",,"sll_mex"
+"ea00371","sll_3",,0,"sll_modern","sll_modern",,"modern3"
+"ea02054","sll_3",,0,"sll_modern","sll_modern",,"modern3"
+"ea02655","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"tr00003","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-103","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-104","sll_3","sll_world",0,"sll_modern","sll_modern",,"sll_vint_small"
+"ts-548","sll_2",,0,"sll_modern","sll_modern",,"modern3"
+"ts-111",,,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-78","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-90",,"sll_world",,"sll_modern","sll_modern",,
+"ts-8",,,0,"sll_modern","sll_modern",,"modern3"
+"ts-245","sll_3",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-168","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-85","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-186","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-3","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-138","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-190","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-59",,,,"sll_modern","sll_modern",,
+"ts-602","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-210","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-211",,"sll_world",0,"sll_modern","sll_modern",,"sll_vint"
+"ts-12","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-11","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-639","sll_3",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-516",,"sll_world",0,"sll_modern","sll_modern",,"sll_vint"
+"ts-630","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ferum","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-640","sll_modern_1",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-617","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-622","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-550","sll_3","sll_world",,"sll_modern","sll_modern",,
+"ts-204","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-532","sll_modern_1",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-239",,,0,"sll_modern","sll_modern",,"modern3"
+"ts-599",,,,"sll_modern","sll_modern",,
+"ts-114","sll_3",,,"sll_modern","sll_modern",,
+"ts-577","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-212","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-162","sll_3","sll_world",0,"sll_modern","sll_modern",,"modern3"
+"ts-160","sll_2",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-42","sll_3","sll_world",0,"sll_modern","sll_modern",,"sll_vint_small"
+"ts-293","sll_3","sll_world",0,"sll_modern","sll_modern",,"sll_vint"
+"ts-140","sll_modern_1",,0,"sll_modern","sll_modern",,"modern3"
+"ts-253","sll_3",,0,"sll_modern","sll_modern",,"sll_vint"
+"ts-180",,"sll_world",,"sll_modern","sll_modern",,
+"ts-89",,,,"sll_modern","sll_modern",,
+"alisacraig",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ea02617",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"moneymaker",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-2","sll_vint_small",,0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-9",,,0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-563",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-535",,,0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-43",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-142",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"la0147","sll_vint_small","sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-183",,,0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ts-95",,"sll_world",0,"sll_old_cultivars","sll_moneymaker_ailsacraig",,"money_ailsa"
+"ea00465","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"tr00023","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-175","sll_2",,0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-514","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-556","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-561","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-546","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-542","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ts-570","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"sll_vint"
+"ts-589","sll_2","sll_world",0,"sll_old_cultivars","sll_oldbrooks",,"old_brooks"
+"ea01640",,"sll_world",0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-234",,"sll_world",0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-613",,"sll_world",0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-566",,"sll_world",0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-539",,"sll_world",0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-591",,,0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ts-605",,,0,"sll_old_cultivars","sll_oldgerman",,"sll_old_german"
+"ea00157","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea00448","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea00892","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea00940","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea00990","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01019","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01037","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01049","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01088","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01155","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01835","sll_2","sll_world",,"sll_vint","sll_vint",,
+"ea02724","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea03221","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea03222","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea03701","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea04828","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea04861","sll_vint_small","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea05581","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ea05701","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"tegucigalpa","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"tr00020","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"tr00021","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"tr00022","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-1","sll_modern_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-10","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-100","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-609","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-525","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-624","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-576","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-174",,"sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-128","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-45",,,0,"sll_vint","sll_vint",,"sll_vint"
+"levovil","sll_modern_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-48","sll_3",,,"sll_vint","sll_vint",,
+"ts-608","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-603","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-600","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-607","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-604","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-5","sll_3",,,"sll_vint","sll_vint",,
+"ts-515","sll_3","sll_world",,"sll_vint","sll_vint",,
+"ts-512","sll_3","sll_world",,"sll_vint","sll_vint",,
+"ts-519","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-518","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-517","sll_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-511","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-510",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-646","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-524","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-645","sll_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-644","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-529","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-649","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-648","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-527","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-522","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-642","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-521","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-641","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-619","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-612","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-611","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-616","sll_vint_small","sll_world",,"sll_vint","sll_vint",,
+"ts-625","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-504","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-503","sll_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-502","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-501","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-508","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-507","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-627","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-506",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-621","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-559","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-558","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-557",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-551","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-555","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-554","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-553","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-569","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-568","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-567","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-562","sll_modern_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-565","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-201","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-655","sll_1","sll_world",,"sll_vint","sll_vint",,
+"ts-534","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-538","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-650","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-533","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-531","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-530","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-547","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-549","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-540","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint_small"
+"ts-544","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-543","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-595","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-110","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-593","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-592","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-597","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-112","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-596","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-246","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-580","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-218","sll_modern_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint_small"
+"ts-579","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint_small"
+"ts-578","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-573","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-572","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-571","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-575","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-574","sll_modern_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-584","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-583",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-581","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-588","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-587",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-282","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-161","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-47","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-46","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-44","sll_3","sll_world",,"sll_vint","sll_vint",,
+"ts-159","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-173","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-172","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-58","sll_3","sll_world",,"sll_vint","sll_vint",,
+"ts-170","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-55","sll_1","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-163","sll_3",,,"sll_vint","sll_vint",,
+"ts-169","sll_3",,,"sll_vint","sll_vint",,
+"ts-51","sll_3","sll_world",,"sll_vint","sll_vint",,
+"ts-261","slc_ma_small_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-139","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-259",,"sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-132",,"sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-135","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-60","sll_1",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-255","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-76","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-141","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-198","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-197","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"stupicke",,,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-177","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-178","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-191","sll_2","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-194",,"sll_world",,"sll_vint","sll_vint",,
+"ts-193","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-192",,"sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ts-81","sll_2","sll_world",,"sll_vint","sll_vint",,
+"ts-86","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"heinz1706genome","sll_3",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-606","sll_2",,0,"sll_vint","sll_vint",,"sll_vint"
+"ts-113","sll_3","sll_world",0,"sll_vint","sll_vint",,"sll_vint"
+"ea01854","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ea03362","sll_3","slc_mix",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"tr00018","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-6","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-526","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-618","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-615","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-610","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-505","sll_vint_small","sll_world",,"sll_vint","sll_vint_small",,
+"ts-552","sll_3",,0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-560","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-203","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-564","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-117","sll_3","sll_world",,"sll_vint","sll_vint_small",,
+"ts-213","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-283","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-152","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-67","sll_3",,0,"sll_vint","sll_vint_small",,"sll_vint"
+"ts-252","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-251","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-137","sll_3","sll_world",,"sll_vint","sll_vint_small",,
+"ts-73","sll_3","sll_world",,"sll_vint","sll_vint_small",,
+"ts-72","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-189","sll_3",,0,"sll_vint","sll_vint_small",,"sll_vint"
+"ts-88","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-99","sll_vint_small","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"ts-93","sll_3","sll_world",0,"sll_vint","sll_vint_small",,"sll_vint_small"
+"bgv006775","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","slc_wild_like",
+"bgv007109","sp_ecu",,1,"sp_ec","sp_ec_n_wet_forest","sp_slc","sp_ecu"
+"bgv007111","sp_ecu",,1,"sp_ec","sp_ec_n_wet_forest","sp_slc","sp_ecu"
+"bgv007149","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007152","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007158","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007161","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007169","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007181","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"bgv007194","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest","sp_north_ecu","sp_ecu"
+"ecu1516b","sp_ecu",,0,"sp_ec","sp_ec_n_wet_forest",,"sp_ecu"
+"bgv006208","sp",,0,"sp_ec","sp_ec_s_dry_forest","sp_montane","sp_montane"
+"bgv007151","sp",,0,"sp_ec","sp_ec_s_dry_forest","sp_north_ecu","sp_montane"
+"bgv007339","sp",,0,"sp_ec","sp_ec_s_dry_forest","sp_montane","sp_montane"
+"bgv007366","sp",,0,"sp_ec","sp_ec_s_dry_forest","sp_montane","sp_montane"
+"ts-16","sp",,,"sp_ec","sp_ec_s_dry_forest",,
+"ts-413",,,0,"sp_ec","sp_ec_s_dry_forest",,"sp_montane"
+"bgv006327","sp",,0,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"bgv006336","sp",,0,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"bgv006347","sp",,3,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"bgv006353","sp",,3,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"bgv006454","sp",,0,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"bgv006457","sp",,0,"sp_pe","sp_pe_n_hills","sp_coast","sp_peru"
+"tr00028","sp",,0,"sp_pe","sp_pe_n_hills",,"sp_peru"
+"ecu570b","sp",,0,"sp_pe","sp_pe_n_hills",,"sp_peru"
+"bgv015380","sp",,2,"sp_pe_inter-andean","sp_pe_n_inter-andean",,"sp_montane"
+"bgv015382","sp",,0,"sp_pe_inter-andean","sp_pe_n_inter-andean","sp_montane","sp_montane"
+"pas014479","sp",,2,"sp_pe_inter-andean","sp_pe_n_inter-andean",,"sp_montane"
+"ts-420","sp",,0,"sp_pe_inter-andean","sp_pe_n_inter-andean",,"sp_montane"
+"ts-156","sp",,0,"sp_pe_inter-andean","sp_pe_n_inter-andean",,"sp_montane"
+"bgv006363","sp",,0,"sp_pe","sp_pe_desert","sp_slc","sp_peru"
+"bgv006478","sp",,0,"sp_pe","sp_pe_desert","sp_slc","sp_peru"
+"ea02994","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ea03107","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-435","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-439","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-434","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-415","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-414","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-417","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-425","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-424","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-422","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ts-77","sp",,0,"sp_pe","sp_pe_desert",,"sp_peru"
+"ea00674","sp",,0,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,"sp_peru"
+"ea00676","sp",,0,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,"sp_peru"
+"ts-438",,,,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,
+"ts-419",,,,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,
+"ts-411","sp",,0,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,"sp_peru"
+"ts-429","sp",,,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,
+"ts-421","sp",,0,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,"sp_peru"
+"ts-244","sp",,0,"sp_x_sp","sp_pe_desert_x_sp_pe_n_inter_andean",,"sp_peru"
+"bgv006370","sp",,0,"sp_x_sp","sp_pe_x_sp_ec","sp_coast","sp_peru"
+"bgv007198","sp",,0,"sp_x_sp","sp_pe_x_sp_ec","sp_north_ecu","sp_montane"
+"ts-416","sp",,0,"sp_x_sp","sp_pe_x_sp_ec",,"sp_peru"
+"ts-14","sp",,0,"sp_x_sp","sp_pe_x_sp_ec",,"sp_montane"
+"bgv006779","slc_ecu_north_guayaquil",,0,"sp_x_sl","sp_x_sl","slc_ecu_tom_leaf","slc_ecu_north"
+"bgv006825","slc_ecu_north_guayaquil",,0,"sp_x_sl","sp_x_sl","slc_ecu_rib_flat","slcxsll"
+"bgv007992","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"bgv008042","spxsl1",,0,"sp_x_sl","sp_x_sl","slc_cherry","spxsl_peru"
+"bgv008058","slc_ma_small_1",,0,"sp_x_sl","sp_x_sl","sp_north_ecu","spxsl_mex"
+"bgv008225","slc_ma_small_1",,0,"sp_x_sl","sp_x_sl","slc_wild_like","spxsl_mex"
+"bgv012613","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"bgv012625",,,0,"sp_x_sl","sp_x_sl","slc_cherry","spxsl_peru"
+"bgv012626","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ea00526","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ea02960",,,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ea03306","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ea04710","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ea05891","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"pi378994","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"pi487625","slc_ma_small_2",,,"sp_x_sl","sp_x_sl",,
+"tr00024","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-105","slc_ma_small_2","slc_ma_small_1",0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-537",,,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-7",,,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-409","spxsl1",,,"sp_x_sl","sp_x_sl",,
+"ts-614","spxsl1",,,"sp_x_sl","sp_x_sl",,
+"ts-418",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-427",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-248","slc_peru_1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"cervil",,,,"sp_x_sl","sp_x_sl",,
+"ts-57","slc_peru_1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-205",,,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-601","spxsl1",,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-430","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-431","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-20",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-410",,,,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-127",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-262",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-231",,,0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-148","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"criollo","spxsl1",,,"sp_x_sl","sp_x_sl",,"slc_ecu_guayaquil"
+"ts-299","slc_ecu_south",,,"sp_x_sl","sp_x_sl",,"slc_ecu_guayaquil"
+"ts-158","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-423","spxsl1",,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ts-436",,"slc_ma_small_1",0,"sp_x_sl","sp_x_sl",,"slcxsll"
+"ts-433",,,0,"sp_x_sl","sp_x_sl",,"spxsl_peru"
+"ea00027",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ea00325",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ea00375","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ea01965",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ea06086","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-647","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-528","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-620","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-658","slc_ma_small_2",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-651",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-109",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-582","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-586","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-585",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-254",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"plovdiv",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-296",,,,"sp_x_sl","sp_x_sl_cherry_cultivars",,
+"ts-450","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-509","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-598","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-623","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-626","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-628",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-652","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-654","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-657","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-13",,,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-590","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-71","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-187","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-545","modern_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"ts-520",,,,"sp_x_sl","sp_x_sl_cherry_cultivars",,
+"ts-258","slc_peru_1",,0,"sp_x_sl","sp_x_sl_cherry_cultivars",,"sl_cherry_cultivars"
+"bgv006148","slc_ecu_north_guayaquil",,0,,,"slc_cherry","slc_ecu_guayaquil"
+"bgv008108","slc_ma_small_1","slc_ma_small_2",,,,"slc_wild_like",
+"bgv012615","spxsl1",,0,,,"sp_slc","slcxsll"
+"ts-523","sll_modern",,,,,,
+"ts-115","sll_modern",,,,,,
+"ts-54","sll_modern",,,,,,
+"ts-209","cherry",,,,,,
+"ts-437","sp",,,,,,
+"ts-116",,,,,,,
+"ts-79","sp",,,,,,
+"ts-19","sp",,,,,,
+"ts-18","sp",,,,,,
+"ts-17","sp",,,,,,
+"ts-23",,,,,,,
+"ts-22",,,,,,,
+"ts-21","sp",,,,,,
+"ts-314","sll_modern_1",,,,,,
+"ts-313","sll_modern_1",,,,,,
+"ts-307","sll_modern_1",,,,,,
+"ts-64","sll_modern",,,,,,
+"ts-216","spxsl",,,,,,
+"ts-287","sll_modern",,,,,,
+"ts-220","cherry",,,,,,
+"ts-428","slc_peru_other",,,,,,
+"ts-94","sll_modern",,,,,,
+"ts-236","sll_and_close","sll_world",,,,,
+"ts-118","slc_ecu",,"slc_ecu",,,,
+"ts-50","sp",,"slc_ecu",,,,
+"glp-12",,,,,,,
+"ts-513","sll_and_close","sll_world",,,,,
+"ts-643","sll_modern",,,,,,
+"ts-200","sll_modern",,,,,,
+"ts-225","sll_modern",,,,,,
+"ts-157","sll_modern",,,,,,
+"ts-294","sll_and_close","sll_world",,,,,
+"ts-285","sll_and_close",,,,,,
+"ts-167","sll_and_close","sll_world",,,,,
+"ts-181","sll_and_close","slc_ma_small_2",,,,,
+"ts-80","sll_and_close","sll_world",,,,,
+"bgv007118",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006827",,,,,,"slc_cherry",
+"pt-170",,,,,,"slc_peru_north",
+"bgv007232",,,"keep_morpho",,,"sp_slc",
+"bgv007113",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007112",,,,,,"slc_wild_like",
+"bgv007233",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007928",,,,,,"slc_wild_like",
+"bgv007929",,,,,,"slc_ecu_tom_leaf",
+"pt-186",,,,,,"slc_peru_north",
+"pt-187",,,,,,"sll_mex",
+"pt-185",,,,,,"slc_peru_north",
+"pi-129062",,,,,,"slc_wild_like",
+"pt-183",,,,,,"slc_peru_north",
+"pt-181",,,,,,"slc_peru_north",
+"bgv009300",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007243",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006398",,,"keep_morpho",,,"sp_coast",
+"bgv007123",,,"keep_morpho",,,"sp_north_ecu",
+"bgv009304",,,"keep_morpho",,,"sp_north_ecu",
+"pt-188",,,,,,"slc_peru_north",
+"bgv007138",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007930",,,,,,"slc_wild_like",
+"bgv008109",,,,,,"slc_wild_like",
+"bgv006608",,,"keep_morpho",,,"sp_coast",
+"bgv006609",,,"keep_morpho",,,"sp_coast",
+"mex-068_r",,,,,,"sll_mex",
+"bgv007250",,,"keep_morpho",,,"sp_north_ecu",
+"bgv009310",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007135",,,"keep_morpho",,,"sp_north_ecu",
+"bgv008347",,,,,,"slc_wild_like",
+"bgv007137",,,"keep_morpho",,,"sp_slc",
+"pt-199",,,,,,"slc_peru_north",
+"bgv007257",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006857",,,,,,"slc_cherry",
+"bgv013946",,,,,,"slc_peru_north",
+"mex-062",,,,,,"sll_mex",
+"pi-129088",,,,,,"slc_cherry",
+"mex-059",,,,,,"slc_cherry",
+"bgv007264",,,"keep_morpho",,,"sp_north_ecu",
+"bgv008110",,,,,,"slc_wild_like",
+"bgv007145",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007148",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006226",,,,,,"slc_cherry",
+"bgv006349",,,"keep_morpho",,,"sp_coast",
+"bgv006227",,,,,,"slc_ecu_tom_leaf",
+"bgv006348",,,"keep_morpho",,,"sp_coast",
+"bgv006469",,,"keep_morpho",,,"sp_coast",
+"bgv006902",,,,,,"slc_ecu_rib_flat",
+"bgv006905",,,,,,"slc_ecu_rib_flat",
+"bgv006909",,,"keep_morpho",,,"sp_north_ecu",
+"pt-131",,,,,,"slc_peru_north",
+"bgv009292",,,"keep_morpho",,,"sp_north_ecu",
+"mex-069",,,,,,"slc_ecu_south",
+"pt-139",,,,,,"slc_cherry",
+"bgv006341",,,"keep_morpho",,,"sp_coast",
+"bgv006462",,,"keep_morpho",,,"sp_coast",
+"bgv006340",,,"keep_morpho",,,"sp_coast",
+"bgv007208",,,"keep_morpho",,,"sp_slc",
+"bgv006913",,,,,,"slc_ecu_south",
+"pt-142",,,,,,"slc_peru_north",
+"bgv006471",,,"keep_morpho",,,"sp_coast",
+"bgv006470",,,"keep_morpho",,,"sp_coast",
+"bgv006352",,,"keep_morpho",,,"sp_coast",
+"bgv006473",,,"keep_morpho",,,"sp_coast",
+"bgv006472",,,"keep_morpho",,,"sp_coast",
+"bgv006233",,,,,,"slc_wild_like",
+"bgv007201",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006474",,,"keep_morpho",,,"sp_coast",
+"bgv007200",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007202",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007215",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006923",,,,,,"slc_cherry",
+"bgv007219",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007210",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006485",,,"keep_morpho",,,"sp_coast",
+"bgv007106",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007349",,,"keep_morpho",,,"sp_slc",
+"bgv006492",,,"keep_morpho",,,"sp_coast",
+"bgv007222",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007104",,,,,,"slc_wild_like",
+"bgv007225",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007103",,,"keep_morpho",,,"sp_slc",
+"pt-167",,,,,,"slc_peru_north",
+"bgv007997",,,"keep_morpho",,,"sp_slc",
+"glp-07",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006426",,,"keep_morpho",,,"sp_coast",
+"glp-05",,,"keep_morpho",,,"sp_slc",
+"bgv007070",,,"keep_morpho",,,"sp_north_ecu",
+"pi-406890",,,,,,"slc_wild_like",
+"bgv007991",,,"keep_morpho",,,"sp_slc",
+"bgv006783",,,,,,"slc_ecu_tom_leaf",
+"bgv006661",,,"keep_morpho",,,"sp_coast",
+"bgv006784",,,,,,"slc_ecu_tom_leaf",
+"bgv007873",,,,,,"sll_mex",
+"bgv008048",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007085",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006329",,,"keep_morpho",,,"sp_coast",
+"bgv008060",,,,,,"slc_peru_north",
+"bgv008069",,,,,,"slc_cherry",
+"bgv006335",,,"keep_morpho",,,"sp_coast",
+"bgv007303",,,"keep_morpho",,,"sp_montane",
+"bgv006337",,,"keep_morpho",,,"sp_coast",
+"bgv007308",,,"keep_morpho",,,"sp_montane",
+"bgv015728",,,,,,"slc_ecu_tom_leaf",
+"bgv006339",,,"keep_morpho",,,"sp_coast",
+"bgv007307",,,"keep_morpho",,,"sp_montane",
+"bgv015729",,,,,,"slc_wild_like",
+"bgv006332",,,"keep_morpho",,,"sp_coast",
+"bgv007300",,,,,,"slc_cherry",
+"bgv006452",,,"keep_morpho",,,"sp_coast",
+"bgv006500",,,"keep_morpho",,,"sp_coast",
+"bgv006863",,,,,,"slc_ecu_tom_leaf",
+"bgv013717",,,"keep_morpho",,,"sp_montane",
+"bgv013715",,,"keep_morpho",,,"sp_coast",
+"bgv013156",,,,,,"slc_cherry",
+"pi-487625",,,,,,"slc_cherry",
+"bgv007272",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007150",,,"keep_morpho",,,"sp_slc",
+"bgv008001",,,"keep_morpho",,,"sp_slc",
+"bgv007155",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007276",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007156",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007279",,,"keep_morpho",,,"sp_slc",
+"bgv008004",,,"keep_morpho",,,"sp_slc",
+"bgv006875",,,,,,"slc_ecu_tom_leaf",
+"bgv006756",,,"keep_morpho",,,"sp_slc",
+"bgv006877",,,,,,"slc_ecu_south",
+"bgv006638",,,"keep_morpho",,,"sp_coast",
+"bgv013720",,,"keep_morpho",,,"sp_coast",
+"bgv013163",,,"keep_morpho",,,"sp_slc",
+"bgv006192",,,"keep_morpho",,,"sp_slc",
+"bgv006195",,,"keep_morpho",,,"sp_coast",
+"bgv007163",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007287",,,"keep_morpho",,,"sp_slc",
+"bgv006645",,,"keep_morpho",,,"sp_coast",
+"bgv006406",,,"keep_morpho",,,"sp_coast",
+"bgv006769",,,,,,"slc_ecu_tom_leaf",
+"la2188",,,"keep_morpho",,,"sp_montane",
+"bgv006640",,,"keep_morpho",,,"sp_coast",
+"bgv006642",,,"keep_morpho",,,"sp_coast",
+"bgv006883",,,,,,"slc_cherry",
+"bgv006776",,,,,,"slc_ecu_rib_flat",
+"bgv006657",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006778",,,"keep_morpho",,,"sp_montane",
+"bgv007866",,,,,,"sll_mex",
+"bgv007869",,,,,,"sll_mex",
+"bgv007868",,,,,,"sll_mex",
+"pe-73",,,"keep_morpho",,,"sp_coast",
+"bgv007060",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007063",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007184",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007183",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007065",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007188",,,"keep_morpho",,,"sp_north_ecu",
+"pt-203",,,,,,"slc_peru_north",
+"bgv007066",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007069",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007861",,,,,,"sll_mex",
+"bgv007982",,,,,,"slc_peru_north",
+"bgv007068",,,"keep_morpho",,,"sp_north_ecu",
+"bgv007189",,,"keep_morpho",,,"sp_north_ecu",
+"bgv006895",,,,,,"slc_cherry",
+"la2182",,,"keep_morpho",,,"sp_montane",
+"bgv006660",,,"keep_morpho",,,"sp_montane",
+"bgv006355",,,"keep_morpho",,,"sp_montane",
+"pt-53",,,"keep_morpho",,,"sp_montane",
+"pt-60",,,"keep_morpho",,,"sp_montane",
+"bgv006508",,,"keep_morpho",,,"sp_montane",
+"bgv006196",,,"keep_morpho",,,"sp_montane",
+"bgv006211",,,"keep_morpho",,,"sp_montane",
+"bgv006691",,,"keep_morpho",,,"sp_montane",
+"bgv007345",,,"keep_morpho",,,"sp_montane",
+"bgv007358",,,"keep_morpho",,,"sp_montane",
+"bgv007359",,,"keep_morpho",,,"sp_montane",
+"bgv006712",,,"keep_morpho",,,"sp_montane",
+"bgv007364",,,"keep_morpho",,,"sp_montane",
+"bgv007361",,,"keep_morpho",,,"sp_montane",
+"bgv006167",,,"keep_morpho",,,"sp_montane",
+"bgv006183",,,"keep_morpho",,,"sp_montane",
+"bgv006188",,,"keep_morpho",,,"sp_montane",
+"bgv006186",,,"keep_morpho",,,"sp_montane",
