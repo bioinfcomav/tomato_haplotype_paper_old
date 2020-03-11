@@ -13,13 +13,13 @@ import cartopy.crs as ccrs
 import passport
 from colors import (CLASSIFICATION_COLORS, ColorSchema, modify_rgb_hex_color_hsv,
                     modify_rgb_image_hsv, rgb_image_to_rgb_0_1)
-from labels import get_long_label
+from labels import get_long_label, LABELS
 from plot import get_sorted_legend_handles
 
 
 def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
                  longitude_range=None, latitude_range=None,
-                 images=None, draw_coastlines=False, plot_legend=False):
+                 images=None, draw_coastlines=False):
 
     if images is None:
         images = []
@@ -55,12 +55,16 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
         samples_to_plot[classification]['latitudes'].append(latitude)
         samples_to_plot[classification]['longitudes'].append(longitude)
 
-    for classification, samples_info in samples_to_plot.items():
-        color = colors[classification]
+    order = {pop: idx for idx, pop in enumerate(reversed(LABELS.keys()))}
+    sorted_pops = sorted(samples_to_plot.keys(), key=lambda x: order.get(x, 1000))
+
+    for pop in sorted_pops:
+        samples_info = samples_to_plot[pop]
+        color = colors[pop]
         #color = modify_rgb_hex_color_hsv(color, luminosity_addition=0.2)
         border_color = modify_rgb_hex_color_hsv(color, luminosity_addition=-0.2)
 
-        label = get_long_label(classification)
+        label = get_long_label(pop)
 
         axes.scatter(samples_info['longitudes'], samples_info['latitudes'],
                      label=label, c=color, zorder=10, s=120,
@@ -77,7 +81,6 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
 
     image_proj = ccrs.PlateCarree()
     for image in images:
-        print(image)
         if image.get('ignore'):
             continue
         rgb_image = imread(str(image['path']))
@@ -93,10 +96,9 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
     axes.set_xlim(x_lims)
     axes.set_ylim(y_lims)
 
-    if plot_legend:
-        axes.legend(*get_sorted_legend_handles(axes),
-                    prop={'size': 17},
-                    loc='lower left')
+    legend_handles_and_labels = get_sorted_legend_handles(axes)
+
+    return {'legend_handles_and_labels': legend_handles_and_labels}
 
 
 def plot_geo_rank1_for_main_pops(samples):
@@ -116,31 +118,44 @@ def plot_geo_rank1_for_main_pops(samples):
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes = fig.add_subplot(111, projection=ccrs.PlateCarree(), zorder=1)
 
-    plot_geo_map(passports, axes=axes,
-                classification_rank=rank,
-                plot_sample_ids=False, longitude_range=(-116, -60),
-                images=[{#'ignore': True,
-                        'path': config.NE_BACKGROUND_TIFF,
-                        'extent': [-180, 180, -90, 90],
-                        'zorder': 1,
-                        'hsv_modification': {'luminosity_addition': 0.2,
-                                            'saturation_addition': -0.2}
-                        },
-                        {'path': hypothesis_path,
-                        'extent': (-106.31449895265104, -69.52907660642875, -19.596286239604375, 27.67473222177241),
-                        'zorder': 20}])
-    fig.tight_layout()
+    res = plot_geo_map(passports, axes=axes,
+                       classification_rank=rank,
+                       plot_sample_ids=False, longitude_range=(-116, -60),
+                       images=[{'ignore': False,
+                               'path': config.NE_BACKGROUND_TIFF,
+                               'extent': [-180, 180, -90, 90],
+                               'zorder': 1,
+                               'hsv_modification': {'luminosity_addition': 0.2,
+                                                    'saturation_addition': -0.2}
+                               },
+                               {'path': hypothesis_path,
+                               'extent': (-106.31449895265104, -69.52907660642875, -19.596286239604375, 27.67473222177241),
+                               'zorder': 20}])
+
+    legend_handles, legend_labels = res['legend_handles_and_labels']
+    handle_and_labels = zip(legend_handles, legend_labels)
+
+    order = {label: idx for idx, label in enumerate(LABELS.values())}
+
+    handle_and_labels = sorted(handle_and_labels, key=lambda t: t[1])
+    handle_and_labels = sorted(handle_and_labels, key=lambda t: order.get(t[1], 1000))
+    handles, labels = zip(*handle_and_labels)
+    axes.legend(handles, labels,
+                prop={'size': 17},
+                loc='lower left')
+
+
     fig.savefig(str(plot_path))
 
 
 def plot_geo_supplemental_rank2_for_all_pops(passports):
 
-    fig = Figure((7, 15))
+    fig = Figure((10, 20))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
-    grid_spec = fig.add_gridspec(nrows=2, ncols=1,
-                                 width_ratios=(1,), height_ratios=(1, 2.6),
-                                 hspace=0.05)
+    grid_spec = fig.add_gridspec(nrows=2, ncols=2,
+                                 height_ratios=(3.1, 1),
+                                 hspace=0.05, wspace=0.03)
 
     mesoamerican_axes = fig.add_subplot(grid_spec[0, 0], projection=ccrs.PlateCarree(), zorder=1)
 
@@ -148,44 +163,68 @@ def plot_geo_supplemental_rank2_for_all_pops(passports):
     rank = 'rank2'
 
     plot_background = True
+    draw_coastlines = False
 
-    plot_geo_map(passports, classification_rank=rank, axes=mesoamerican_axes,
-                draw_coastlines=True,
-                longitude_range=(-112, -81),
-                latitude_range=(9, 26),
-                plot_legend=False,
-                images=[{'ignore': not(plot_background),
-                         'path': config.NE_BACKGROUND_TIFF,
-                         'extent': [-180, 180, -90, 90],
-                         'zorder': 1,
-                         'hsv_modification': {'luminosity_addition': 0.2,
-                                             'saturation_addition': -0.2}}],
-                )
+    res = plot_geo_map(passports, classification_rank=rank, axes=mesoamerican_axes,
+                       draw_coastlines=draw_coastlines,
+                       longitude_range=(-112, -81),
+                       latitude_range=(9, 26),
+                       images=[{'ignore': not(plot_background),
+                               'path': config.NE_BACKGROUND_TIFF,
+                               'extent': [-180, 180, -90, 90],
+                               'zorder': 1,
+                               'hsv_modification': {'luminosity_addition': 0.2,
+                                                   'saturation_addition': -0.2}}],
+                       )
+    mesoamerican_axes.text(-110, 9, 'A', {'size': 25})
 
-    andean_axes = fig.add_subplot(grid_spec[1, 0], projection=ccrs.PlateCarree(), zorder=1)
+    legend_handles1, legend_labels1 = res['legend_handles_and_labels']
 
-    plot_geo_map(passports, classification_rank=rank, axes=andean_axes,
-                 draw_coastlines=True,
-                 longitude_range=(-81, -70),
-                 latitude_range=(-17, 1.5),
-                 plot_legend=False,
-                 images=[{'ignore': not(plot_background),
-                         'path': config.NE_BACKGROUND_TIFF,
-                         'extent': [-180, 180, -90, 90],
-                         'zorder': 1,
-                         'hsv_modification': {'luminosity_addition': 0.2,
-                                             'saturation_addition': -0.2}}]
-                 )
+    andean_axes = fig.add_subplot(grid_spec[:, 1], projection=ccrs.PlateCarree(), zorder=1)
+    andean_axes.text(-72, 0.5, 'B', {'size': 25})
 
+    res = plot_geo_map(passports, classification_rank=rank, axes=andean_axes,
+                       draw_coastlines=draw_coastlines,
+                       longitude_range=(-81, -70),
+                       latitude_range=(-17, 1.5),
+                       images=[{'ignore': not(plot_background),
+                               'path': config.NE_BACKGROUND_TIFF,
+                               'extent': [-180, 180, -90, 90],
+                               'zorder': 1,
+                               'hsv_modification': {'luminosity_addition': 0.2,
+                                                   'saturation_addition': -0.2}}]
+                       )
+    legend_handles2, legend_labels2 = res['legend_handles_and_labels']
 
-    fig.tight_layout()
+    handles_and_labels = zip(legend_handles1 + legend_handles2,
+                                legend_labels1 + legend_labels2)
+    labels_seen = set()
+    handle_and_labels = []
+    for handle_and_label in handles_and_labels:
+        if handle_and_label[1] in labels_seen:
+            continue
+        labels_seen.add(handle_and_label[1])
+        handle_and_labels.append(handle_and_label)
+
+    order = {label: idx for idx, label in enumerate(LABELS.values())}
+
+    handle_and_labels = sorted(handle_and_labels, key=lambda t: t[1])
+    handle_and_labels = sorted(handle_and_labels, key=lambda t: order.get(t[1], 1000))
+    handles, labels = zip(*handle_and_labels)
+
+    #legend_axes = fig.add_subplot(grid_spec[1, 0])
+
+    andean_axes.legend(handles, labels, prop={'size': 9.4},
+                       bbox_to_anchor=(-0.01, 0.61, 0, 0),
+                       ncol=2)
+
     fig.savefig(str(plot_path))
 
 
 if __name__ == '__main__':
     samples = passport.get_sample_passports()
 
-    if False:
+    if True:
         plot_geo_rank1_for_main_pops(samples)
-    else:
+    if True:
         plot_geo_supplemental_rank2_for_all_pops(samples)
