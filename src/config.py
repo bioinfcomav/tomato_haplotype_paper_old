@@ -31,4 +31,16 @@ SOURCE_DATA_DIR = BASE_DIR / 'source_data'
 
 PASSPORTS_CSV = SOURCE_DATA_DIR / 'passports.csv'
 
-print(BASE_DIR)
+MAP_BACKGROUNDS_DIR = SOURCE_DATA_DIR / 'map_backgrounds'
+
+NE_BACKGROUND_TIFF = MAP_BACKGROUNDS_DIR / 'NE1_50M_SR_W' / 'NE1_50M_SR_W.tif'
+
+FIGURES_DIR = BASE_DIR / 'figures'
+
+GEOGRAPHIC_FIGURE_DIR = FIGURES_DIR / 'geographic_map'
+
+HYPOTHESIS_PNG = GEOGRAPHIC_FIGURE_DIR / 'hypothesis.png'
+
+CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
+
+CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']

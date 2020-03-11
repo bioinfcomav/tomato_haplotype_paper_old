@@ -34,9 +34,29 @@ def get_acc_passports():
     return accessions
 
 
+def get_classifications():
+    reader = csv.DictReader(config.CLASSIFICATIONS.open('rt'))
+    classifications = {}
+
+    for row in reader:
+        classification = {rank: row[rank] if row[rank] else None for rank in config.CLASSIFICATION_RANKS}
+        classifications[row['sample']] = classification
+    return classifications
+
+
 def get_sample_passports():
+    
+    accessions = get_acc_passports()
+
     # for this project there is only one sample per accession
-    return get_acc_passports()
+    samples = accessions
+
+    classifications = get_classifications()
+    
+    for sample, sample_info in samples.items():
+        classification = classifications.get(sample)
+        sample_info['classification'] = classification
+    return samples
 
 
 if __name__ == '__main__':
