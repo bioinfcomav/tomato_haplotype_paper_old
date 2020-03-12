@@ -18,7 +18,7 @@ if USER == 'jose':
     sys.path.insert(0, str(VARIATION_DIR))
 elif USER == 'david':
 
-    BASE_DIR = HOME_DIR / '/home/david/Disco/population_ultimate'
+    BASE_DIR = HOME_DIR / '/home/david/Disco/population_paper/'
     MODULE_DIR = BASE_DIR / 'src'
     sys.path.insert(0, str(MODULE_DIR))
 
