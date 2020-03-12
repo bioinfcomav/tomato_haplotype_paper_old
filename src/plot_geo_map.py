@@ -121,9 +121,16 @@ def plot_geo_rank1_for_main_pops(samples):
     res = plot_geo_map(passports, axes=axes,
                        classification_rank=rank,
                        plot_sample_ids=False, longitude_range=(-116, -60),
-                       images=[{'ignore': False,
+                       images=[{'ignore': True,
                                'path': config.NE_BACKGROUND_TIFF,
                                'extent': [-180, 180, -90, 90],
+                               'zorder': 1,
+                               'hsv_modification': {'luminosity_addition': 0.2,
+                                                    'saturation_addition': -0.2}
+                               },
+                               {'ignore': False,
+                               'path': config.NE_BACKGROUND_CUT_PNG,
+                               'extent': (-111.5, -66.9, -19.2, 28.2),
                                'zorder': 1,
                                'hsv_modification': {'luminosity_addition': 0.2,
                                                     'saturation_addition': -0.2}
@@ -143,7 +150,6 @@ def plot_geo_rank1_for_main_pops(samples):
     axes.legend(handles, labels,
                 prop={'size': 17},
                 loc='lower left')
-
 
     fig.savefig(str(plot_path))
 
@@ -169,12 +175,20 @@ def plot_geo_supplemental_rank2_for_all_pops(passports):
                        draw_coastlines=draw_coastlines,
                        longitude_range=(-112, -81),
                        latitude_range=(9, 26),
-                       images=[{'ignore': not(plot_background),
-                               'path': config.NE_BACKGROUND_TIFF,
-                               'extent': [-180, 180, -90, 90],
-                               'zorder': 1,
-                               'hsv_modification': {'luminosity_addition': 0.2,
-                                                   'saturation_addition': -0.2}}],
+                       images=[{'ignore': True,
+                                'path': config.NE_BACKGROUND_TIFF,
+                                'extent': [-180, 180, -90, 90],
+                                'zorder': 1,
+                                'hsv_modification': {'luminosity_addition': 0.2,
+                                                    'saturation_addition': -0.2}},
+                               {'ignore': False,
+                                'path': config.NE_BACKGROUND_CUT_PNG,
+                                'extent': (-111.5, -66.9, -19.2, 28.2),
+                                'zorder': 1,
+                                'hsv_modification': {'luminosity_addition': 0.2,
+                                                     'saturation_addition': -0.2}
+                               }
+                              ],
                        )
     mesoamerican_axes.text(-110, 9, 'A', {'size': 25})
 
