@@ -168,7 +168,7 @@ def plot_geo_rank1_for_main_pops(passports):
 
 def plot_geo_supplemental_rank2_for_all_pops(passports):
 
-    colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
+    colors = ColorSchema(CLASSIFICATION_RANK2_COLORS)
 
     rank = 'rank2'
 
