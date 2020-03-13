@@ -42,6 +42,20 @@ GEOGRAPHIC_FIGURE_DIR = FIGURES_DIR / 'geographic_map'
 
 HYPOTHESIS_PNG = GEOGRAPHIC_FIGURE_DIR / 'hypothesis.png'
 
+CACHE_DIR = BASE_DIR / 'caches'
+CACHE_DIR.mkdir(exist_ok=True)
+
+TIER2_MAX_MAC = 3
+TIER2_MIN_CALLED = 0.90
+TIER2_MAX_HET = 0.10
+TIER2_MAX_HET_MIN_CALL_DP = 20
+TIER2_MAX_MAF = None
+TIER2_PCA_MAX_MAF = 0.99
+
+RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
+                   '/variations/pos', '/variations/ref',
+                   '/variations/alt']
+
 CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
 
 CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
