@@ -45,11 +45,11 @@ CLASSIFICATION_RANK2_COLORS = {
 'sp_pe_n_hills': '#8FBC8F',
 'sp_pe_n_inter-andean': '#20B2AA',
 
-'sp_ec_s_dry_forest': '#9ACD32',
+'sp_ec_s_dry_forest': '#9ae54a',
 'sp_ec_n_wet_forest': '#2bae2b',
 
-'sp_pe_desert_x_sp_pe_n_inter_andean': '#D8D8D8',
-'sp_pe_x_sp_ec': '#D8D8D8',
+'sp_pe_desert_x_sp_pe_n_inter_andean': '#6e6d6d',
+'sp_pe_x_sp_ec': '#9a9a9a',
 
 'slc_ec_n_600m': '#D2B48C',
 'slc_ec_c_800m': '#A46D5A',
@@ -58,18 +58,18 @@ CLASSIFICATION_RANK2_COLORS = {
 
 #'slc_co': '#f5ea6f',
 'slc_mx_sinaloa': '#ffa500',
-'slc_ca': '#ffee58',
+'slc_ca': '#f1fe53',
 'slc_mx': '#b3b300',
 
-'sp_x_sl': '#D8D8D8',
-'sp_x_sl_cherry_cultivars': '#D8D8D8',
+'sp_x_sl': '#e2e1e1',
+#'sp_x_sl_cherry_cultivars': '#FFFFFF',
 
 'slc_pe_n_400m': '#ffabb1',
 'slc_pe_n_1000m': '#FF69B4',
 'slc_pe_c': '#DDA0DD',
 
 'sll_mx': '#FF6347',
-'slc_world': '#DC143C',
+'slc_world': '#cd4ca8',
 
 #'sll_vint': '',
 #'sll_vint_small': '',
