@@ -141,6 +141,11 @@ PINK_BLUE_CMAP_R = LinearSegmentedColormap.from_list('rg',
                                                     pink_blue_list_r,
                                                     N=256)
 
+TERMINAL_RED = '\033[91m'
+TERMINAL_ENDC = '\033[0m'
+TERMINAL_BLUE = '\033[94m'
+
+
 class ColorSchema:
     def __init__(self, colors_used=None, wheel=COLOR_WHEEL):
         self._wheel = COLOR_WHEEL
