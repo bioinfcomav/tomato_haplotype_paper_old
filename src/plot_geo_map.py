@@ -18,32 +18,35 @@ from labels import get_long_label, LABELS
 from plot import get_sorted_legend_handles
 
 
-def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
+def plot_geo_map(samples, axes, classifications=None, color_schema=None,
+                 plot_sample_ids=False,
                  longitude_range=None, latitude_range=None,
                  images=None, draw_coastlines=False):
 
     if images is None:
         images = []
 
+
+    if classifications is None:
+        classifications = {}
+
+    if color_schema is None:
+        color_schema = ColorSchema()
+
     if draw_coastlines:
         axes.coastlines(zorder=1)
 
     axes.background_patch.set_visible(False)
-
-    if classification_rank=='rank1':
-        colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
-    else:
-        colors = ColorSchema(CLASSIFICATION_RANK2_COLORS)
 
     samples_to_plot = defaultdict(dict)
     for sample_id, sample_info in samples.items():
         if 'latitude' not in sample_info:
             continue
 
-        classification = str(sample_info.get('classification', {}).get(classification_rank))
+        classification = classifications.get(sample_id)
+    
         if classification not in samples_to_plot:
             samples_to_plot[classification] = {'samples': [], 'latitudes': [], 'longitudes': []}
-
         longitude = sample_info['longitude']
         latitude = sample_info['latitude']
 
@@ -64,7 +67,7 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
 
     for pop in sorted_pops:
         samples_info = samples_to_plot[pop]
-        color = colors[pop]
+        color = color_schema[pop]
         #color = modify_rgb_hex_color_hsv(color, luminosity_addition=0.2)
         border_color = modify_rgb_hex_color_hsv(color, luminosity_addition=-0.2)
 
@@ -105,7 +108,9 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
     return {'legend_handles_and_labels': legend_handles_and_labels}
 
 
-def plot_geo_rank1_for_main_pops(samples):
+def plot_geo_rank1_for_main_pops(passports):
+
+    colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
 
     rank = 'rank1'
 
@@ -113,7 +118,9 @@ def plot_geo_rank1_for_main_pops(samples):
                     'slc_ma', 'slc_pe', 'sp_pe', 'slc_co']}
     revelant_pops = revelant_pops[rank]
 
-    passports = {sample_id: samples_info for sample_id, samples_info in samples.items() if samples_info.get('classification', {}).get(rank) in revelant_pops}
+    passports = {sample_id: samples_info for sample_id, samples_info in passports.items() if samples_info.get('classification', {}).get(rank) in revelant_pops}
+
+    classifications = {sample_id: passport.get('classification', {}).get(rank) for sample_id, passport in passports.items()}
 
     plot_path = config.GEOGRAPHIC_FIGURE_DIR / f'geo_map.svg'
     hypothesis_path = config.HYPOTHESIS_PNG
@@ -123,7 +130,8 @@ def plot_geo_rank1_for_main_pops(samples):
     axes = fig.add_subplot(111, projection=ccrs.PlateCarree(), zorder=1)
 
     res = plot_geo_map(passports, axes=axes,
-                       classification_rank=rank,
+                       classifications=classifications,
+                       color_schema=colors,
                        plot_sample_ids=False, longitude_range=(-116, -60),
                        images=[{'ignore': True,
                                'path': config.NE_BACKGROUND_TIFF,
@@ -160,6 +168,12 @@ def plot_geo_rank1_for_main_pops(samples):
 
 def plot_geo_supplemental_rank2_for_all_pops(passports):
 
+    colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
+
+    rank = 'rank2'
+
+    classifications = {sample_id: passport.get('classification', {}).get(rank) for sample_id, passport in passports.items()}
+
     fig = Figure((10, 20))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
@@ -170,12 +184,13 @@ def plot_geo_supplemental_rank2_for_all_pops(passports):
     mesoamerican_axes = fig.add_subplot(grid_spec[0, 0], projection=ccrs.PlateCarree(), zorder=1)
 
     plot_path = config.GEOGRAPHIC_FIGURE_DIR / f'geo_map_supplemental.svg'
-    rank = 'rank2'
 
     plot_background = True
     draw_coastlines = False
 
-    res = plot_geo_map(passports, classification_rank=rank, axes=mesoamerican_axes,
+    res = plot_geo_map(passports, axes=mesoamerican_axes,
+                       classifications=classifications,
+                       color_schema=colors,
                        draw_coastlines=draw_coastlines,
                        longitude_range=(-112, -81),
                        latitude_range=(9, 26),
@@ -201,7 +216,9 @@ def plot_geo_supplemental_rank2_for_all_pops(passports):
     andean_axes = fig.add_subplot(grid_spec[:, 1], projection=ccrs.PlateCarree(), zorder=1)
     andean_axes.text(-72, 0.5, 'B', {'size': 25})
 
-    res = plot_geo_map(passports, classification_rank=rank, axes=andean_axes,
+    res = plot_geo_map(passports, axes=andean_axes,
+                       classifications=classifications,
+                       color_schema=colors,
                        draw_coastlines=draw_coastlines,
                        longitude_range=(-81, -70),
                        latitude_range=(-17, 1.5),
