@@ -45,3 +45,10 @@ HYPOTHESIS_PNG = GEOGRAPHIC_FIGURE_DIR / 'hypothesis.png'
 CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
 
 CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
+
+SNPS_DIR = BASE_DIR / 'variations'
+
+TIER1_PHASED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
+    '20190705.tier1.euchromatic.missing085_low_qual_09.phased.h5'
+TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
+    '20190705.tier1.euchromatic.missing085_low_qual_09.phased_and_imputed.h5'
