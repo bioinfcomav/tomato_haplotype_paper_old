@@ -11,7 +11,8 @@ from matplotlib.image import imread
 import cartopy.crs as ccrs
 
 import passport
-from colors import (CLASSIFICATION_COLORS, ColorSchema, modify_rgb_hex_color_hsv,
+from colors import (CLASSIFICATION_RANK1_COLORS, CLASSIFICATION_RANK2_COLORS,
+                    ColorSchema, modify_rgb_hex_color_hsv,
                     modify_rgb_image_hsv, rgb_image_to_rgb_0_1)
 from labels import get_long_label, LABELS
 from plot import get_sorted_legend_handles
@@ -29,7 +30,10 @@ def plot_geo_map(samples, classification_rank, axes, plot_sample_ids=False,
 
     axes.background_patch.set_visible(False)
 
-    colors = ColorSchema(CLASSIFICATION_COLORS)
+    if classification_rank=='rank1':
+        colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
+    else:
+        colors = ColorSchema(CLASSIFICATION_RANK2_COLORS)
 
     samples_to_plot = defaultdict(dict)
     for sample_id, sample_info in samples.items():
