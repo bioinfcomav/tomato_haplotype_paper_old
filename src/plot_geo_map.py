@@ -172,6 +172,10 @@ def plot_geo_supplemental_rank2_for_all_pops(passports):
 
     rank = 'rank2'
 
+    pops_to_exclude = ['slc_co', 'sll_vint', 'sll_vint_small', 'sll_moneymaker_ailsacraig',
+                       'sll_oldbrooks',  'sll_oldgerman', 'sll_modern']
+    passports = {sample_id: samples_info for sample_id, samples_info in passports.items() if samples_info.get('classification', {}).get('rank2') not in pops_to_exclude}
+
     classifications = {sample_id: passport.get('classification', {}).get(rank) for sample_id, passport in passports.items()}
 
     fig = Figure((10, 20))
