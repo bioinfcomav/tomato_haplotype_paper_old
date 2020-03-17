@@ -66,3 +66,5 @@ TIER1_PHASED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
     '20190705.tier1.euchromatic.missing085_low_qual_09.phased.h5'
 TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
     '20190705.tier1.euchromatic.missing085_low_qual_09.phased_and_imputed.h5'
+
+MULTIVAR_DIR = BASE_DIR / 'multivar'

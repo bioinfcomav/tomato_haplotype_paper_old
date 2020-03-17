@@ -246,8 +246,8 @@ def _select_var_with_lowest_missing_gts(variations):
     return selected_vars
 
 
-def purge_associated_variations(variations, cache_dir=None,
-                                difference_rate_allowed=0.05):
+def keep_the_var_with_lowest_missing_gts_per_haplo_block(variations, cache_dir=None,
+                                                         difference_rate_allowed=0.05):
 
     if cache_dir:
         key = ','.join(sorted(variations.samples))

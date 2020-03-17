@@ -84,6 +84,10 @@ COLOR_WHEEL = ['#ff6347', '#57acff', '#8FBC8F', '#FF69B4', '#CD5C5C',
                '#80ced6', '#808000', '#ba68c8', '#FFA07A', '#92a8d1',
                '#3CB371', '#D2B48C', '#667292']
 
+LIGHT_GRAY = [0.9] * 3
+DARK_GRAY = [0.5] * 3
+BLACK = [0] * 3
+
 color_to_1_0 = lambda x: x / 255
 hex_to_rgb_1_0 = lambda h: tuple(int(h[i:i+2], 16) / 255 for i in (1, 3, 5))
 
