@@ -80,7 +80,7 @@ if __name__ == '__main__':
                       chunk_size=600,
                       samples_to_remove=list(low_quality_samples),
                       min_gt_dp_setter=min_gt_dp,
-                      max_mac=max_mac,
+                      filter_out_vars_with_non_major_allele_count_le=max_mac,
                       min_called=min_called,
                       max_het=max_het,
                       min_call_for_het=max_het_min_call_dp,
