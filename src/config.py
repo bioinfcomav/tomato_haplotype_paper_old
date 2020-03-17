@@ -48,7 +48,11 @@ CACHE_DIR.mkdir(exist_ok=True)
 SNPS_DIR = BASE_DIR / 'snps'
 FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 
+#ORIG_H5 = SNPS /
 #TIER1_H5 = SNPS /
+#/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5
+
+/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5
 
 LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.85
 LOW_QUAL_N_BINS = 60

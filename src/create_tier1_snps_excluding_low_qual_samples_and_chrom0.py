@@ -29,8 +29,8 @@ if __name__ == '__main__':
     debug = True
     use_low_qual_cache = False
 
-    orig_vars = VariationsH5(str(config.TIER1_H5), 'r')
-    out_variations = VariationsH5(str(out_variations_path), 'w')
+    orig_vars = VariationsH5(str(config.ORIG_H5), 'r')
+    out_variations = VariationsH5(str(config.TIER1_H5), 'w')
 
     filtering_stats_dir = config.FILTERING_STATS_DIR
     filtering_stats_dir.mkdir(exist_ok=True)
