@@ -26,8 +26,8 @@ def take_some_snps(snps, n_snps, n_chunks=100, kept_fields=None):
 
 if __name__ == '__main__':
     
-    debug = True
-    use_low_qual_cache = False
+    debug = False
+    use_low_qual_cache = True
 
     orig_vars = VariationsH5(str(config.ORIG_H5), 'r')
     out_variations = VariationsH5(str(config.TIER1_H5), 'w')
@@ -35,9 +35,9 @@ if __name__ == '__main__':
     filtering_stats_dir = config.FILTERING_STATS_DIR
     filtering_stats_dir.mkdir(exist_ok=True)
     tier1_stats_dir = filtering_stats_dir / 'tier1'
-    low_qual_samples_stats_dir.mkdir(exist_ok=True)
-    low_qual_samples_stats_dir = filtering_stats_dir / 'low_qual_samples'
     tier1_stats_dir.mkdir(exist_ok=True)
+    low_qual_samples_stats_dir = filtering_stats_dir / 'low_qual_samples'
+    low_qual_samples_stats_dir.mkdir(exist_ok=True)
     missing_rate_hist_path = low_qual_samples_stats_dir / 'sample_called_rate.png'
 
     min_gt_dp = config.TIER1_MIN_GT_DP
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     max_het = config.TIER1_MAX_HET
     max_het_min_call_dp = config.TIER1_MAX_HET_MIN_CALL_DP
     
-    #low_quality_samples_txt = config.LOW_QUAL_SAMPLES_085
+    low_quality_samples_txt = config.LOW_QUAL_SAMPLES_085
     kept_fields = config.RELEVANT_FIELDS
     min_called_rate_for_quality_samples = config.LOW_QUAL_MIN_SAMPLE_CALLED_RATE
     n_bins = config.LOW_QUAL_N_BINS
@@ -95,4 +95,4 @@ if __name__ == '__main__':
                       verbose=True)
 
     out_variations.samples = [sample.lower() for sample in out_variations.samples]
-    print("output samples: ", len(out_variations), out_variations)
+    print("output samples: ", len(out_variations.samples))

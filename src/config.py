@@ -23,7 +23,16 @@ elif USER == 'david':
     sys.path.insert(0, str(MODULE_DIR))
 
     DEVEL_DIR = HOME_DIR / '/home/david/Development'
+    VARIATION_DIR = DEVEL_DIR / 'variation5'
+    sys.path.insert(0, str(VARIATION_DIR))
 
+elif USER == 'jope':
+
+    BASE_DIR = HOME_DIR / '/home/jope/tomato/ultimate_paper'
+    MODULE_DIR = BASE_DIR / 'src'
+    sys.path.insert(0, str(MODULE_DIR))
+
+    DEVEL_DIR = HOME_DIR / 'devel3'
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
@@ -48,11 +57,10 @@ CACHE_DIR.mkdir(exist_ok=True)
 SNPS_DIR = BASE_DIR / 'snps'
 FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 
-#ORIG_H5 = SNPS /
-#TIER1_H5 = SNPS /
-#/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5
+ORIG_H5 = Path('/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5')
+TIER1_H5 = SNPS_DIR / 'tomato_genomic-20200204.tier1.h5'
 
-/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5
+LOW_QUAL_SAMPLES_085 = SOURCE_DATA_DIR / 'low_quality_samples_085.txt'
 
 LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.85
 LOW_QUAL_N_BINS = 60

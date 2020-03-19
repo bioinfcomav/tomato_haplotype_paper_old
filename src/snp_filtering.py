@@ -15,7 +15,7 @@ from variation.variations.filters import (SampleFilter, FLT_VARS, COUNTS,
                                           ObsHetFilter, VarsSamplingFilter,
                                           filter_samples_by_missing_rate,
                                           VariableAndNotAllMissing,
-                                          MafFilter,
+                                          MafFilter, DuplicatedAlleleFixer,
                                           LowDPGTsToMissingSetter)
 from variation.plot import plot_histogram
 from variation.variations import VariationsH5, VariationsArrays
@@ -44,20 +44,22 @@ def filter_variations(variations, samples_to_keep=None,
                       out_variations=None, max_chunks_to_process=None,
                       kept_fields=None, remove_non_variable_snvs=False,
                       hist_path=None, verbose=False,
-                      ignore_sampling_rate_for_cache=False):
+                      ignore_sampling_rate_for_cache=False,
+                      fix_duplicated_alleles=False):
 
     if cache_dir:
         key = ','.join(sorted(variations.samples))
         key += str(variations.num_variations)
         key += str(samples_to_keep)
         key += str(samples_to_remove)
-        key += str(max_mac)
+        key += str(filter_out_vars_with_non_major_allele_count_le)
         key += str(max_maf)
         key += str(min_called)
         key += str(max_het)
         key += str(regions_to_keep)
         key += str(regions_to_remove)
         key += str(min_call_for_het)
+        key += str(fix_duplicated_alleles)
         if not ignore_sampling_rate_for_cache:
             key += str(sampling_rate)
         key = hashlib.md5(key.encode()).hexdigest()
@@ -92,20 +94,24 @@ def filter_variations(variations, samples_to_keep=None,
         flt = LowDPGTsToMissingSetter(min_dp=min_gt_dp_setter)
         pipeline.append(flt, id_='min_gt_dp_setter')
 
+    if fix_duplicated_alleles:
+        flt = DuplicatedAlleleFixer()
+        pipeline.append(flt, id_='fix_duplicated_alleles')
+
     if remove_non_variable_snvs:
         flt = VariableAndNotAllMissing()
         pipeline.append(flt, id_='variable_and_not_all_missing')
 
     do_histogram = bool(hist_path)
 
-    if max_mac is not None:
+    if filter_out_vars_with_non_major_allele_count_le is not None:
         if samples_to_keep:
-            max_mac = len(samples_to_keep) - max_mac
+            filter_out_vars_with_non_major_allele_count_le = len(samples_to_keep) - filter_out_vars_with_non_major_allele_count_le
         elif samples_to_remove:
-            max_mac = len(variations.samples) - len(samples_to_remove) - max_mac
+            filter_out_vars_with_non_major_allele_count_le = len(variations.samples) - len(samples_to_remove) - filter_out_vars_with_non_major_allele_count_le
         else:
-            max_mac = len(variations.samples) - max_mac
-        flt = MacFilter(max_mac=max_mac,
+            filter_out_vars_with_non_major_allele_count_le = len(variations.samples) - filter_out_vars_with_non_major_allele_count_le
+        flt = MacFilter(max_mac=filter_out_vars_with_non_major_allele_count_le,
                         do_histogram=do_histogram,
                         do_filtering=True)
         pipeline.append(flt, id_='mac')
@@ -156,7 +162,7 @@ def filter_variations(variations, samples_to_keep=None,
 
     if do_histogram:
         hist_param_map = {'mac': {'hrange': None,
-                                  'vlines': max_mac},
+                                  'vlines': filter_out_vars_with_non_major_allele_count_le},
                           'called_rate': {'hrange': None,
                                           'vlines': min_called},
                           'obs_het': {'hrange': None,
