@@ -59,10 +59,12 @@ FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 
 ORIG_H5 = Path('/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5')
 TIER1_H5 = SNPS_DIR / 'tomato_genomic-20200204.tier1.h5'
+WORKING_H5 = SNPS_DIR / 'tomato_genomic-20200204.working_set.h5'
 
+LOW_QUAL_SAMPLES_090 = SOURCE_DATA_DIR / 'low_quality_samples_090.txt'
 LOW_QUAL_SAMPLES_085 = SOURCE_DATA_DIR / 'low_quality_samples_085.txt'
 
-LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.85
+LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.9
 LOW_QUAL_N_BINS = 60
 
 TIER1_MIN_GT_DP = 5
