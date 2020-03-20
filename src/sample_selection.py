@@ -3,9 +3,6 @@ from collections import defaultdict
 
 from pop_building import get_classification_from_passport
 
-KEEP = 'keep'
-REMOVE = 'remove'
-
 
 def get_samples_for_criteria(all_samples, sample_passports, criteria,
                              skip_samples_with_no_passport=False):

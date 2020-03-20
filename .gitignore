@@ -2,3 +2,5 @@ src/__pycache__
 variations
 caches/
 multivar/
+pcoa/
+haplo_pcoa/

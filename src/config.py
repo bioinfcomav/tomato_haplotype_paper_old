@@ -6,6 +6,15 @@ import getpass
 HOME_DIR = Path.home()
 USER = getpass.getuser()
 
+FINAL_VERSION = False
+
+if FINAL_VERSION:
+    SKIP_SAMPLES_WITH_NO_PASSPORT = False
+    SKIP_SAMPLES_WITH_NO_GENOTYPE = False
+else:
+    SKIP_SAMPLES_WITH_NO_PASSPORT = True
+    SKIP_SAMPLES_WITH_NO_GENOTYPE = True
+
 if USER == 'jose':
     
     ANALYSES_DIR = HOME_DIR / 'magnet/analyses/'
@@ -88,6 +97,12 @@ CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
 
 CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
 
+RANK1 = 'classification', 'rank1'
+RANK2 = 'classification', 'rank2'
+KEEP = 'keep'
+REMOVE = 'remove'
+ALL_POPS = 'all_pops'
+
 SNPS_DIR = BASE_DIR / 'variations'
 
 TIER1_PHASED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
@@ -96,3 +111,8 @@ TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
     '20190705.tier1.euchromatic.missing085_low_qual_09.phased_and_imputed.h5'
 
 MULTIVAR_DIR = BASE_DIR / 'multivar'
+
+HAPLO_PCOA_DIR = BASE_DIR / 'haplo_pcoa'
+
+HAPLO_WIN_SIZE = 5e5
+MIN_NUM_SNPS_FOR_HAPLO_IN_PCA = 20

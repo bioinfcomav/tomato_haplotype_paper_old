@@ -1,7 +1,7 @@
 
-from collections import defaultdict
+import config
 
-ALL_POPS = 'all_pops'
+from collections import defaultdict
 
 
 def get_classification_from_passport(classification_key_path, passport):
@@ -64,7 +64,7 @@ def get_pops(pops_descriptions, passports, pops_to_merge=None):
     for classification_key_path, wanted_pops in pops_descriptions.items():
         classifications = classifications_by_key_path[classification_key_path]
 
-        if wanted_pops == ALL_POPS:
+        if wanted_pops == config.ALL_POPS:
             wanted_pops = set(classifications.values())
 
         for sample_id, pop in classifications.items():
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, sample_passports)
     assert pops == {None: ['sample4', 'sample5']}
 
-    pops_descriptions = {rank1: ALL_POPS}
+    pops_descriptions = {rank1: config.ALL_POPS}
     pops = get_pops(pops_descriptions, sample_passports)
     assert pops == {'pop1': ['sample1', 'sample2'], 'pop2': ['sample3'], None: ['sample4', 'sample5']}
 
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, sample_passports)
     assert pops == {'cultivated': ['sample5']}
 
-    pops_descriptions = {rank1: ALL_POPS}
+    pops_descriptions = {rank1: config.ALL_POPS}
     try:
         pops = get_pops(pops_descriptions, sample_passports,
                         pops_to_merge={'merged_pop':['pop1', 'pop2'], 'pop1': ['pop1']})
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     except ValueError:
         pass
 
-    pops_descriptions = {rank1: ALL_POPS}
+    pops_descriptions = {rank1: config.ALL_POPS}
     pops = get_pops(pops_descriptions, sample_passports,
                     pops_to_merge={'merged_pop':['pop1', 'pop2'] }  )
     assert pops == {'merged_pop': ['sample1', 'sample2', 'sample3'], None: ['sample4', 'sample5']}

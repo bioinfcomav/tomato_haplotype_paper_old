@@ -13,28 +13,28 @@ from variation.variations import VariationsH5
 from variation.variations.filters import VarsSamplingFilter2, FLT_VARS
 
 from passport import get_sample_passports
-from sample_selection import get_samples_for_criteria, KEEP, REMOVE
+from sample_selection import get_samples_for_criteria
 from snp_filtering import (filter_variations,
                            keep_most_variable_snp_per_window,
                            keep_the_var_with_lowest_missing_gts_per_haplo_block)
 import colors
 from plot import plot_var_density_along_genome
 from pop_distances import calc_kosman_dists
-from multivar import do_pcoa_from_dists, write_pca_curlywhirly_file
-
-RANK1 = 'classification', 'rank1'
-RANK2 = 'classification', 'rank2'
+from pca import do_pcoa_from_dists, write_pca_curlywhirly_file
 
 
+def get_sample_selection_criteria():
 
-def get_sample_selection_criteria(all_samples):
+    rank1 = config.RANK1
+    keep = config.KEEP
+    remove = config.REMOVE
 
     criteria = []
     samples_to_remove = []
     samples_to_keep = ['hola']
 
     if True:
-        criteria.append((RANK1, ['sp_pe', 'sp_ec', 'sp_inter-andean'], KEEP))
+        criteria.append((rank1, ['sp_pe', 'sp_ec', 'sp_inter-andean'], KEEP))
         #criteria.append((RANK2, ['slc_ecu_big'], REMOVE))
 
     return {'criteria': criteria, 'samples_to_remove': samples_to_remove,
@@ -177,12 +177,11 @@ if __name__ == '__main__':
     all_samples = variations.samples
     print(variations.num_variations)
 
-    criteria = get_sample_selection_criteria(all_samples)
-
+    criteria = get_sample_selection_criteria()
     samples_to_use = get_samples_for_criteria(all_samples,
                                               passports,
                                               criteria,
-                                              skip_samples_with_no_passport=True)
+                                              skip_samples_with_no_passport=config.SKIP_SAMPLES_WITH_NO_PASSPORT)
     
     if filter_by_maf:
         print(colors.TERMINAL_BLUE + 'Doing a MAF filtering you are reducing the distance of the samples that do not belong to a well represented population' + colors.TERMINAL_ENDC)
