@@ -2,17 +2,7 @@
 import numpy
 
 from matplotlib.colors import LinearSegmentedColormap, rgb_to_hsv, hsv_to_rgb
-{
-                         'slc_ma': '#20B2AA', # lightseagreen
-                         'sp_ec': '#808000', # olive
-                         'sp_pe': '#556B2F',   # darkolive
-                         'slc_co': '#2bae2b',
-                         'sp_pe_inter-andean': '#36835e', 
 
-                         'sll_mx': '#FF6347', #tomato
-                        'slc_ec': '#ffabb1',
-                        'slc_pe': '#dca675'
-}
 
 CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'slc_ca_small': '#FF69B4',
@@ -78,6 +68,8 @@ CLASSIFICATION_RANK2_COLORS = {
 #'sll_oldgerman': '',
 #'sll_modern': ''
 }
+
+POP_COLORS = {**CLASSIFICATION_RANK1_COLORS, **CLASSIFICATION_RANK2_COLORS}
 
 SMALL_COLOR_WHEEL = ['#57acff', '#ff6347', '#3CB371']
 COLOR_WHEEL = ['#ff6347', '#57acff', '#8FBC8F', '#FF69B4', '#CD5C5C',
