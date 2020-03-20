@@ -1,6 +1,8 @@
 
 from collections import defaultdict
 
+from pop_building import get_classification_from_passport
+
 KEEP = 'keep'
 REMOVE = 'remove'
 
@@ -35,12 +37,10 @@ def get_samples_for_criteria(all_samples, sample_passports, criteria,
         keep_it = False
         remove_it = False
         for criterion in criteria:
-            keys, pops, action = criterion
-            passport_item = passport
-            for key in keys:
-                passport_item = passport_item[key]
-            pop = passport_item
-            pops_seen[keys].add(pop)
+            classification_key_path, pops, action = criterion
+            pop = get_classification_from_passport(classification_key_path, passport)
+
+            pops_seen[classification_key_path].add(pop)
 
             if pop in pops:
                 if action == KEEP:
@@ -65,3 +65,24 @@ def get_samples_for_criteria(all_samples, sample_passports, criteria,
         raise ValueError('No samples left for the given criteria')
 
     return samples
+
+if __name__ == '__main__':
+
+    passports = {'sample1': {'genetic_classification': {'rank1': 'pop1'}},
+                 'sample2': {'genetic_classification': {'rank1': 'pop1'}},
+                 'sample3': {'genetic_classification': {'rank1': 'pop2'}},
+                 'sample4': {'genetic_classification': {'rank2': 'sub_pop1'}},
+                 'sample5': {'morphological_classification': 'cultivated'}
+                        }
+
+    rank1 = 'genetic_classification', 'rank1'
+    criteria = {'criteria': [(rank1, ['pop1'], KEEP)]}
+
+    all_samples = list(passports.keys())
+
+    samples_to_use = get_samples_for_criteria(all_samples,
+                                              passports,
+                                              criteria,
+                                              skip_samples_with_no_passport=True)
+
+    assert sorted(samples_to_use) == ['sample1', 'sample2']
