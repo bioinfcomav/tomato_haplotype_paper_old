@@ -6,15 +6,6 @@ import getpass
 HOME_DIR = Path.home()
 USER = getpass.getuser()
 
-FINAL_VERSION = False
-
-if FINAL_VERSION:
-    SKIP_SAMPLES_WITH_NO_PASSPORT = False
-    SKIP_SAMPLES_WITH_NO_GENOTYPE = False
-else:
-    SKIP_SAMPLES_WITH_NO_PASSPORT = True
-    SKIP_SAMPLES_WITH_NO_GENOTYPE = True
-
 if USER == 'jose':
     
     ANALYSES_DIR = HOME_DIR / 'magnet/analyses/'
@@ -67,13 +58,14 @@ SNPS_DIR = BASE_DIR / 'snps'
 FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 
 ORIG_H5 = Path('/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5')
-TIER1_H5 = SNPS_DIR / 'tomato_genomic-20200204.tier1.h5'
+TIER1_H5_lowq_085 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_085.h5'
+TIER1_H5_lowq_090 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_090.h5'
 WORKING_H5 = SNPS_DIR / 'tomato_genomic-20200204.working_set.h5'
 
 LOW_QUAL_SAMPLES_090 = SOURCE_DATA_DIR / 'low_quality_samples_090.txt'
 LOW_QUAL_SAMPLES_085 = SOURCE_DATA_DIR / 'low_quality_samples_085.txt'
 
-LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.9
+LOW_QUAL_MIN_SAMPLE_CALLED_RATE = 0.85
 LOW_QUAL_N_BINS = 60
 
 TIER1_MIN_GT_DP = 5
@@ -99,12 +91,6 @@ CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
 
 CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
 
-RANK1 = 'classification', 'rank1'
-RANK2 = 'classification', 'rank2'
-KEEP = 'keep'
-REMOVE = 'remove'
-ALL_POPS = 'all_pops'
-
 SNPS_DIR = BASE_DIR / 'variations'
 
 TIER1_PHASED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
@@ -113,8 +99,3 @@ TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085 = SNPS_DIR / \
     '20190705.tier1.euchromatic.missing085_low_qual_09.phased_and_imputed.h5'
 
 MULTIVAR_DIR = BASE_DIR / 'multivar'
-
-HAPLO_PCOA_DIR = BASE_DIR / 'haplo_pcoa'
-
-HAPLO_WIN_SIZE = 5e5
-MIN_NUM_SNPS_FOR_HAPLO_IN_PCA = 20

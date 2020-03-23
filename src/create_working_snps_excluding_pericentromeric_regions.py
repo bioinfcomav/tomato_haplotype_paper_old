@@ -1,12 +1,13 @@
 import config
 
+from tomato_genome import get_pericentromic_regions
 from snp_filtering import filter_variations
 from variation.variations import VariationsH5
 
 
 if __name__ == '__main__':
     
-    input_vars = VariationsH5(str(config.TIER1_H5), 'r')
+    input_vars = VariationsH5(str(config.TIER1_H5_lowq_085), 'r')
     output_vars = VariationsH5(str(config.WORKING_H5), 'w')
 
     min_called = config.TIER2_MIN_CALLED
