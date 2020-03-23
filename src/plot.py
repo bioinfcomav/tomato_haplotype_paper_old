@@ -112,3 +112,84 @@ def draw_chromosome_lines(axes, coord_converter, min_y=None, max_y=None):
     axes.set_xticks(xticks)
 
     axes.grid(False)
+
+
+def plot_histogram(vector, plot_path, labels=None, kde=False, line=True, axis_lims=None, n_bins=20):
+
+    if labels is None:
+        labels = {}
+
+    vector = numpy.array(vector)
+    vector = vector[numpy.logical_not(numpy.isnan(vector))]
+
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+
+    range_ = None
+    hist_kws = {}
+    if axis_lims:
+        if 'x_lim' in axis_lims:
+            range_ = axis_lims['x_lim']
+            hist_kws = {"range": range_}
+
+    seaborn.distplot(vector, ax=axes, kde=kde, bins=n_bins, hist_kws=hist_kws)
+
+    if line:
+        if range_:
+            counts, bin_edges = numpy.histogram(vector, bins=n_bins, range=range_)
+        else:
+            counts, bin_edges = numpy.histogram(vector, bins=n_bins)
+        x_values = (bin_edges[:-1] + bin_edges[1:]) / 2
+        axes.plot(x_values, counts)
+
+    if 'x_axis' in labels:
+        axes.set_xlabel(labels['x_axis'])
+    if 'y_axis' in labels:
+        axes.set_ylabel(labels['y_axis'])
+
+    if axis_lims:
+        if 'x_lim' in axis_lims:
+            axes.set_xlim(axis_lims['x_lim'])
+        if 'y_lim' in axis_lims:
+            axes.set_ylim(axis_lims['y_lim'])
+
+    fig.tight_layout()
+    fig.savefig(str(plot_path))
+
+
+def plot_scatter(x_values, y_values, plot_path, labels=None, fit_reg=False,
+                 point_labels=None, color=None, alpha=1):
+
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+
+    axes.set_facecolor('w')
+    axes.grid(False)
+    axes.spines['left'].set_linestyle("-")
+    axes.spines['left'].set_color("black")
+    axes.spines['bottom'].set_linestyle("-")
+    axes.spines['bottom'].set_color("black")
+
+    if color:
+        seaborn.regplot(x_values, y_values, ax=axes, fit_reg=fit_reg, color=color, scatter_kws={'alpha':alpha})
+    else:
+        seaborn.regplot(x_values, y_values, ax=axes, fit_reg=fit_reg, scatter_kws={'alpha':alpha})
+
+    if point_labels is not None:
+        for label, x, y in zip(point_labels, x_values, y_values):
+            axes.annotate(label, (x, y))
+
+    if labels:
+        if 'x_axis' in labels:
+            axes.set_xlabel(labels['x_axis'])
+        if 'y_axis' in labels:
+            axes.set_ylabel(labels['y_axis'])
+
+    axes.set_ylim((numpy.amin(y_values), numpy.amax(y_values)))
+    axes.set_xlim((numpy.amin(x_values), numpy.amax(x_values)))
+
+    fig.tight_layout()
+    fig.savefig(str(plot_path))
+    return {'axes': axes, 'fig': fig}
