@@ -2,13 +2,15 @@
 import config
 
 from pprint import pprint
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 import numpy
 import pandas
 from scipy.spatial import distance
 
 from sklearn.cluster import DBSCAN, AgglomerativeClustering, OPTICS
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.ensemble import IsolationForest
 
 from variation.variations import VariationsH5
 
@@ -27,10 +29,10 @@ def classify_haplo_pcoas(aligned_pcoas_df, dist_threshold=None):
         thinning_result = thin_close_dots(aligned_pcoas_df, dist_threshold)
         pcoas_to_classify = thinning_result['thinned_dots']
 
-    method = 'agglomerative'
+    method = 'optics'
 
     if method == 'dbscan':
-        clusterer = DBSCAN(eps=0.009)
+        clusterer = DBSCAN(eps=0.01)
     elif method == 'agglomerative':
         clusterer = AgglomerativeClustering(n_clusters=3)
     elif method == 'agglomerative2':
@@ -97,17 +99,33 @@ def thin_close_dots(dots_in_space_df, dist_threshold):
                 thinned_dots_ids.append(row_id)
 
     thinned_dots = pandas.DataFrame(thinned_dots, index=thinned_dots_ids)
+    print('Num. haplos after thinning: ', thinned_dots.shape[0])
     return {'thinned_dots': thinned_dots,
             'closest_remaining_dot': closest_remaining_dot}
+
+
+def detect_outliers(aligned_pcoas_df):
+    method = 'isolation_forest'
+    if method == 'lof':
+        classifier = LocalOutlierFactor(n_neighbors=100)
+    elif method == 'isolation_forest':
+        classifier = IsolationForest(contamination=0.01, behaviour='deprecated')
+
+    prediction = classifier.fit_predict(aligned_pcoas_df.values)
+    is_outlier = prediction == -1
+
+    outliers = set(aligned_pcoas_df[is_outlier].index)
+    non_outliers = set(aligned_pcoas_df.index).difference(outliers)
+    return {'outliers': outliers, 'non_outliers': non_outliers}
 
 
 if __name__ == '__main__':
     debug = True
 
-    thin_dist_threshold = 0.005
+    thin_dist_threshold = 0.0005
 
     if debug:
-        num_wins_to_process = 2
+        num_wins_to_process = 20
     else:
         num_wins_to_process = None
 
@@ -135,7 +153,25 @@ if __name__ == '__main__':
 
     aligned_pcoas_df = stack_aligned_pcas_projections(aligned_pcoas)
 
-    res = classify_haplo_pcoas(aligned_pcoas_df, thin_dist_threshold)
+    print('total num. haplos: ', aligned_pcoas_df.shape[0])
+
+    outlier_res = detect_outliers(aligned_pcoas_df)
+    print('num. outliers: ', len(outlier_res['outliers']))
+    aligned_pcoas_with_no_outliers = aligned_pcoas_df.loc[list(outlier_res['non_outliers'])]
+
+    res = classify_haplo_pcoas(aligned_pcoas_with_no_outliers, thin_dist_threshold)
+    non_outlier_classification = res['classification_per_haplo_id']
+
+    outliers = outlier_res['outliers']
+    classification_per_haplo_id = []
+    for haplo_id in aligned_pcoas_df.index:
+        klass = 'outlier' if haplo_id in outliers else non_outlier_classification.loc[haplo_id]
+        classification_per_haplo_id.append(klass)
+    classification_per_haplo_id = pandas.Series(classification_per_haplo_id,
+                                                index=aligned_pcoas_df.index)
+
+    print('classification counts')
+    print(Counter(classification_per_haplo_id.values))
 
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
     pop_classification = {}
@@ -143,12 +179,8 @@ if __name__ == '__main__':
         sample = haplo_id_str.split('%')[2]
         pop_classification[haplo_id_str] = pops_for_samples[sample]
 
-    haplotype_clases = set(res['classification_per_haplo_id'].values)
-    print(haplotype_clases)
-    print('Number of haplotype classes: ', len(haplotype_clases))
-
     categories = {'population': pop_classification,
-                  'classification': res['classification_per_haplo_id']}
+                  'classification': classification_per_haplo_id}
     out_dir = config.HAPLO_PCOA_DIR
     out_dir.mkdir(exist_ok=True)
     path = out_dir / 'pcoas_along_the_genome.curly'
