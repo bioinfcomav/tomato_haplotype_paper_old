@@ -4,7 +4,9 @@ import config
 from pprint import pprint
 from collections import defaultdict
 
+import numpy
 import pandas
+from scipy.spatial import distance
 
 from sklearn.cluster import DBSCAN, AgglomerativeClustering, OPTICS
 
@@ -17,7 +19,13 @@ from procrustes import align_pcas_using_procrustes
 from pca import write_curlywhirly_file
 
 
-def classify_haplo_pcoas(aligned_pcoas_df):
+def classify_haplo_pcoas(aligned_pcoas_df, dist_threshold=None):
+
+    if dist_threshold is None:
+        pcoas_to_classify = aligned_pcoas_df
+    else:
+        thinning_result = thin_close_dots(aligned_pcoas_df, dist_threshold)
+        pcoas_to_classify = thinning_result['thinned_dots']
 
     method = 'agglomerative'
 
@@ -31,19 +39,75 @@ def classify_haplo_pcoas(aligned_pcoas_df):
     elif method == 'optics':
         clusterer = OPTICS(min_samples=0.1, max_eps=0.1)
 
-    clustering = clusterer.fit(aligned_pcoas_df.values)
+    clustering = clusterer.fit(pcoas_to_classify.values)
 
-    classification = pandas.Series(clustering.labels_, index=aligned_pcoas_df.index)
+    classification = clustering.labels_
+    classification_index = pcoas_to_classify.index
+    classification = pandas.Series(classification, index=classification_index)
+
+    if dist_threshold is not None:
+        closest_remaining_dot = thinning_result['closest_remaining_dot']
+        classification = [classification.loc[closest_remaining_dot.get(haplo_idx, haplo_idx)] for haplo_idx in aligned_pcoas_df.index]
+
+        classification = pandas.Series(classification, index=aligned_pcoas_df.index)
 
     return {'classification_per_haplo_id': classification}
 
 
-if __name__ == '__main__':
+def calc_ecuclidean_dist(dots1, dots2):
+    sum_ = None
+    for dim in range(dots1.shape[1]):
 
+        this_dim_res = numpy.power(dots1[:, dim] - dots2[:, dim], 2)
+
+        if sum_ is None:
+            sum_ = this_dim_res
+        else:
+            sum_ += this_dim_res
+
+    dists = numpy.sqrt(sum_)
+    return dists
+
+
+def thin_close_dots(dots_in_space_df, dist_threshold):
+    
+    thinned_dots = None
+    thinned_dots_ids = []
+    closest_remaining_dot = {}
+    for row_id, row in dots_in_space_df.iterrows():
+        #print(row_id)
+        #print(row.index, row.values)
+        if thinned_dots is None:
+            thinned_dots = row.values
+            thinned_dots = thinned_dots.reshape((1, thinned_dots.shape[0]))
+            thinned_dots_ids.append(row_id)
+        else:
+            n_dots = n_dots = thinned_dots.shape[0]
+            repeated_dot = numpy.tile(row.values, n_dots).reshape(n_dots, thinned_dots.shape[1])
+            dists = calc_ecuclidean_dist(repeated_dot, thinned_dots)
+
+            closest_dot_min_dist_idx = numpy.argmin(dists)
+            min_dist = dists[closest_dot_min_dist_idx]
+
+            if min_dist < dist_threshold:
+                closest_dot_min_dist_id = thinned_dots_ids[closest_dot_min_dist_idx]
+                closest_remaining_dot[row_id] = closest_dot_min_dist_id
+            else:
+                thinned_dots = numpy.vstack([thinned_dots , [row.values]])
+                thinned_dots_ids.append(row_id)
+
+    thinned_dots = pandas.DataFrame(thinned_dots, index=thinned_dots_ids)
+    return {'thinned_dots': thinned_dots,
+            'closest_remaining_dot': closest_remaining_dot}
+
+
+if __name__ == '__main__':
     debug = True
 
+    thin_dist_threshold = 0.005
+
     if debug:
-        num_wins_to_process = 4
+        num_wins_to_process = 2
     else:
         num_wins_to_process = None
 
@@ -71,13 +135,13 @@ if __name__ == '__main__':
 
     aligned_pcoas_df = stack_aligned_pcas_projections(aligned_pcoas)
 
+    res = classify_haplo_pcoas(aligned_pcoas_df, thin_dist_threshold)
+
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
     pop_classification = {}
     for haplo_id_str in aligned_pcoas_df.index:
         sample = haplo_id_str.split('%')[2]
         pop_classification[haplo_id_str] = pops_for_samples[sample]
-
-    res = classify_haplo_pcoas(aligned_pcoas_df)
 
     haplotype_clases = set(res['classification_per_haplo_id'].values)
     print(haplotype_clases)
