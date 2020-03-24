@@ -7,7 +7,7 @@ from variation.variations import VariationsH5
 
 if __name__ == '__main__':
     
-    input_vars = VariationsH5(str(config.TIER1_H5_lowq_085), 'r')
+    input_vars = VariationsH5(str(config.TIER1_H5_LOWQ_085), 'r')
     output_vars = VariationsH5(str(config.WORKING_H5), 'w')
 
     min_called = config.TIER2_MIN_CALLED

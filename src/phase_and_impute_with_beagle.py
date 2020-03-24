@@ -20,7 +20,7 @@ from variation.variations.pipeline import Pipeline
 import check_imputation
 
 BEAGLE_JAR = '/home/jope/soft/beagle.12Jul19.0df.jar'
-BEABLE_MEM = 100
+BEAGLE_MEM = 100
 DEFAULT_NE = 100000
 
 
@@ -54,7 +54,7 @@ def _phase_and_impute_vcf_with_beagle(vcf_path, beagle_out_base_path,
                                       ap=True, gp=True, reuse_files=False):
 
     cmd = ['java']
-    cmd.append(f'-Xmx{BEABLE_MEM}g')
+    cmd.append(f'-Xmx{BEAGLE_MEM}g')
     cmd.extend(['-jar', BEAGLE_JAR])
     cmd.append(f'map={config.BEAGLE_MAP}')
     cmd.append(f'ne={DEFAULT_NE}')
