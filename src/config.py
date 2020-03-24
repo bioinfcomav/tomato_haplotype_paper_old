@@ -68,10 +68,11 @@ CACHE_DIR.mkdir(exist_ok=True)
 SNPS_DIR = BASE_DIR / 'snps'
 FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 IMPUTATION_DIR = BASE_DIR / 'imputation'
+BEAGLE_MAP = SOURCE_DATA_DIR / 'snps_interpolated.beagle.map'
 
 ORIG_H5 = Path('/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5')
-TIER1_H5_lowq_085 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_085.h5'
-TIER1_H5_lowq_090 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_090.h5'
+TIER1_H5_LOWQ_085 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_085.h5'
+TIER1_H5_LOWQ_090 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_090.h5'
 WORKING_H5 = SNPS_DIR / 'tomato_genomic-20200204.working_set.h5'
 WORKING_VCF = SNPS_DIR / 'tomato_genomic-20200204.working_set.vcf'
 WORKING_PHASED_H5 = SNPS_DIR / 'tomato_genomic-20200204.working_set.phased.h5'
