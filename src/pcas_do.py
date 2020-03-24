@@ -20,7 +20,8 @@ from snp_filtering import (filter_variations,
 import colors
 from plot import plot_var_density_along_genome
 from pop_distances import calc_kosman_dists
-from pca import do_pcoa_from_dists, write_pca_curlywhirly_file
+from pca import do_pcoa_from_dists, write_multivariant_result_for_curly
+from haplo_pca_plotting import write_pca_curlywhirly_file
 
 
 def get_sample_selection_criteria():
@@ -90,59 +91,6 @@ def prepare_vars(variations,
             raise RuntimeError('There are so few SNPs that some chromosomes are not represented')
 
     return vars_for_dists
-
-
-def write_multivariant_result_for_curly(multivar_result, passports):
-    field_paths_for_curly = [('classification', 'rank1'),
-                        ('classification', 'rank2'),
-                        ('country',),
-                        #'morpho_type',
-                        #'sw_group', 'tmp', 'region', 'het',
-                        #'percent_haplos_close_to_ref',
-                        #'sw_category'
-                        ]
-
-    passports_by_cat = defaultdict(dict)
-    fields_for_curly = set()
-    for sample_id, passport in passports.items():
-        pprint(passport)
-        for cat_path_in_passport in field_paths_for_curly:
-            curly_cat = cat_path_in_passport[-1]
-
-            passport_item = passport
-            for key in cat_path_in_passport:
-                print(passport_item)
-                passport_item = passport_item.get(key, {})
-
-            if passport_item:
-                if isinstance(passport_item, dict):
-                    print(passport_item)
-                    raise ValueError('passport item should not be a dict, but a str')
-
-                value = passport_item
-                print('value', curly_cat, value)
-                fields_for_curly.add(curly_cat)
-                passports_by_cat[curly_cat][sample_id] = value
-
-    passports_for_curly = {cat: samples for cat, samples in passports_by_cat.items() if cat in fields_for_curly}
-
-    multivar_result['projections'] = DataFrame(multivar_result['projections'],
-                                               index=multivar_result['samples'])
-
-    multivar_dir = config.MULTIVAR_DIR
-    multivar_dir.mkdir(exist_ok=True)
-    curly_path =  multivar_dir / 'pcoa.curly'
-    write_pca_curlywhirly_file(multivar_result,
-                               curly_path,
-                               categories=passports_for_curly)
-
-    back_dir = multivar_dir / 'back'
-    back_dir.mkdir(exist_ok=True)
-    datestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.gmtime())
-    curly_path_back = back_dir / f'pcoa.{datestamp}.pcoa'
-    write_pca_curlywhirly_file(multivar_result,
-                               curly_path_back,
-                               categories=passports_for_curly)
 
 
 if __name__ == '__main__':

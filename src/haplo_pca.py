@@ -104,3 +104,23 @@ def do_pcoas_along_the_genome(variations, win_params, num_wins_to_process=None,
                       'win_start': haplos_info['win_start']})
 
     return pcoas
+
+
+def stack_aligned_pcas_projections(aligned_pcas):
+
+    projections = None
+    index = []
+    for pca in aligned_pcas:
+        chrom = pca['chrom']
+        win_start = pca['win_start']
+        this_projections = pca['projections']
+        if projections is None:
+            projections = this_projections
+        else:
+            projections = pandas.concat([projections, this_projections],
+                                         axis=0, ignore_index=True)
+
+        this_index = [f'{chrom}%{win_start}%{sample}%{haplo_idx}' for sample, haplo_idx in this_projections.index]
+        index.extend(this_index)
+    projections.index = index
+    return projections
