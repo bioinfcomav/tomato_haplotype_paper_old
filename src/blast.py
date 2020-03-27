@@ -3,6 +3,9 @@ import config
 
 import subprocess
 from pathlib import Path
+import tempfile
+from collections import defaultdict
+from pprint import pprint
 
 
 def prepare_blast_db(fasta_file, out_dir, db_type, skip_if_exists=False):
@@ -13,7 +16,7 @@ def prepare_blast_db(fasta_file, out_dir, db_type, skip_if_exists=False):
         out_path = Path(str(out_base_path) + '.nhr')
 
     if skip_if_exists and out_path.exists():
-        return
+        return {'db_path': out_base_path}
 
     cmd = ['makeblastdb', '-in', str(fasta_file), '-out', str(out_base_path),
            '-dbtype', db_type]
@@ -21,9 +24,70 @@ def prepare_blast_db(fasta_file, out_dir, db_type, skip_if_exists=False):
     return {'db_path': out_base_path}
 
 
+def create_fasta_file(seqs, tmp_dir):
+    fasta_fhand = tempfile.NamedTemporaryFile(suffix='.fasta', dir=tmp_dir, mode='wt')
+
+    for seq in seqs:
+        fasta_fhand.write(f'>{seq["name"]}\n{seq["seq"]}\n')
+
+    fasta_fhand.flush()
+    return fasta_fhand
+
+
+TABBLAST_OUTFMT = "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore qframe sframe"
+
+def blast_seqs(seqs, db_path, blast_program, tmp_dir=None, evalue_threshold=1e-5):
+    
+    assert blast_program in ['blastn', 'blastp', 'blastx']
+
+    fasta_fhand = create_fasta_file(seqs, tmp_dir)
+
+    cmd = [blast_program, '-query', fasta_fhand.name, '-db', str(db_path),
+          '-evalue', str(evalue_threshold), '-outfmt', TABBLAST_OUTFMT]
+
+    process = subprocess.run(cmd, check=True, capture_output=True)
+
+    lines = process.stdout.decode().splitlines()
+    result = defaultdict(dict)
+    for line in lines:
+        items = line.strip().split()
+        if len(items) == 14:
+            (query, subject, identity, ali_len, mis, gap_opens,
+             query_start, query_end, subject_start, subject_end, expect, score,
+             qstrand, sstrand) = items
+
+        else:
+            raise RuntimeError('Wrong blast outuput')
+
+        hsp = {'identity': identity,
+               'ali_len': ali_len,
+               'mis': mis,
+               'gap_opens': gap_opens,
+               'query_start': query_start,
+               'query_end': query_end,
+               'subject_start': subject_start,
+               'evalue': expect,
+               'score': score,
+               'query_strand': qstrand,
+               'subject_strand': sstrand}
+        try:
+            
+            hsps = result[query][subject]
+        except KeyError:
+            hsps = []
+            result[query][subject] = hsps
+        hsps.append(hsp)
+    return result
+
+
 if __name__ == '__main__':
 
     blast_db_dir = config.CACHE_DIR / 'tomato_blast_db'
 
-    prepare_blast_db(config.TOMATO_GENOME_FASTA, out_dir=blast_db_dir, db_type='nucl',
-                     skip_if_exists=True)
+    res = prepare_blast_db(config.TOMATO_GENOME_FASTA, out_dir=blast_db_dir, db_type='nucl',
+                           skip_if_exists=True)
+
+    seq = {'name': 'seq1',
+           'seq': 'AGACAAGTGGTGAAGAAGAAGATGATATGCAGCAATGCATTTCACCACTTTATATAGCATGGAGTGGATTTCTCCACCTCATTTAATAGTATGAAGTGGAGGCAGCCCCCCTCTACACCTGTCCACTAAGGCCAGCCCACAATCTGATCCCTTTTAATTTTTGCCTTGAGTGGTGGGGCCCATTGGATTAAATCAATCCAAATTAGCCAC'}
+    res = blast_seqs([seq], res['db_path'], 'blastn')
+    pprint(res)
