@@ -27,6 +27,8 @@ if USER == 'jose':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
+    TOMATO_GENOME_FASTA = HOME_DIR / 'magnet/genomes/s_lycopersicum/sl40/S_lycopersicum_chromosomes.4.00.fa'
+
 elif USER == 'david':
 
     BASE_DIR = HOME_DIR / '/home/david/Disco/ultimate_paper/'
