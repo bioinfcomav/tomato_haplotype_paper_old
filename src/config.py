@@ -103,8 +103,8 @@ TIER2_PCA_MAX_MAF = 0.99
 
 SOLCAP_DIR = SOURCE_DATA_DIR / 'solcap'
 SOLCAP_ANOTATION_XLS = SOLCAP_DIR / 'tomato_ng_snp_10k_infinium_annotation_v2.10_FINAL_w_solcap_ids.xls'
-INTERPOLATION_DIR = BASE_DIR / 'interpolation'
-SOLCAP_FLANKING_SEQUENCES_FASTA = INTERPOLATION_DIR / 'SolCAP_flaking_sequences.fasta'
+SOLCAP_GENETIC_MAP = SOLCAP_DIR / 'SolCap_genetic_map.csv'
+
 
 RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
                    '/variations/pos', '/variations/ref',

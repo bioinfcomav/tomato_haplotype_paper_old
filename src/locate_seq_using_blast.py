@@ -8,7 +8,7 @@ import ranges
 
 
 def locate_sequence(seq, genome, check_uniq=True, evalue_threshold=1e-40,
-                   hsp_align_len_threshold=None, hsp_identity_threshold=None):
+                    hsp_align_len_threshold=None, hsp_identity_threshold=None):
 
     blast_dir = config.CACHE_DIR / 'blast'
     blast_dir.mkdir(exist_ok=True)
