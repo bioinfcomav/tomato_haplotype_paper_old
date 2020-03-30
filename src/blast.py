@@ -43,7 +43,7 @@ def blast_seqs(seqs, db_path, blast_program, tmp_dir=None, evalue_threshold=1e-5
     fasta_fhand = create_fasta_file(seqs, tmp_dir)
 
     cmd = [blast_program, '-query', fasta_fhand.name, '-db', str(db_path),
-          '-evalue', str(evalue_threshold), '-outfmt', TABBLAST_OUTFMT]
+           '-evalue', str(evalue_threshold), '-outfmt', TABBLAST_OUTFMT]
 
     process = subprocess.run(cmd, check=True, capture_output=True)
 
@@ -55,21 +55,21 @@ def blast_seqs(seqs, db_path, blast_program, tmp_dir=None, evalue_threshold=1e-5
             (query, subject, identity, ali_len, mis, gap_opens,
              query_start, query_end, subject_start, subject_end, expect, score,
              qstrand, sstrand) = items
-
         else:
             raise RuntimeError('Wrong blast outuput')
 
-        hsp = {'identity': identity,
-               'ali_len': ali_len,
-               'mis': mis,
-               'gap_opens': gap_opens,
-               'query_start': query_start,
-               'query_end': query_end,
-               'subject_start': subject_start,
-               'evalue': expect,
-               'score': score,
-               'query_strand': qstrand,
-               'subject_strand': sstrand}
+        hsp = {'identity': float(identity),
+               'ali_len': int(ali_len),
+               'mis': int(mis),
+               'gap_opens': int(gap_opens),
+               'query_start': int(query_start),
+               'query_end': int(query_end),
+               'subject_start': int(subject_start),
+               'subject_end': int(subject_end),
+               'evalue': float(expect),
+               'score': float(score),
+               'query_strand': int(qstrand),
+               'subject_strand': int(sstrand)}
         try:
             
             hsps = result[query][subject]
@@ -80,6 +80,29 @@ def blast_seqs(seqs, db_path, blast_program, tmp_dir=None, evalue_threshold=1e-5
     return result
 
 
+def filter_hsps_by_align_len(hsps, len_threshold=None):
+    if len_threshold is None:
+        return hsps
+
+    filtered_hsps = []
+    for hsp in hsps:
+        if hsp['ali_len'] >= len_threshold:
+            filtered_hsps.append(hsp)
+    return filtered_hsps
+
+
+def filter_hsps_by_identity(hsps, threshold=None):
+    if threshold is None:
+        return hsps
+
+    filtered_hsps = []
+    for hsp in hsps:
+        if hsp['identity'] >= threshold:
+            filtered_hsps.append(hsp)
+    return filtered_hsps
+
+
+
 if __name__ == '__main__':
 
     blast_db_dir = config.CACHE_DIR / 'tomato_blast_db'
@@ -88,6 +111,6 @@ if __name__ == '__main__':
                            skip_if_exists=True)
 
     seq = {'name': 'seq1',
-           'seq': 'AGACAAGTGGTGAAGAAGAAGATGATATGCAGCAATGCATTTCACCACTTTATATAGCATGGAGTGGATTTCTCCACCTCATTTAATAGTATGAAGTGGAGGCAGCCCCCCTCTACACCTGTCCACTAAGGCCAGCCCACAATCTGATCCCTTTTAATTTTTGCCTTGAGTGGTGGGGCCCATTGGATTAAATCAATCCAAATTAGCCAC'}
+           'seq': 'AGACAAGTGGTGAAGAAKAAGATGATATGCAGCAATGCATTTCACCACTTTATATAGCATGGAGTGGATTTCTCCACCTCATTTAATAGTATGAAGTGGAGGCAGCCCCCCTCTACACCTGTCCACTAAGGCCAGCCCACAATCTGATCCCTTTTAATTTTTGCCTTGAGTGGTGGGGCCCATTGGATTAAATCAATCCAAATTAGCCAC'}
     res = blast_seqs([seq], res['db_path'], 'blastn')
     pprint(res)
