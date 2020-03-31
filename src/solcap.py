@@ -13,6 +13,7 @@ from scipy import interpolate
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import matplotlib.patches as patches
 
 import locate_seq_using_blast
 
@@ -170,10 +171,13 @@ def _collect_locs_per_chrom(markers):
     return genet_locs, phys_locs
 
 
-def plot_genet_vs_phys_loc(markers, out_dir, models=None):
+def plot_genet_vs_phys_loc(markers, out_dir, models=None, euchromatic_regions=None):
 
     if models is None:
         models = {}
+
+    if euchromatic_regions is None:
+        euchromatic_regions = {}
 
     genet_locs, phys_locs = _collect_locs_per_chrom(markers)
 
@@ -193,6 +197,17 @@ def plot_genet_vs_phys_loc(markers, out_dir, models=None):
                                       1000)
             y_values = model(x_values)
             axes.plot(x_values, y_values, zorder=20, label='interpolation', c='#8FBC8F')
+
+        chrom_regions = euchromatic_regions.get(chrom)
+
+        if chrom_regions:
+            y_lims = axes.get_ylim()
+            height = y_lims[1]
+            for region in chrom_regions:
+                width = region[1] - region[0]
+                color = '#aaaaaa' if region[2] else '#cccccc'
+                rect = patches.Rectangle((region[0], 0), width, height, edgecolor=None, facecolor=color)
+                axes.add_patch(rect)
 
         axes.legend()
 
@@ -217,15 +232,59 @@ def fit_markers(markers, k=3, s=100, der=0):
     return models
 
 
+def determine_eucrohomatic_regions(markers, models, win_size, recombination_threshold):
+
+    genet_locs, phys_locs = _collect_locs_per_chrom(markers)
+    chroms = sorted(genet_locs.keys())
+    euchromatic_regions = {}
+    for chrom in chroms:
+        min_ = numpy.min(phys_locs[chrom])
+        max_ = numpy.max(phys_locs[chrom])
+        x_values = numpy.linspace(min_, max_, 1000)
+
+        min_with_h = min_ + win_size + 1
+        max_with_h = max_ - win_size - 1
+        mask = numpy.logical_and(x_values > min_with_h, x_values < max_with_h)
+        x_values = x_values[mask]
+
+        model = models[chrom]
+        slopes = (model(x_values + win_size) - model(x_values - win_size)) / (2 * win_size)
+        are_euchromatic = slopes >= recombination_threshold
+
+        current_region_start = None
+        current_state = None
+        last_x_value = None
+        regions = []
+        for x_value, is_euchromatic in zip(x_values, are_euchromatic):
+            if current_region_start is None:
+                current_region_start = x_value
+                current_state = is_euchromatic
+                last_x_value = None
+                continue
+            if last_x_value and is_euchromatic != current_state:
+                regions.append((current_region_start, last_x_value, current_state))
+                current_region_start = x_value
+                current_state = is_euchromatic
+
+            last_x_value = x_value
+        regions.append((current_region_start, last_x_value, current_state))
+        euchromatic_regions[chrom] = regions
+    return euchromatic_regions
+
+
 if __name__ == '__main__':
     markers = get_solcap_markers(approx_phys_loc=True,
                                  cache_dir=config.CACHE_DIR)
 
     models = fit_markers(markers)
 
+    euchromatic_regions = determine_eucrohomatic_regions(markers, models,
+                                                         win_size=1000,
+                                                         recombination_threshold=1e-6)
+
     out_dir = config.SOLCAP_DIR
     out_dir.mkdir(exist_ok=True)
     out_dir /= 'chroms'
     out_dir.mkdir(exist_ok=True)
 
-    plot_genet_vs_phys_loc(markers, out_dir, models)
+    plot_genet_vs_phys_loc(markers, out_dir, models, euchromatic_regions)
