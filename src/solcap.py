@@ -4,6 +4,7 @@ import config
 import re
 import itertools
 import csv
+import hashlib, pickle
 
 import pandas
 
@@ -75,7 +76,14 @@ def read_solcap_genetic_map():
     return markers
 
 
-def get_solcap_markers(approx_phys_loc=False):
+def get_solcap_markers(approx_phys_loc=False, cache_dir=None):
+
+    if cache_dir:
+        key = str(approx_phys_loc)
+        key = hashlib.md5(key.encode()).hexdigest()
+        cache_path = cache_dir / ('solcap_markers' + key + '.pickle')
+        if cache_path.exists():
+            return pickle.load(cache_path.open('rb'))
 
     if not approx_phys_loc:
         raise NotImplementedError()
@@ -89,6 +97,11 @@ def get_solcap_markers(approx_phys_loc=False):
 
         chrom25 = row['Chromosome3']
 
+        try:
+            genet_loc = genetic_map[marker_id]
+        except KeyError:
+            continue
+
         seq = _replace_snp_nucleotides(row['Flanking_Sequence'])
         try:
             locations = locate_seq_using_blast.locate_sequence(seq, config.TOMATO_GENOME_FASTA, check_uniq=True)
@@ -100,17 +113,12 @@ def get_solcap_markers(approx_phys_loc=False):
         location = locations[0]
         chrom = location['subject']
 
-        if chrom25[-2:] != chrom[-2:]:
+        if chrom25 != 'unknown' and int(chrom25[-2:]) != int(chrom[-2:]):
             continue
         
         location = int((location['end'] + location['start']) / 2)
 
-        try:
-            genet_loc = genetic_map[marker_id]
-        except KeyError:
-            continue
-
-        if genet_loc['chrom'] != chrom[-2:]:
+        if int(genet_loc['chrom']) != int(chrom[-2:]):
             continue
         genet_loc = genet_loc['genet_loc']
 
@@ -118,8 +126,21 @@ def get_solcap_markers(approx_phys_loc=False):
                               'phys_loc': location,
                               'genet_loc': genet_loc
                              }
+    if cache_dir:
+        pickle.dump(markers, cache_path.open('wb'))
+
     return markers
 
 
 if __name__ == '__main__':
-    get_solcap_markers(approx_phys_loc=True)
+    markers = get_solcap_markers(approx_phys_loc=True,
+                                 cache_dir=config.CACHE_DIR)
+    print(len(markers))
+    print({marker['chrom'] for marker in markers.values()})
+
+    #model = calculate_genet_loc_model(markers)
+    #calc_genet_dists_from_model(model, phys_dists{'chrom01': phys_dists})
+
+    #plot_genet_vs_phys_loc(markers, plot_path, model=None)
+
+    
