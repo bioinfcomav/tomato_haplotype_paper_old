@@ -9,6 +9,7 @@ from collections import defaultdict
 
 import numpy
 import pandas
+from scipy import interpolate
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -152,20 +153,27 @@ def get_solcap_markers(approx_phys_loc=False, cache_dir=None):
 
 
 def _collect_locs_per_chrom(markers):
-    genet_locs = defaultdict(list)
-    phys_locs = defaultdict(list)
+
+    locs = defaultdict(list)
     for marker in markers.values():
-        genet_locs[marker['chrom']].append(marker['genet_loc'])
-        phys_locs[marker['chrom']].append(marker['phys_loc'])
+        locs[marker['chrom']].append((marker['phys_loc'], marker['genet_loc']))
+    
+    for chrom in locs.keys():
+        locs[chrom].sort(key=lambda x: x[0])
+
+    genet_locs = {}
+    phys_locs = {}
+    for chrom in locs.keys():
+        genet_locs[chrom] = [loc[1] for loc in locs[chrom]]
+        phys_locs[chrom] = [loc[0] for loc in locs[chrom]]
+
     return genet_locs, phys_locs
 
 
-def plot_genet_vs_phys_loc(markers, out_dir, fitted_phys_dists=None, fitted_genet_dists=None):
+def plot_genet_vs_phys_loc(markers, out_dir, models=None):
 
-    if fitted_genet_dists is None:
-        fitted_genet_dists = {}
-    if fitted_phys_dists is None:
-        fitted_phys_dists = {}
+    if models is None:
+        models = {}
 
     genet_locs, phys_locs = _collect_locs_per_chrom(markers)
 
@@ -175,81 +183,49 @@ def plot_genet_vs_phys_loc(markers, out_dir, fitted_phys_dists=None, fitted_gene
         FigureCanvas(fig) # Don't remove it or savefig will fail later
         axes = fig.add_subplot(111)
 
-        axes.scatter(phys_locs[chrom], genet_locs[chrom])
+        axes.scatter(phys_locs[chrom], genet_locs[chrom], zorder=10, label='original',
+                     c='#ff6347')
 
-        fitted_x_vals = fitted_phys_dists.get(chrom)
-        fitted_y_vals = fitted_genet_dists.get(chrom)
-        if fitted_x_vals is not None:
-            axes.plot(fitted_x_vals, fitted_y_vals)
+        model = models.get(chrom)
+        if model:
+            x_values = numpy.linspace(numpy.min(phys_locs[chrom]),
+                                      numpy.max(phys_locs[chrom]),
+                                      1000)
+            y_values = model(x_values)
+            axes.plot(x_values, y_values, zorder=20, label='interpolation', c='#8FBC8F')
+
+        axes.legend()
 
         plot_path = out_dir / f'genet_vs_phys_{chrom}.svg'
         fig.tight_layout()
         fig.savefig(str(plot_path))
 
 
-def segmented_lineal_interpolation3(x_values,
-                                    xe0, xe1, xe2, xe3,
-                                    ye0, ye1, ye2, ye3):
-    x_model_edges = [xe0, xe1, xe2, xe3]
-    y_model_edges = [ye0, ye1, ye2, ye3]
-    return segmented_lineal_interpolation(x_values, x_model_edges, y_model_edges)
+def fit_markers(markers, k=3, s=100, der=0):
+    genet_locs, phys_locs = _collect_locs_per_chrom(markers)
+    chroms = sorted(genet_locs.keys())
 
-
-def segmented_lineal_interpolation(x_values, x_model_edges, y_model_edges):
-    y_values = []
-    
-    mask = x_values < x_model_edges[0]
-    if numpy.any(mask):
-        y_values = [y_model_edges[0]] * numpy.sum(mask)
-
-    first = True
-    for (x0, x1), (y0, y1) in zip(zip(x_model_edges[:-1], x_model_edges[1:]), zip(y_model_edges[:-1], y_model_edges[1:])):
-
-        if first:
-            mask = numpy.logical_and(x_values >= x0, x_values <= x1)
-            first = False
-        else:
-            mask = numpy.logical_and(x_values > x0, x_values <= x1)
-        segment_x_values = x_values[mask]
-        slope = (y1 - y0) / (x1 - x0)
-        orig = y0 - x0 * slope
-        segment_y_values = (y0 - slope * x0) + (slope * segment_x_values)
-        y_values.extend(segment_y_values)
-
-    mask = x_values > x_model_edges[-1]
-    if numpy.any(mask):
-        y_values.extend([y_model_edges[-1]] * numpy.sum(mask))
-
-    y_values = numpy.array(y_values)
-    return y_values
-
-
-def calc_genet_dists_from_model(model, phys_dists):
-    chroms = sorted(model.keys())
-
-    genet_dists = {}
+    models = {}
     for chrom in chroms:
-        x_model_edges = model[chrom][0]
-        y_model_edges = model[chrom][1]
-        x_values = phys_dists[chrom]
-        y_values = segmented_lineal_interpolation(x_values, x_model_edges, y_model_edges)
-        genet_dists[chrom] = y_values
-    return genet_dists
+        chrom_genet_locs = genet_locs[chrom]
+        chrom_phys_locs = phys_locs[chrom]
+
+        tck = interpolate.splrep(chrom_phys_locs, chrom_genet_locs, k=k, s=s)
+        smoothed_genet_locs = interpolate.splev(chrom_phys_locs, tck, der=der)
+        fitted_funct = interpolate.interp1d(chrom_phys_locs, smoothed_genet_locs, kind='cubic')
+        models[chrom] = fitted_funct
+    return models
 
 
 if __name__ == '__main__':
     markers = get_solcap_markers(approx_phys_loc=True,
                                  cache_dir=config.CACHE_DIR)
-    print(len(markers))
-    print(sorted({marker['chrom'] for marker in markers.values()}))
 
-    model = {'SL4.0ch01': ([0, 0.8e7, 7e7, 8.8e7], [0, 42, 42, 130])}
-    phys_dists = {'SL4.0ch01': numpy.linspace(0, 8.8e7, 100)}
-    genet_dists = calc_genet_dists_from_model(model, phys_dists)
+    models = fit_markers(markers)
 
     out_dir = config.SOLCAP_DIR
     out_dir.mkdir(exist_ok=True)
     out_dir /= 'chroms'
     out_dir.mkdir(exist_ok=True)
 
-    plot_genet_vs_phys_loc(markers, out_dir, phys_dists, genet_dists)
+    plot_genet_vs_phys_loc(markers, out_dir, models)
