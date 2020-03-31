@@ -75,7 +75,10 @@ def read_solcap_genetic_map():
     return markers
 
 
-def get_solcap_markers():
+def get_solcap_markers(approx_phys_loc=False):
+
+    if not approx_phys_loc:
+        raise NotImplementedError()
 
     genetic_map = read_solcap_genetic_map()
 
@@ -110,7 +113,6 @@ def get_solcap_markers():
         if genet_loc['chrom'] != chrom[-2:]:
             continue
         genet_loc = genet_loc['genet_loc']
-        print(chrom, location, genet_loc)
 
         markers[marker_id] = {'chrom': chrom,
                               'phys_loc': location,
@@ -120,4 +122,4 @@ def get_solcap_markers():
 
 
 if __name__ == '__main__':
-    get_solcap_markers()
+    get_solcap_markers(approx_phys_loc=True)
