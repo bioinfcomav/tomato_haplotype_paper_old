@@ -216,18 +216,37 @@ def plot_genet_vs_phys_loc(markers, out_dir, models=None, euchromatic_regions=No
         fig.savefig(str(plot_path))
 
 
+def demand_increase_is_monotonic(vector):
+    prev_values = numpy.array([0] + list(vector[:-1]))
+    increment = vector - prev_values
+    increment[increment < 0] = 0
+    monotonic_increased_vector = numpy.cumsum(increment)
+    return monotonic_increased_vector
+
+
+class MonotonicIncrease():
+    def __init__(self, funct):
+        self.funct = funct
+
+    def __call__(self, *args, **kwargs):
+        return demand_increase_is_monotonic(self.funct(*args, **kwargs))
+
+
 def fit_markers(markers, k=3, s=100, der=0):
     genet_locs, phys_locs = _collect_locs_per_chrom(markers)
     chroms = sorted(genet_locs.keys())
 
     models = {}
     for chrom in chroms:
-        chrom_genet_locs = genet_locs[chrom]
+        chrom_genet_dists = genet_locs[chrom]
         chrom_phys_locs = phys_locs[chrom]
 
-        tck = interpolate.splrep(chrom_phys_locs, chrom_genet_locs, k=k, s=s)
-        smoothed_genet_locs = interpolate.splev(chrom_phys_locs, tck, der=der)
-        fitted_funct = interpolate.interp1d(chrom_phys_locs, smoothed_genet_locs, kind='cubic')
+        tck = interpolate.splrep(chrom_phys_locs, chrom_genet_dists, k=k, s=s)
+        chrom_genet_dists = interpolate.splev(chrom_phys_locs, tck, der=der)
+
+        chrom_genet_dists = demand_increase_is_monotonic(chrom_genet_dists)
+
+        fitted_funct = MonotonicIncrease(interpolate.interp1d(chrom_phys_locs, chrom_genet_dists, kind='linear'))
         models[chrom] = fitted_funct
     return models
 
