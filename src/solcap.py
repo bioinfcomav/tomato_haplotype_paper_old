@@ -171,6 +171,25 @@ def _collect_locs_per_chrom(markers):
     return genet_locs, phys_locs
 
 
+def calc_recomb_rate(phys_locs, model, phys_win_size):
+    phys_locs = numpy.array(phys_locs)
+    phys_win_size = phys_win_size / 2
+
+    phys_locs_minus_h = phys_locs - phys_win_size
+    phys_locs_plus_h = phys_locs + phys_win_size
+
+    # we don't want to extrapolate
+    interpolable_phys_locs = numpy.logical_and(phys_locs_minus_h >= numpy.min(phys_locs),
+                                               phys_locs_plus_h <= numpy.max(phys_locs))
+    phys_locs_minus_h = phys_locs_minus_h[interpolable_phys_locs]
+    phys_locs_plus_h = phys_locs_plus_h[interpolable_phys_locs]
+    phys_locs = phys_locs[interpolable_phys_locs]
+
+    recomb_rate = (model(phys_locs_plus_h) - model(phys_locs_minus_h)) / (2 * phys_win_size)
+
+    return phys_locs, recomb_rate
+
+
 def plot_genet_vs_phys_loc(markers, out_dir, models=None, euchromatic_regions=None):
 
     if models is None:
@@ -179,37 +198,54 @@ def plot_genet_vs_phys_loc(markers, out_dir, models=None, euchromatic_regions=No
     if euchromatic_regions is None:
         euchromatic_regions = {}
 
-    genet_locs, phys_locs = _collect_locs_per_chrom(markers)
+    genet_dists, phys_locs = _collect_locs_per_chrom(markers)
 
-    chroms = sorted(genet_locs.keys())
+    chroms = sorted(genet_dists.keys())
     for chrom in chroms:
         fig = Figure()
         FigureCanvas(fig) # Don't remove it or savefig will fail later
-        axes = fig.add_subplot(111)
 
-        axes.scatter(phys_locs[chrom], genet_locs[chrom], zorder=10, label='original',
-                     c='#ff6347')
+        axes = fig.add_subplot(311)
+        recomb_rate_axes = fig.add_subplot(312, sharex=axes)
+        modeled_axes = fig.add_subplot(313, sharex=axes)
+        x_ticks_kargs = {'axis': 'x', 'labelbottom': False, 'labelright': False,
+                         'bottom': False}
+        axes.tick_params(**x_ticks_kargs)
+        recomb_rate_axes.tick_params(**x_ticks_kargs)
+        modeled_axes.set_xlabel('Chrom. location (bp)')
+        modeled_axes.set_ylabel('Genet. dist.')
+        axes.set_ylabel('Genet. dist.')
+        recomb_rate_axes.set_ylabel('Recomb. rate (per bp)')
 
         model = models.get(chrom)
-        if model:
-            x_values = numpy.linspace(numpy.min(phys_locs[chrom]),
-                                      numpy.max(phys_locs[chrom]),
-                                      1000)
-            y_values = model(x_values)
-            axes.plot(x_values, y_values, zorder=20, label='interpolation', c='#8FBC8F')
+
+        y_values = genet_dists[chrom]
+
+        axes.scatter(phys_locs[chrom], y_values, zorder=10)
+        
+        x_values = numpy.linspace(numpy.min(phys_locs[chrom]),
+                                    numpy.max(phys_locs[chrom]),
+                                    1000)
+        y_values = model(x_values)
+
+        modeled_axes.plot(x_values, y_values, zorder=20)
+    
+        x_values = numpy.linspace(numpy.min(phys_locs[chrom]),
+                                        numpy.max(phys_locs[chrom]),
+                                        1000)
+        x_values, y_values = calc_recomb_rate(x_values, model, 10000)
+        recomb_rate_axes.plot(x_values, y_values, zorder=20, label='recomb_rate')
 
         chrom_regions = euchromatic_regions.get(chrom)
 
         if chrom_regions:
-            y_lims = axes.get_ylim()
-            height = y_lims[1]
             for region in chrom_regions:
                 width = region[1] - region[0]
                 color = '#aaaaaa' if region[2] else '#cccccc'
-                rect = patches.Rectangle((region[0], 0), width, height, edgecolor=None, facecolor=color)
-                axes.add_patch(rect)
-
-        axes.legend()
+                for axes_ in [axes, recomb_rate_axes, modeled_axes]:
+                    height = axes_.get_ylim()[1] - axes_.get_ylim()[0]
+                    rect = patches.Rectangle((region[0], 0), width, height, edgecolor=None, facecolor=color)
+                    axes_.add_patch(rect)
 
         plot_path = out_dir / f'genet_vs_phys_{chrom}.svg'
         fig.tight_layout()
@@ -251,25 +287,18 @@ def fit_markers(markers, k=3, s=100, der=0):
     return models
 
 
-def determine_eucrohomatic_regions(markers, models, win_size, recombination_threshold):
+def determine_eucrohomatic_regions(markers, models, win_size, recomb_rate_threshold):
 
     genet_locs, phys_locs = _collect_locs_per_chrom(markers)
     chroms = sorted(genet_locs.keys())
     euchromatic_regions = {}
     for chrom in chroms:
-        min_ = numpy.min(phys_locs[chrom])
-        max_ = numpy.max(phys_locs[chrom])
-        x_values = numpy.linspace(min_, max_, 1000)
 
-        min_with_h = min_ + win_size + 1
-        max_with_h = max_ - win_size - 1
-        mask = numpy.logical_and(x_values > min_with_h, x_values < max_with_h)
-        x_values = x_values[mask]
+        x_values, recomb_rate = calc_recomb_rate(phys_locs[chrom],
+                                                 models[chrom],
+                                                 win_size)
 
-        model = models[chrom]
-        slopes = (model(x_values + win_size) - model(x_values - win_size)) / (2 * win_size)
-        are_euchromatic = slopes >= recombination_threshold
-
+        are_euchromatic = recomb_rate >= recomb_rate_threshold
         current_region_start = None
         current_state = None
         last_x_value = None
