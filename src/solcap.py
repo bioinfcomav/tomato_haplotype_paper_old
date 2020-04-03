@@ -198,7 +198,7 @@ def plot_genet_vs_phys_loc(markers, out_dir, models=None, euchromatic_regions=No
     if euchromatic_regions is None:
         euchromatic_regions = {}
 
-    genet_dists, phys_locs = _collect_locs_per_chrom(markers)
+    genet_dists, phys_locs = collect_locs_per_chrom(markers)
 
     chroms = sorted(genet_dists.keys())
     for chrom in chroms:
@@ -269,7 +269,7 @@ class MonotonicIncrease():
 
 
 def fit_markers(markers, k=3, s=100, der=0):
-    genet_locs, phys_locs = _collect_locs_per_chrom(markers)
+    genet_locs, phys_locs = collect_locs_per_chrom(markers)
     chroms = sorted(genet_locs.keys())
 
     models = {}
@@ -289,7 +289,7 @@ def fit_markers(markers, k=3, s=100, der=0):
 
 def determine_eucrohomatic_regions(markers, models, win_size, recomb_rate_threshold):
 
-    genet_locs, phys_locs = _collect_locs_per_chrom(markers)
+    genet_locs, phys_locs = collect_locs_per_chrom(markers)
     chroms = sorted(genet_locs.keys())
     euchromatic_regions = {}
     for chrom in chroms:
@@ -324,13 +324,13 @@ if __name__ == '__main__':
     markers = get_solcap_markers(approx_phys_loc=True,
                                  cache_dir=config.CACHE_DIR)
 
-    beagle_map_fhand = open(config.BEAGLE_MAP, 'w')
-    export_beagle_map(markers, beagle_map_fhand)
     models = fit_markers(markers)
 
     euchromatic_regions = determine_eucrohomatic_regions(markers, models,
                                                          win_size=1000,
                                                          recomb_rate_threshold=1e-6)
+    print('euchromatic regions')
+    print([(chrom, start, end) for chrom, regions in euchromatic_regions.items() for start, end, is_euchromatic in regions if is_euchromatic])
 
     out_dir = config.SOLCAP_DIR
     out_dir.mkdir(exist_ok=True)

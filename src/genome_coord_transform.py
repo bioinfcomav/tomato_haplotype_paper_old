@@ -15,20 +15,6 @@ SL2.50ch11	56302525	710503563	70	71
 SL2.50ch12	67145203	767610423	70	71
 '''
 
-PERICENTROMERIC_REGIONS_BED = '''SL2.50ch01	5488553	74024603
-SL2.50ch02	0	30493730
-SL2.50ch03	16493431	50407653
-SL2.50ch04	7406888	50551374
-SL2.50ch05	9881466	58473554
-SL2.50ch06	3861081	33077717
-SL2.50ch07	4056987	58629226
-SL2.50ch08	4670213	54625578
-SL2.50ch09	6225214	63773642
-SL2.50ch10	3775719	55840828
-SL2.50ch11	10947270	48379978
-SL2.50ch12	5879033	61255621
-'''
-
 
 def get_genome_sizes():
     lengths = {}
@@ -125,37 +111,7 @@ class GenomeCoordinateConverter2:
         return offset + pos - to_remove_from_pos
 
 
-def get_euchromatic_regions():
-    pericentromeric_regions = {}
-    for line in PERICENTROMERIC_REGIONS_BED.splitlines():
-        chrom, peri_start, peri_end = line.split()
-        peri_start = int(peri_start)
-        if peri_start < 1:
-             peri_start = 2
-        peri_end = int(peri_end)
-        pericentromeric_regions[chrom] = (peri_start, peri_end)
-
-    chrom_sizes = get_genome_sizes()
-    euchromatin_regions = {}
-    euchromatic_sizes = {}
-    tuples = []
-    for chrom, size in chrom_sizes.items():
-        peri_region = pericentromeric_regions[chrom]
-        assert peri_region[1] < size
-        if peri_region[0] > 10:
-            tuples.append((chrom, 1, peri_region[0]))
-        tuples.append((chrom, peri_region[1], size))
-        euchromatin_regions[chrom] = (1, peri_region[0]), (peri_region[1], size)
-        euchromatic_sizes[chrom] = (peri_region[0] - 1) + (size - peri_region[1])
-
-    return {'euchromatic_regions': euchromatin_regions,
-            'euchromatic_sizes': euchromatic_sizes,
-            'euchromatic_regions_as_tuples': tuples}
-
-
-
 if __name__ == '__main__':
-    get_euchromatic_regions()
     coord_converter = GenomeCoordinateConverter2()
     print(coord_converter.transform_coordinate('SL2.50ch01', 10))
     try:
