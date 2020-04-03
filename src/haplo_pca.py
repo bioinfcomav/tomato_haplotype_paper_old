@@ -74,6 +74,7 @@ def do_pcoas_along_the_genome(variations, win_params, num_wins_to_process=None,
         haplos_to_include_in_this_win = haplotypes_to_include.get((chrom, win_start))
         if not haplos_to_include_in_this_win and haplotypes_to_include:
             continue
+
         if haplos_to_include_in_this_win:
             uniq_haplos_to_include = {uniq_haplo_ids_that_correpond_to_all_haplos[(sample, haploid_idx)] for sample, haploid_idx in haplos_to_include_in_this_win}
             haplos = filter_haplotypes_by_sample(haplos, uniq_haplos_to_include, given_haplos_should_be_included=True)
