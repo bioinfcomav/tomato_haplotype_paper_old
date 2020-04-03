@@ -194,3 +194,9 @@ def calc_pairwise_dists_among_haplos(haplos, win_size, min_num_snp_for_dist):
     dists = pandas.DataFrame(dists, index=haplos.columns, columns=haplos.columns)
     return dists
 
+
+def parse_haplo_id(haplo_id):
+    chrom, win_start, sample, haploid_idx = haplo_id.split('%')
+    win_start = int(win_start)
+    haploid_idx = int(haploid_idx)
+    return chrom, win_start, sample, haploid_idx
