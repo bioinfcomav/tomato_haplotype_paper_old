@@ -1,3 +1,4 @@
+import config
 
 import tempfile
 import subprocess
@@ -5,8 +6,6 @@ from pathlib import Path
 import gzip
 from pprint import pprint
 from functools import partial
-
-import config
 
 import numpy
 
@@ -16,6 +15,8 @@ from variation.variations.filters import SampleFilter, FLT_VARS
 from variation import GT_FIELD, DP_FIELD, SNPS_PER_CHUNK, MISSING_INT, CHROM_FIELD
 from variation.gt_writers.vcf import write_vcf
 from variation.variations.pipeline import Pipeline
+
+from solcap import get_solcap_markers, collect_locs_per_chrom
 
 import check_imputation
 
@@ -43,6 +44,18 @@ def sort_vcf(in_unsorted_vcf_path, out_sorted_vcf_path):
                                     stdout=stdout)
     sort_process.stdout.close()
     gzip_process.communicate()
+
+
+def export_solcap_map(out_fhand):
+    markers = get_solcap_markers(approx_phys_loc=True,
+                                cache_dir=config.CACHE_DIR)
+    genet_locs, phys_locs = collect_locs_per_chrom(markers)
+    
+    chroms = sorted(genet_locs.keys())
+    for  chrom in chroms:
+        for genet_pos, phys_pos in zip(genet_locs[chrom], phys_locs[chrom]):
+            line = chrom + '\t.\t' + str(genet_pos) + '\t' + str(phys_pos) + '\n'
+            out_fhand.write(line)
 
 
 def _phase_and_impute_vcf_with_beagle(vcf_path, beagle_out_base_path,
@@ -180,7 +193,8 @@ if __name__ == '__main__':
     phased_and_imputed_h5 = config.WORKING_PHASED_AND_IMPUTED_H5
     vcf_path = config.WORKING_VCF
 
-    create_vcf = True
+    create_vcf = False
+    vcf_is_gzipped = False
     phase_and_impute = True
     check_imputation = False
 
@@ -190,17 +204,21 @@ if __name__ == '__main__':
         fhand = gzip.open(vcf_path, 'wb')
         write_vcf(vars, out_fhand=fhand)
         fhand.close()
-
-    beagle_out_base_path = imputation_dir / Path(vcf_path.stem).stem
+    if vcf_is_gzipped:
+        beagle_out_base_path = imputation_dir / Path(vcf_path.stem).stem
+    else:
+        beagle_out_base_path = imputation_dir / Path(vcf_path.stem)
 
     stdout = imputation_dir / 'beagle.stdout'
     stderr = imputation_dir / 'beagle.stderr'
     if phase_and_impute:
+        map_fhand = open(config.BEAGLE_MAP, 'w')
+        export_solcap_map(out_fhand)
         phase_and_impute_vcf_with_beagle(vcf_path, beagle_out_base_path,
                                          stdout_fhand=stdout.open('wt'),
                                          stderr_fhand=stderr.open('wt'),
                                          chroms_to_ignore=['SL2.50ch00'],
-                                         vcf_is_gzipped=True,
+                                         vcf_is_gzipped=vcf_is_gzipped,
                                          n_processes=1,
                                          reuse_files=False)
 
