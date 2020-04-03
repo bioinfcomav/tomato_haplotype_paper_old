@@ -53,7 +53,9 @@ def export_solcap_map(out_fhand):
     
     chroms = sorted(genet_locs.keys())
     for  chrom in chroms:
-        for genet_pos, phys_pos in zip(genet_locs[chrom], phys_locs[chrom]):
+        snps = [(genet_pos, phys_pos) for genet_pos, phys_pos in zip(genet_locs[chrom], phys_locs[chrom])]
+        snps_sorted_by_phys_pos = sorted(snps, key=lambda tup: tup[1])
+        for genet_pos, phys_pos in snps_sorted_by_phys_pos:
             line = chrom + '\t.\t' + str(genet_pos) + '\t' + str(phys_pos) + '\n'
             out_fhand.write(line)
 
@@ -212,8 +214,10 @@ if __name__ == '__main__':
     stdout = imputation_dir / 'beagle.stdout'
     stderr = imputation_dir / 'beagle.stderr'
     if phase_and_impute:
+        solcap_dir = config.SOLCAP_SOURCE_DIR
+        solcap_dir.mkdir(exist_ok=True)
         map_fhand = open(config.BEAGLE_MAP, 'w')
-        export_solcap_map(out_fhand)
+        export_solcap_map(map_fhand)
         phase_and_impute_vcf_with_beagle(vcf_path, beagle_out_base_path,
                                          stdout_fhand=stdout.open('wt'),
                                          stderr_fhand=stderr.open('wt'),

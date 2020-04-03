@@ -51,6 +51,9 @@ elif USER == 'jope':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
+    TOMATO_GENOME_FASTA = HOME_DIR / '/home/jope/genomes/tomato/SL4.00/S_lycopersicum_chromosomes.4.00.fa'
+
+
 SOURCE_DATA_DIR = BASE_DIR / 'source_data'
 
 PASSPORTS_CSV = SOURCE_DATA_DIR / 'passports.csv'
@@ -102,10 +105,10 @@ TIER2_MAX_HET_MIN_CALL_DP = 20
 TIER2_MAX_MAF = None
 TIER2_PCA_MAX_MAF = 0.99
 
-SOLCAP_DIR = SOURCE_DATA_DIR / 'solcap'
-SOLCAP_ANOTATION_XLS = SOLCAP_DIR / 'tomato_ng_snp_10k_infinium_annotation_v2.10_FINAL_w_solcap_ids.xls'
-SOLCAP_GENETIC_MAP = SOLCAP_DIR / 'SolCap_genetic_map.csv'
-BEAGLE_MAP = SOLCAP_DIR / 'snps_interpolated.beagle.map'
+SOLCAP_SOURCE_DIR = SOURCE_DATA_DIR / 'solcap'
+SOLCAP_ANOTATION_XLS = SOLCAP_SOURCE_DIR / 'tomato_ng_snp_10k_infinium_annotation_v2.10_FINAL_w_solcap_ids.xls'
+SOLCAP_GENETIC_MAP = SOLCAP_SOURCE_DIR / 'SolCap_genetic_map.csv'
+BEAGLE_MAP = SOLCAP_SOURCE_DIR / 'snps_interpolated.beagle.map'
 
 RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
                    '/variations/pos', '/variations/ref',
