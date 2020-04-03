@@ -72,7 +72,7 @@ if __name__ == '__main__':
         low_quality_samples = list(low_quality_samples['low_quality_samples'])
     print("low quality samples: ", len(low_quality_samples), low_quality_samples)
 
-    chrom0 = (b'SL2.50ch00', )
+    chrom0 = (b'SL4.0ch00', )
     regions_to_remove = [chrom0]
 
     filter_variations(orig_vars,

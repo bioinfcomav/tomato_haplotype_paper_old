@@ -16,7 +16,7 @@ from variation import GT_FIELD, DP_FIELD, SNPS_PER_CHUNK, MISSING_INT, CHROM_FIE
 from variation.gt_writers.vcf import write_vcf
 from variation.variations.pipeline import Pipeline
 
-from solcap import get_solcap_markers, collect_locs_per_chrom
+from solcap import generate_interpolated_map
 
 import check_imputation
 
@@ -47,16 +47,12 @@ def sort_vcf(in_unsorted_vcf_path, out_sorted_vcf_path):
 
 
 def export_solcap_map(out_fhand):
-    markers = get_solcap_markers(approx_phys_loc=True,
-                                cache_dir=config.CACHE_DIR)
-    genet_locs, phys_locs = collect_locs_per_chrom(markers)
     
-    chroms = sorted(genet_locs.keys())
-    for  chrom in chroms:
-        snps = [(genet_pos, phys_pos) for genet_pos, phys_pos in zip(genet_locs[chrom], phys_locs[chrom])]
-        snps_sorted_by_phys_pos = sorted(snps, key=lambda tup: tup[1])
-        for genet_pos, phys_pos in snps_sorted_by_phys_pos:
-            line = chrom + '\t.\t' + str(genet_pos) + '\t' + str(phys_pos) + '\n'
+    locs_per_chrom = generate_interpolated_map()
+
+    for chrom, snps_in_chrom in locs_per_chrom.items():
+        for phys_pos, genet_pos in snps_in_chrom:
+            line = chrom + '\t.\t' + str(int(genet_pos)) + '\t' + str(int(phys_pos)) + '\n'
             out_fhand.write(line)
 
 

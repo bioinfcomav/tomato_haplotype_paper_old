@@ -1,8 +1,8 @@
 import config
 
-from tomato_genome import get_pericentromic_regions
 from snp_filtering import filter_variations
 from variation.variations import VariationsH5
+from solcap import determine_eucrohomatic_region
 
 
 if __name__ == '__main__':
@@ -12,7 +12,8 @@ if __name__ == '__main__':
 
     min_called = config.TIER2_MIN_CALLED
     kept_fields = config.RELEVANT_FIELDS
-    pericentromeric_regions = [(chrom.encode(), limits[0], limits[1]) for chrom, limits in get_pericentromic_regions().items()]
+    # pericentromeric_regions = [(chrom.encode(), limits[0], limits[1]) for chrom, limits in get_pericentromic_regions().items()]
+    pericentromeric_regions =  [(chrom.encode(), start, end) for chrom, regions in euchromatic_regions.items() for start, end, is_euchromatic in regions if not is_euchromatic]
 
     filtering_stats_dir = config.FILTERING_STATS_DIR
     filtering_stats_dir.mkdir(exist_ok=True)
