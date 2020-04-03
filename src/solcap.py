@@ -6,6 +6,7 @@ import itertools
 import csv
 import hashlib, pickle
 from collections import defaultdict
+from pprint import pprint
 
 import numpy
 import pandas
@@ -320,7 +321,30 @@ def determine_eucrohomatic_regions(markers, models, win_size, recomb_rate_thresh
     return euchromatic_regions
 
 
+def generate_interpolated_map():
+    markers = get_solcap_markers(approx_phys_loc=True,
+                                 cache_dir=config.CACHE_DIR)
+    models = fit_markers(markers)
+
+    genet_locs, phys_locs = collect_locs_per_chrom(markers)
+
+    locs = defaultdict(list)
+    for chrom, model in models.items():
+        phys_locs_to_interpolate = numpy.linspace(numpy.min(phys_locs[chrom]),
+                                                  numpy.max(phys_locs[chrom]),
+                                                  1000)
+
+        interpolated_genet_dists = model(phys_locs_to_interpolate)
+    
+        locs[chrom] = list(zip(phys_locs_to_interpolate, interpolated_genet_dists))
+
+    return locs
+
+
 if __name__ == '__main__':
+
+    generate_interpolated_map()
+
     markers = get_solcap_markers(approx_phys_loc=True,
                                  cache_dir=config.CACHE_DIR)
 
@@ -329,7 +353,7 @@ if __name__ == '__main__':
     euchromatic_regions = determine_eucrohomatic_regions(markers, models,
                                                          win_size=1000,
                                                          recomb_rate_threshold=1e-6)
-    print('euchromatic regions')
+    print('chromatic regions')
     print([(chrom, start, end) for chrom, regions in euchromatic_regions.items() for start, end, is_euchromatic in regions if is_euchromatic])
 
     out_dir = config.SOLCAP_DIR
