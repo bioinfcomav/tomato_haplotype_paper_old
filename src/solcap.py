@@ -153,7 +153,7 @@ def get_solcap_markers(approx_phys_loc=False, cache_dir=None):
     return markers
 
 
-def _collect_locs_per_chrom(markers):
+def collect_locs_per_chrom(markers):
 
     locs = defaultdict(list)
     for marker in markers.values():
@@ -324,11 +324,13 @@ if __name__ == '__main__':
     markers = get_solcap_markers(approx_phys_loc=True,
                                  cache_dir=config.CACHE_DIR)
 
+    beagle_map_fhand = open(config.BEAGLE_MAP, 'w')
+    export_beagle_map(markers, beagle_map_fhand)
     models = fit_markers(markers)
 
     euchromatic_regions = determine_eucrohomatic_regions(markers, models,
                                                          win_size=1000,
-                                                         recombination_threshold=1e-6)
+                                                         recomb_rate_threshold=1e-6)
 
     out_dir = config.SOLCAP_DIR
     out_dir.mkdir(exist_ok=True)

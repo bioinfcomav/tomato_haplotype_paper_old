@@ -39,6 +39,8 @@ elif USER == 'david':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
+    TOMATO_GENOME_FASTA = HOME_DIR / '/home/david/Disco/genomes/s_lycopersicum/sl40/S_lycopersicum_chromosomes.4.00.fa'
+
 elif USER == 'jope':
 
     BASE_DIR = HOME_DIR / '/home/jope/tomato/ultimate_paper'
@@ -70,7 +72,6 @@ CACHE_DIR.mkdir(exist_ok=True)
 SNPS_DIR = BASE_DIR / 'snps'
 FILTERING_STATS_DIR = SNPS_DIR / 'filtering_stats'
 IMPUTATION_DIR = BASE_DIR / 'imputation'
-BEAGLE_MAP = SOURCE_DATA_DIR / 'snps_interpolated.beagle.map'
 
 ORIG_H5 = Path('/home/jope/tomato/snv_calling/20200304/tomato_genomic-20200204.h5')
 TIER1_H5_LOWQ_085 = SNPS_DIR / 'tomato_genomic-20200204.tier1.low_qual_085.h5'
@@ -104,7 +105,7 @@ TIER2_PCA_MAX_MAF = 0.99
 SOLCAP_DIR = SOURCE_DATA_DIR / 'solcap'
 SOLCAP_ANOTATION_XLS = SOLCAP_DIR / 'tomato_ng_snp_10k_infinium_annotation_v2.10_FINAL_w_solcap_ids.xls'
 SOLCAP_GENETIC_MAP = SOLCAP_DIR / 'SolCap_genetic_map.csv'
-
+BEAGLE_MAP = SOLCAP_DIR / 'snps_interpolated.beagle.map'
 
 RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
                    '/variations/pos', '/variations/ref',
