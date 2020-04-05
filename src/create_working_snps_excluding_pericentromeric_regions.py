@@ -2,7 +2,7 @@ import config
 
 from snp_filtering import filter_variations
 from variation.variations import VariationsH5
-from solcap import determine_eucrohomatic_region
+from solcap import get_solcap_markers, fit_markers, determine_eucrohomatic_regions
 
 
 if __name__ == '__main__':
@@ -12,6 +12,13 @@ if __name__ == '__main__':
 
     min_called = config.TIER2_MIN_CALLED
     kept_fields = config.RELEVANT_FIELDS
+
+    markers = get_solcap_markers(approx_phys_loc=True,
+                                 cache_dir=config.CACHE_DIR)
+    models = fit_markers(markers)
+    euchromatic_regions = determine_eucrohomatic_regions(markers, models,
+                                                         win_size=1000,
+                                                         recomb_rate_threshold=1e-6)
     # pericentromeric_regions = [(chrom.encode(), limits[0], limits[1]) for chrom, limits in get_pericentromic_regions().items()]
     pericentromeric_regions =  [(chrom.encode(), start, end) for chrom, regions in euchromatic_regions.items() for start, end, is_euchromatic in regions if not is_euchromatic]
 
