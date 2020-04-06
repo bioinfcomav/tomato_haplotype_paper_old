@@ -11,6 +11,8 @@ from matplotlib import patches
 from pca import write_curlywhirly_file
 from colors import (ColorSchema, POP_COLORS, PINK_BLUE_CMAP_R,
                     CLASSIFICATION_RANK1_COLORS)
+from haplo import parse_haplo_id
+from haplo_pca import stack_aligned_pcas_projections
 
 ELLIPSE_COLORS = ColorSchema(CLASSIFICATION_RANK1_COLORS)
 
@@ -237,3 +239,22 @@ def plot_pcas_per_sample(pcoas, out_dir,
             del hex_axes
             fig.clf()
             del fig
+
+
+def write_pcas_curly_file(pcoas, out_dir, populations, haplo_classification=None):
+
+    pop_for_samples = {sample: pop for pop, samples in populations.items() for sample in samples}
+
+    path = out_dir / 'pcoas_along_the_genome.curly'
+
+    all_projections = stack_aligned_pcas_projections(pcoas)
+    pop_classification = {haplo_id: pop_for_samples[parse_haplo_id(haplo_id)[2]] for haplo_id in all_projections.index}
+
+    categories = {'pop': pop_classification}
+
+    if haplo_classification is not None:
+        haplo_classification = {haplo_id: pop for pop, haplo_ids in haplo_classification.items() for haplo_id in haplo_ids}
+        categories['haplo_class'] = haplo_classification
+
+    write_curlywhirly_file(all_projections, path,
+                           categories=categories)

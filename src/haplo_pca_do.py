@@ -12,7 +12,7 @@ from passport import get_sample_passports
 from haplo_pca import do_pcoas_along_the_genome
 from procrustes import align_pcas_using_procrustes
 from pop_building import get_pops
-from haplo_pca_plotting import (write_pcas_curly_file, plot_haplo_pcas,
+from haplo_pca_plotting import (plot_haplo_pcas, write_pcas_curly_file,
                                 plot_pcas_per_pop, plot_pcas_per_sample)
 
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
                   'win_size': config.HAPLO_WIN_SIZE}
 
-    vars_path = config.TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085
+    vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
 
     passports = get_sample_passports()
