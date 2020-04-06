@@ -1,6 +1,9 @@
 
+import config
+
 import csv
 from collections import defaultdict
+import time
 
 import numpy
 from pandas import DataFrame
@@ -51,22 +54,18 @@ def write_multivariant_result_for_curly(multivar_result, passports):
     passports_by_cat = defaultdict(dict)
     fields_for_curly = set()
     for sample_id, passport in passports.items():
-        pprint(passport)
         for cat_path_in_passport in field_paths_for_curly:
             curly_cat = cat_path_in_passport[-1]
 
             passport_item = passport
             for key in cat_path_in_passport:
-                print(passport_item)
                 passport_item = passport_item.get(key, {})
 
             if passport_item:
                 if isinstance(passport_item, dict):
-                    print(passport_item)
                     raise ValueError('passport item should not be a dict, but a str')
 
                 value = passport_item
-                print('value', curly_cat, value)
                 fields_for_curly.add(curly_cat)
                 passports_by_cat[curly_cat][sample_id] = value
 

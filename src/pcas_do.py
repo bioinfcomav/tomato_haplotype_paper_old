@@ -20,8 +20,8 @@ from snp_filtering import (filter_variations,
 import colors
 from plot import plot_var_density_along_genome
 from pop_distances import calc_kosman_dists
-from pca import do_pcoa_from_dists, write_multivariant_result_for_curly
-from haplo_pca_plotting import write_pca_curlywhirly_file
+from pca import (do_pcoa_from_dists, write_multivariant_result_for_curly,
+                 write_pca_curlywhirly_file)
 
 
 def get_sample_selection_criteria():
@@ -32,10 +32,10 @@ def get_sample_selection_criteria():
 
     criteria = []
     samples_to_remove = []
-    samples_to_keep = ['hola']
+    samples_to_keep = []
 
-    if True:
-        criteria.append((rank1, ['sp_pe', 'sp_ec', 'sp_inter-andean'], KEEP))
+    if False:
+        criteria.append((rank1, ['sp_pe', 'sp_ec', 'sp_inter-andean'], keep))
         #criteria.append((RANK2, ['slc_ecu_big'], REMOVE))
 
     return {'criteria': criteria, 'samples_to_remove': samples_to_remove,
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     passports = get_sample_passports()
 
-    vars_path = config.TIER1_PHASED_LOW_QUAL_09_MISSING_085
+    vars_path = config.WORKING_H5
     variations = VariationsH5(str(vars_path), 'r')
 
     all_samples = variations.samples
@@ -142,7 +142,7 @@ if __name__ == '__main__':
                                    chunk_size=chunk_size,
                                    samples_to_keep=samples_to_use,
                                    cache_dir=cache_dir,
-                                   max_mac=config.TIER2_MAX_MAC,
+                                   filter_out_vars_with_non_major_allele_count_le=config.TIER2_MAX_MAC,
                                    max_maf=max_maf,
                                    min_called=config.TIER2_MIN_CALLED,
                                    max_het=config.TIER2_MAX_HET,
