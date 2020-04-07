@@ -4,7 +4,7 @@ import config
 from pprint import pprint
 from collections import defaultdict, Counter
 import hashlib, pickle
-
+import math
 
 import numpy
 import pandas
@@ -22,7 +22,7 @@ from pop_building import get_pops
 from haplo_pca import do_pcoas_along_the_genome, stack_aligned_pcas_projections
 from procrustes import align_pcas_using_procrustes
 from pca import write_curlywhirly_file
-from haplo import parse_haplo_id
+from haplo import parse_haplo_id, get_pop_classification_for_haplos
 
 
 def _classify_haplo_pcoas(aligned_pcoas_df, classification_config):
@@ -329,11 +329,92 @@ def classify_haplos(variations, win_params, num_wins_to_process,
     return res
 
 
+def detected_outliers_and_classify_haplos(variations, win_params,
+                                          num_wins_to_process,
+                                          samples_to_use,
+                                          n_dims_to_keep,
+                                          classification_config,
+                                          classification_outlier_config,
+                                          outlier_configs,
+                                          out_dir,
+                                          outliers_return_aligned_pcoas=False,
+                                          only_outliers=False,
+                                          cache_dir=None):
+
+    # first iteration, with outliers,
+    res = detect_outlier_haplos(variations, win_params=win_params,
+                                num_wins_to_process=num_wins_to_process,
+                                samples_to_use=samples_to_use,
+                                n_dims_to_keep=n_dims_to_keep,
+                                outlier_configs=outlier_configs,
+                                out_dir=out_dir,
+                                cache_dir=cache_dir,
+                                return_aligned_pcoas=outliers_return_aligned_pcoas)
+    outlier_classes = res['outlier_classes']
+    if outliers_return_aligned_pcoas:
+        aligned_pcoas_df = res['aligned_pcoas_df']
+
+    # second iteration, with no outliers
+    if not only_outliers:
+
+        res = classify_haplos(variations, win_params=win_params,
+                              num_wins_to_process=num_wins_to_process,
+                              samples=samples_to_use,
+                              n_dims_to_keep=n_dims_to_keep,
+                              outlier_classes=outlier_classes,
+                              classification_config=classification_config,
+                              outlier_config=classification_outlier_config,
+                              cache_dir=cache_dir)
+        classification = res['classification']
+        aligned_pcoas_df = res['aligned_pcoas_df']
+    else:
+        classification = outlier_classes
+    return {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df}
+
+
+def calc_haplo_sample_composition(haplo_classification):
+    sample_haplo_composition = defaultdict(Counter)
+    for haplo_id, klass in haplo_classification.items():
+        sample = parse_haplo_id(haplo_id)[2]
+        sample_haplo_composition[sample][klass] += 1
+    return sample_haplo_composition
+
+
+def calc_haplo_sample_composition_freq(haplo_classification):
+    sample_haplo_composition_freqs = {}
+    for sample, composition in calc_haplo_sample_composition(haplo_classification).items():
+        tot_count = sum(composition.values())
+        sample_haplo_composition_freqs[sample] = {klass: count / tot_count for klass, count in composition.items()}
+    return sample_haplo_composition_freqs
+
+
+def calc_haplo_pop_composition_freq(pops, haplo_classification):
+    sample_haplo_composition_freqs = calc_haplo_sample_composition_freq(haplo_classification)
+
+    haplo_classes = {klass for composition in sample_haplo_composition_freqs.values() for klass in composition.keys()}
+
+    pop_composition_freqs = {}
+    for pop, samples in pops.items():
+        pop_compositions = defaultdict(list)
+        for sample in samples:
+            
+            try:
+                sample_haplo_composition = sample_haplo_composition_freqs[sample]
+            except KeyError:
+                if config.SKIP_SAMPLES_WITH_NO_GENOTYPE:
+                    continue
+                else:
+                    raise
+
+            for klass in haplo_classes:
+                pop_compositions[klass].append(sample_haplo_composition.get(klass, 0))
+        pop_composition_freqs[pop] = {klass: numpy.mean(freqs) for klass, freqs in pop_compositions.items()}
+        assert math.isclose(sum(pop_composition_freqs[pop].values()), 1)
+    return pop_composition_freqs
+
+
+
 if __name__ == '__main__':
-
-
-    print('TODO Table')
-    print('TODO hist2d')
 
     debug = False
 
@@ -413,43 +494,25 @@ if __name__ == '__main__':
     out_dir = config.HAPLO_PCOA_DIR
     out_dir.mkdir(exist_ok=True)
 
-    # first iteration, with outliers,
-    res = detect_outlier_haplos(variations, win_params=win_params,
-                                num_wins_to_process=num_wins_to_process,
-                                samples_to_use=samples_to_use,
-                                n_dims_to_keep=n_dims_to_keep,
-                                outlier_configs=outlier_configs,
-                                out_dir=out_dir,
-                                cache_dir=cache_dir,
-                                return_aligned_pcoas=outliers_return_aligned_pcoas)
-    outlier_classes = res['outlier_classes']
-    if outliers_return_aligned_pcoas:
-        aligned_pcoas_df = res['aligned_pcoas_df']
-
-    # second iteration, with no outliers
-    if not only_outliers:
-
-        res = classify_haplos(variations, win_params=win_params,
-                              num_wins_to_process=num_wins_to_process,
-                              samples=samples_to_use,
-                              n_dims_to_keep=n_dims_to_keep,
-                              outlier_classes=outlier_classes,
-                              classification_config=classification_config,
-                              outlier_config=classification_outlier_config,
-                              cache_dir=cache_dir)
-        classification = res['classification']
-        aligned_pcoas_df = res['aligned_pcoas_df']
-    else:
-        classification = outlier_classes
+    res = detected_outliers_and_classify_haplos(variations,
+                                                win_params=win_params,
+                                                num_wins_to_process=num_wins_to_process,
+                                                samples_to_use=samples_to_use,
+                                                n_dims_to_keep=n_dims_to_keep,
+                                                classification_config=classification_config,
+                                                classification_outlier_config=classification_outlier_config,
+                                                outlier_configs=outlier_configs,
+                                                out_dir=out_dir,
+                                                outliers_return_aligned_pcoas=outliers_return_aligned_pcoas,
+                                                only_outliers=only_outliers,
+                                                cache_dir=cache_dir)
+    classification = res['classification']
+    aligned_pcoas_df = res['aligned_pcoas_df']
 
     print('classification counts')
     print(Counter(classification.values()))
 
-    pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
-    pop_classification = {}
-    for haplo_id in aligned_pcoas_df.index:
-        sample = parse_haplo_id(haplo_id)[2]
-        pop_classification[haplo_id] = pops_for_samples[sample]
+    pop_classification = get_pop_classification_for_haplos(aligned_pcoas_df.index, pops)
 
     categories = {'population': pop_classification,
                   'classification': classification}
