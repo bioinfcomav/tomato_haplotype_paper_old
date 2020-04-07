@@ -280,7 +280,23 @@ def remove_outliers_from_classified_clusters(classification, aligned_pcoas_df,
 def classify_haplos(variations, win_params, num_wins_to_process,
                     samples, n_dims_to_keep,
                     outlier_classes,
-                    classification_config):
+                    classification_config,
+                    outlier_config, cache_dir=None):
+
+    if cache_dir:
+        key = ','.join(sorted(variations.samples))
+        key += 'num_variations' + str(variations.num_variations)
+        key += 'win_params' + str(win_params)
+        key += 'num_wins_to_process' + str(num_wins_to_process)
+        key += 'samples_to_use' + ','.join(sorted(samples))
+        key += 'outlier_clases' + str(sorted(outlier_classes.values()))
+        key += 'n_dims_to_keep' + str(n_dims_to_keep)
+        key += 'clasfication_config' + str(classification_config)
+        key += 'outlier_config' + str(outlier_config)
+        key = hashlib.md5(key.encode()).hexdigest()
+        cache_path = cache_dir / ('haplo_clasfication' + key + '.pickle')
+        if cache_path.exists():
+            return pickle.load(cache_path.open('rb'))
 
     outlier_haplos_by_win = collect_outlier_haplos_by_win(outlier_classes.keys())
 
@@ -298,19 +314,28 @@ def classify_haplos(variations, win_params, num_wins_to_process,
     res = _classify_haplo_pcoas(aligned_pcoas_df,
                                 classification_config)
     classification = dict(res['classification_per_haplo_id'].iteritems())
-    return {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df}
+
+    remove_outliers_from_classified_clusters(outlier_config=classification_outlier_config, 
+                                                classification=classification,
+                                                aligned_pcoas_df=aligned_pcoas_df)
+
+    classification.update(outlier_classes)
+
+    res = {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df}
+
+    if cache_dir:
+        pickle.dump(res, cache_path.open('wb'))
+
+    return res
 
 
 if __name__ == '__main__':
-    debug = True
 
-    thinning_dist_threshold = 0.0015
 
-    outlier_contamination_freqs = [0.013, 0.011, 0.010] # se queda un pico sin seleccionar
-    outlier_contamination_freqs = [0.010, 0.05, 0.005] # quita un poco en exceso
-    outlier_contamination_freqs = [0.020] # un poco excesivo, aunque cuanto a penas
-    outlier_contamination_freqs = [0.015] # quita sólo outliers
-    outlier_contamination_freqs = [0.015, 0.010]
+    print('TODO Table')
+    print('TODO hist2d')
+
+    debug = False
 
     outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.015, 'behaviour': 'deprecated'},
                        {'method': 'lof', 'n_neighbors': 100}]
@@ -321,7 +346,10 @@ if __name__ == '__main__':
     outlier_configs = [{'method': 'elliptic_envelope', 'contamination': 0.015, 'thinning_dist_threshold': 0.0005}]
 
     # all the ones that are removed are ok, and there are just few outliers left
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.035,
+    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.050,
+                        'thinning_dist_threshold': 0.0015}]
+
+    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
                         'thinning_dist_threshold': 0.0015}]
 
     n_dims_to_keep = 3
@@ -338,10 +366,14 @@ if __name__ == '__main__':
                              'min_samples': 0.05
                              }
 
-    # It works pretty well. The only problem is that it classifies everything
     classification_config = {'thinning_dist_threshold': 0.0001,
                              'method': 'agglomerative',
                              'n_clusters': 3}
+    classification_config = {'thinning_dist_threshold': 0.00025,
+                             'method': 'agglomerative',
+                             'n_clusters': 3}
+    classification_outlier_config = {'method': 'elliptic_envelope',
+                                     'contamination': 0.015}
 
     if False:
         num_wins_to_process = 100
@@ -352,6 +384,7 @@ if __name__ == '__main__':
     elif debug:
         num_wins_to_process = 100
         #num_wins_to_process = 20
+        #num_wins_to_process = 2
         only_outliers = False
         cache_dir = config.CACHE_DIR
         outliers_return_aligned_pcoas = False
@@ -364,7 +397,7 @@ if __name__ == '__main__':
     win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
                   'win_size': config.HAPLO_WIN_SIZE}
 
-    vars_path = config.TIER1_PHASED_AND_IMPUTED_LOW_QUAL_09_MISSING_085
+    vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
 
     passports = get_sample_passports()
@@ -401,30 +434,22 @@ if __name__ == '__main__':
                               samples=samples_to_use,
                               n_dims_to_keep=n_dims_to_keep,
                               outlier_classes=outlier_classes,
-                              classification_config=classification_config)
-
-        outlier_config = {'method': 'elliptic_envelope', 'contamination': 0.015}
-
+                              classification_config=classification_config,
+                              outlier_config=classification_outlier_config,
+                              cache_dir=cache_dir)
         classification = res['classification']
-        aligned_pcoas_df = res ['aligned_pcoas_df']
-        remove_outliers_from_classified_clusters(outlier_config=outlier_config, 
-                                                 classification=classification,
-                                                 aligned_pcoas_df=aligned_pcoas_df)
-
-        
-
-        classification.update(outlier_classes)
+        aligned_pcoas_df = res['aligned_pcoas_df']
     else:
         classification = outlier_classes
 
     print('classification counts')
     print(Counter(classification.values()))
 
-    pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples_to_use}
+    pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
     pop_classification = {}
-    for haplo_id_str in aligned_pcoas_df.index:
-        sample = haplo_id_str.split('%')[2]
-        pop_classification[haplo_id_str] = pops_for_samples[sample]
+    for haplo_id in aligned_pcoas_df.index:
+        sample = parse_haplo_id(haplo_id)[2]
+        pop_classification[haplo_id] = pops_for_samples[sample]
 
     categories = {'population': pop_classification,
                   'classification': classification}
