@@ -1,3 +1,4 @@
+import config
 
 from collections import defaultdict
 
@@ -40,9 +41,9 @@ def get_samples_for_criteria(all_samples, sample_passports, criteria,
             pops_seen[classification_key_path].add(pop)
 
             if pop in pops:
-                if action == KEEP:
+                if action == config.KEEP:
                     samples_to_keep.add(sample)
-                if action == REMOVE:
+                if action == config.REMOVE:
                     samples_to_remove.add(sample)
 
     if samples_to_keep:
