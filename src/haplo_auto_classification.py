@@ -15,10 +15,6 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.ensemble import IsolationForest
 from sklearn.covariance import EllipticEnvelope
 
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-from matplotlib import colors
-
 from variation.variations import VariationsH5
 
 from passport import get_sample_passports
@@ -27,7 +23,8 @@ from haplo_pca import do_pcoas_along_the_genome, stack_aligned_pcas_projections
 from procrustes import align_pcas_using_procrustes
 from pca import write_curlywhirly_file
 from haplo import parse_haplo_id, get_pop_classification_for_haplos
-from colors import PINK_BLUE_CMAP_R2
+from haplo_pca_plotting import calc_ellipsoids, plot_hist2d
+
 
 def _classify_haplo_pcoas(aligned_pcoas_df, classification_config):
 
@@ -417,23 +414,6 @@ def calc_haplo_pop_composition_freq(pops, haplo_classification):
     return pop_composition_freqs
 
 
-def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None):
-    fig = Figure()
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
-
-    axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=50,
-               norm=colors.LogNorm(), cmap=PINK_BLUE_CMAP_R2)
-
-    if x_lims:
-        axes.set_xlim(x_lims)
-    if y_lims:
-        axes.set_ylim(y_lims)
-
-    fig.tight_layout()
-    fig.savefig(str(plot_path))
-
-
 if __name__ == '__main__':
 
     debug = False
@@ -532,10 +512,14 @@ if __name__ == '__main__':
     print('classification counts')
     print(Counter(classification.values()))
 
-    path = out_dir / 'pcoas_along_the_genome.hist_2d.svg'
-    plot_hist2d(aligned_pcoas_df, path, x_lims=(-0.08, 0.03), y_lims=(-0.05, 0.03))
-
     pop_classification = get_pop_classification_for_haplos(aligned_pcoas_df.index, pops)
+
+    ellipsoids = calc_ellipsoids(classification, aligned_pcoas_df, classes_to_ignore=['out_0', 'group_outlier'],
+                                 scale=1.5)
+
+    path = out_dir / 'pcoas_along_the_genome.hist_2d.svg'
+    plot_hist2d(aligned_pcoas_df, path, x_lims=(-0.08, 0.03), y_lims=(-0.05, 0.03),
+                ellipsoids=ellipsoids)
 
     categories = {'population': pop_classification,
                   'classification': classification}

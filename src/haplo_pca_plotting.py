@@ -7,9 +7,10 @@ import pandas
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib import patches
+from matplotlib import colors
 
 from pca import write_curlywhirly_file
-from colors import (ColorSchema, POP_COLORS, PINK_BLUE_CMAP_R,
+from colors import (ColorSchema, POP_COLORS, PINK_BLUE_CMAP_R, PINK_BLUE_CMAP_R2,
                     CLASSIFICATION_RANK1_COLORS)
 from haplo import parse_haplo_id
 from haplo_pca import stack_aligned_pcas_projections
@@ -258,3 +259,80 @@ def write_pcas_curly_file(pcoas, out_dir, populations, haplo_classification=None
 
     write_curlywhirly_file(all_projections, path,
                            categories=categories)
+
+
+def fit_ellipsoid(X, Y, scale):
+    cov = numpy.cov(X, Y)
+    eigvals, eigvecs = numpy.linalg.eigh(cov)
+    order = eigvals.argsort()[::-1]
+    eigvals, eigvecs = eigvals[order], eigvecs[:, order]
+
+    eigvecs = eigvecs.T
+
+    width, height = 2 * numpy.sqrt(eigvals) * scale
+
+    vx, vy = eigvecs[:,0][0], eigvecs[:,0][1]
+    theta = numpy.arctan2(vy, vx)
+
+    center = numpy.mean(X), numpy.mean(Y)
+
+    ellipsoid = {'center': center, 'eigvals': eigvals, 'eigvecs': eigvecs, 'width': width, 'height': height, 'theta': theta}
+    return ellipsoid
+
+
+def plot_ellipsoids(axes, ellipsoids):
+    if not ellipsoids:
+        return
+
+    for haplo_kind, ellipsoid in ellipsoids.items():
+        #color = ELLIPSE_COLORS[haplo_kind]
+        color = 'b'
+        ellipse = patches.Ellipse(ellipsoid['center'],
+                                  ellipsoid['width'],
+                                  ellipsoid['height'],
+                                  angle=numpy.degrees(ellipsoid['theta']),
+                                  facecolor='none',
+                                  edgecolor=color,
+                                  linewidth=2,
+                                  zorder=30,
+                                  #alpha=0.7
+                                  )
+        axes.add_patch(ellipse)
+
+
+def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoids=None):
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+
+    axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=50,
+               norm=colors.LogNorm(), cmap=PINK_BLUE_CMAP_R2, zorder=10)
+    plot_ellipsoids(axes, ellipsoids)
+
+    if x_lims:
+        axes.set_xlim(x_lims)
+    if y_lims:
+        axes.set_ylim(y_lims)
+
+    fig.tight_layout()
+    fig.savefig(str(plot_path))
+
+
+def calc_ellipsoids(classification, aligned_pcoas_df, scale=1, classes_to_ignore=None):
+    classes = set(classification.values())
+
+    if classes_to_ignore is not None:
+        classes = classes.difference(classes_to_ignore)
+
+    ellipsoids = {}
+    for klass in classes:
+        haplo_ids_in_class = [haplo_id for haplo_id in aligned_pcoas_df.index if classification[haplo_id] == klass]
+        if not haplo_ids_in_class:
+            continue
+        haplo_positons_in_pcoas_for_class = aligned_pcoas_df.loc[haplo_ids_in_class, :]
+        
+        ellipsoid = fit_ellipsoid(haplo_positons_in_pcoas_for_class.iloc[:, 0],
+                                  haplo_positons_in_pcoas_for_class.iloc[:, 1],
+                                  scale=scale)
+        ellipsoids[klass] = ellipsoid
+    return ellipsoids
