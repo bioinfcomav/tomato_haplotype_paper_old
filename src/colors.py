@@ -137,6 +137,18 @@ PINK_BLUE_CMAP_R = LinearSegmentedColormap.from_list('rg',
                                                     pink_blue_list_r,
                                                     N=256)
 
+pink_blue_list_r2 = [(0, white),
+                    (0.15, color5),
+                    (0.25, color4),
+                    (0.35, color3),
+                    (0.45, color2),
+                    (0.60, color1),
+                    (1.0, black)]
+PINK_BLUE_CMAP_R2 = LinearSegmentedColormap.from_list('rg',
+                                                    pink_blue_list_r2,
+                                                    N=256)
+
+
 TERMINAL_RED = '\033[91m'
 TERMINAL_ENDC = '\033[0m'
 TERMINAL_BLUE = '\033[94m'
