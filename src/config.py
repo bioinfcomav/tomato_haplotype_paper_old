@@ -115,6 +115,7 @@ RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
                    '/variations/alt']
 
 CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
+CLASSIFICATION_HISTORY_DIR = BASE_DIR / 'old_classifications'
 
 CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
 

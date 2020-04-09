@@ -45,6 +45,7 @@ def write_multivariant_result_for_curly(multivar_result, passports):
     field_paths_for_curly = [('classification', 'rank1'),
                         ('classification', 'rank2'),
                         ('country',),
+                        ('geo_region',),
                         #'morpho_type',
                         #'sw_group', 'tmp', 'region', 'het',
                         #'percent_haplos_close_to_ref',
