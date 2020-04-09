@@ -26,6 +26,9 @@ from haplo import parse_haplo_id, get_pop_classification_for_haplos
 from haplo_pca_plotting import calc_ellipsoids, plot_hist2d
 
 
+HAPLO_PCOAS_X_LIMS = (-0.08, 0.03)
+HAPLO_PCOAS_Y_LIMS = (-0.05, 0.03)
+
 def _classify_haplo_pcoas(aligned_pcoas_df, classification_config):
 
     params = classification_config.copy()
@@ -518,7 +521,8 @@ if __name__ == '__main__':
                                  scale=1.5)
 
     path = out_dir / 'pcoas_along_the_genome.hist_2d.svg'
-    plot_hist2d(aligned_pcoas_df, path, x_lims=(-0.08, 0.03), y_lims=(-0.05, 0.03),
+    plot_hist2d(aligned_pcoas_df, path,
+                x_lims=HAPLO_PCOAS_X_LIMS, y_lims=HAPLO_PCOAS_Y_LIMS,
                 ellipsoids=ellipsoids)
 
     categories = {'population': pop_classification,
