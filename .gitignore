@@ -7,3 +7,6 @@ haplo_pcoa/
 .vscode/
 solcap/chroms
 snps/
+imputation/
+source_data/genome/
+source_data/solcap/snps_interpolated.beagle.map
