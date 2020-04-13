@@ -107,6 +107,19 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
     return res
 
 
+def calc_pop_stats(variations, allowed_missing_gts, percentiles=[25, 50, 75]):
+    pop_stas_per_var = calc_pop_stats_per_var(variations, allowed_missing_gts=allowed_missing_gts)
+    res = {}
+    res['unbiased_exp_het_percentiles'] = numpy.nanpercentile(pop_stas_per_var['unbiased_exp_het'], percentiles)
+    res['mean_num_alleles'] = numpy.nanmean(pop_stas_per_var['num_alleles'])
+    num_poly95 = numpy.sum(pop_stas_per_var['var_is_poly95'])
+    num_poly75 = numpy.sum(pop_stas_per_var['var_is_poly75'])
+    res['poly95'] = num_poly95 / pop_stas_per_var['num_vars_with_enough_gts'] * 100
+    res['poly75'] = num_poly75 / pop_stas_per_var['num_vars_with_enough_gts'] * 100
+    res['ratio_poly75/poly95'] = num_poly75 / num_poly95
+    return res
+
+
 def do_rarefaction_for_population(variations, samples,
                                   rarefaction_range,
                                   allowed_missing_gts=0,
@@ -120,7 +133,8 @@ def do_rarefaction_for_population(variations, samples,
     num_indis_range = range(rarefaction_range[0],
                             max_num_indis)
 
-    res = defaultdict(list)
+    first = True
+    res = {'num_indis': []}
     for num_indis in num_indis_range:
         if num_indis == len(samples):
             samples_for_this_iter = samples
@@ -129,15 +143,20 @@ def do_rarefaction_for_population(variations, samples,
 
         variations_for_this_iter = SampleFilter(samples_for_this_iter)(variations)[FLT_VARS]
 
-        pop_stas_per_var = calc_pop_stats_per_var(variations_for_this_iter, allowed_missing_gts=allowed_missing_gts)
-        res['unbiased_exp_het_percentiles'].append(numpy.nanpercentile(pop_stas_per_var['unbiased_exp_het'], percentiles))
         res['num_indis'].append(num_indis)
-        res['mean_num_alleles'].append(numpy.nanmean(pop_stas_per_var['num_alleles']))
-        num_poly95 = numpy.sum(pop_stas_per_var['var_is_poly95'])
-        num_poly75 = numpy.sum(pop_stas_per_var['var_is_poly75'])
-        res['poly95'].append(num_poly95 / pop_stas_per_var['num_vars_with_enough_gts'] * 100)
-        res['poly75'].append(num_poly75 / pop_stas_per_var['num_vars_with_enough_gts'] * 100)
-        res['ratio_poly75/poly95'].append(num_poly75 / num_poly95)
+
+        pop_stats = calc_pop_stats(variations_for_this_iter,
+                                   allowed_missing_gts=allowed_missing_gts,
+                                   percentiles=percentiles)
+        if first:
+            for field in pop_stats.keys():
+                res[field] = []
+            first = False
+
+        for field, value in pop_stats.items():
+            res[field].append(value)
+
+    print(res)
     return res
 
 
