@@ -22,12 +22,11 @@ class NotEnoughSamplesError(RuntimeError):
 
 
 def _set_vars_with_not_enough_gts_to_nan(stat_per_var,
-                                         num_missing_gts_per_var,
-                                         allowed_missing_gts):
+                                         var_has_to_much_missing):
     if issubclass(stat_per_var.dtype.type, numpy.integer):
         stat_per_var = stat_per_var.astype(float)
 
-    stat_per_var[num_missing_gts_per_var > allowed_missing_gts] = numpy.nan
+    stat_per_var[var_has_to_much_missing] = numpy.nan
     return stat_per_var
 
 
@@ -61,18 +60,23 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
         allele_counts_per_allele_and_snp = numpy.delete(allele_counts_per_allele_and_snp,
                                                         missing_allele_index, axis=1)
 
+    var_has_to_much_missing = num_missing_gts_per_var > allowed_missing_gts
+
     if set(stats_to_calc).intersection(['var_is_poly95', 'var_is_poly75', 'mafs', 'unbiased_exp_het']):
         tot_allele_count_per_var = numpy.sum(allele_counts_per_allele_and_snp, axis=1)
 
     res = {}
-    if set(stats_to_calc).intersection('mafs', 'var_is_poly95', 'var_is_poly75'):
+
+    res['num_vars'] = num_vars
+    res['num_vars_with_enough_gts'] = num_vars - numpy.sum(var_has_to_much_missing)
+
+    if set(stats_to_calc).intersection(['mafs', 'var_is_poly95', 'var_is_poly75']):
         max_ = numpy.amax(allele_counts_per_allele_and_snp, axis=1)
         # To avoid problems with NaNs
         with numpy.errstate(invalid='ignore'):
             mafs_per_var = max_ / tot_allele_count_per_var
         mafs_per_var = _set_vars_with_not_enough_gts_to_nan(mafs_per_var,
-                                                            num_missing_gts_per_var,
-                                                            allowed_missing_gts)
+                                                            var_has_to_much_missing)
         if 'mafs' in stats_to_calc:
             res['mafs_per_var'] = mafs_per_var
 
@@ -87,8 +91,7 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
     if 'num_alleles' in stats_to_calc:
         num_alleles_per_var = numpy.sum(allele_counts_per_allele_and_snp != 0, axis=1)
         res['num_alleles'] = _set_vars_with_not_enough_gts_to_nan(num_alleles_per_var,
-                                                                          num_missing_gts_per_var,
-                                                                          allowed_missing_gts)
+                                                                  var_has_to_much_missing)
 
     if 'unbiased_exp_het' in stats_to_calc:
         with numpy.errstate(invalid='ignore'):
@@ -100,9 +103,7 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
         num_called_gts_per_var_doubled = 2 * num_called_gts_per_var
         unbiased_exp_het = (num_called_gts_per_var_doubled / (num_called_gts_per_var_doubled - 1)) * exp_het_per_var
         res['unbiased_exp_het'] = _set_vars_with_not_enough_gts_to_nan(unbiased_exp_het,
-                                                                       num_missing_gts_per_var,
-                                                                       allowed_missing_gts)
-
+                                                                       var_has_to_much_missing)
     return res
 
 
@@ -132,11 +133,12 @@ def do_rarefaction_for_population(variations, samples,
         res['unbiased_exp_het_percentiles'].append(numpy.nanpercentile(pop_stas_per_var['unbiased_exp_het'], percentiles))
         res['num_indis'].append(num_indis)
         res['mean_num_alleles'].append(numpy.nanmean(pop_stas_per_var['num_alleles']))
-        num_poly95 = numpy.sum(res['var_is_poly95'])
-        num_poly75 = numpy.sum(res['var_is_poly75'])
-        res['num_poly95'].append(num_poly95)
+        num_poly95 = numpy.sum(pop_stas_per_var['var_is_poly95'])
+        num_poly75 = numpy.sum(pop_stas_per_var['var_is_poly75'])
+        res['poly95'].append(num_poly95 / pop_stas_per_var['num_vars_with_enough_gts'] * 100)
+        res['poly75'].append(num_poly75 / pop_stas_per_var['num_vars_with_enough_gts'] * 100)
         res['ratio_poly75/poly95'].append(num_poly75 / num_poly95)
-        print(num_indis)
+    return res
 
 
 def keep_variations_variable_in_samples(variations, samples):
@@ -164,6 +166,7 @@ def calc_rarefacted_diversities(variations, pops, rarefaction_range):
                                                              rarefaction_range=rarefaction_range)
         except NotEnoughSamplesError:
             continue    
+    return diversities
 
 
 if __name__ == '__main__':
@@ -179,3 +182,6 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, passports)
 
     rarefacted_diversities = calc_rarefacted_diversities(variations, pops, rarefaction_range)
+    #print(rarefacted_diversities)
+
+    # TODO filtrar a 095 with all_samples
