@@ -168,10 +168,10 @@ def _detect_outlier_haplos(variations, win_params, num_wins_to_process,
 
     if aligned_pcoas_df is None:
         pcoas = do_pcoas_along_the_genome(variations, win_params,
-                                        num_wins_to_process=num_wins_to_process,
-                                        samples=samples_to_use,
-                                        n_dims_to_keep=n_dims_to_keep,
-                                        haplotypes_to_exclude=haplotypes_to_exclude)
+                                          num_wins_to_process=num_wins_to_process,
+                                          samples=samples_to_use,
+                                          n_dims_to_keep=n_dims_to_keep,
+                                          haplotypes_to_exclude=haplotypes_to_exclude)
 
         aligned_pcoas = list(align_pcas_using_procrustes(pcoas))
 
@@ -198,7 +198,7 @@ def collect_outlier_haplos_by_win(outlier_haplos):
 
 def detect_outlier_haplos(variations, win_params, num_wins_to_process,
                           samples_to_use, n_dims_to_keep,
-                          outlier_configs, out_dir,
+                          outlier_configs, out_dir, pops,
                           return_aligned_pcoas,
                           cache_dir):
 
@@ -242,18 +242,19 @@ def detect_outlier_haplos(variations, win_params, num_wins_to_process,
             if is_outlier:
                 outlier_classes[sample] = f'out_{idx}'
 
-    pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples_to_use}
-    pop_classification = {}
-    for haplo_id_str in first_aligned_pcoas_df.index:
-        sample = haplo_id_str.split('%')[2]
-        pop_classification[haplo_id_str] = pops_for_samples[sample]
+    categories = {'outliers': outlier_classes}
+    if pops:
+        pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples_to_use}
+        pop_classification = {}
+        for haplo_id_str in first_aligned_pcoas_df.index:
+            sample = haplo_id_str.split('%')[2]
+            pop_classification[haplo_id_str] = pops_for_samples[sample]
+        categories['population'] = pop_classification
 
-    categories = {'population': pop_classification,
-                  'outliers': outlier_classes}
-
-    path = out_dir / 'pcoas_along_the_genome.with_outliers.curly'
-    write_curlywhirly_file(first_aligned_pcoas_df, path,
-                           categories=categories)
+    if out_dir is not None:
+        path = out_dir / 'pcoas_along_the_genome.with_outliers.curly'
+        write_curlywhirly_file(first_aligned_pcoas_df, path,
+                            categories=categories)
 
     res = {'outlier_classes': outlier_classes}
 
@@ -319,9 +320,9 @@ def classify_haplos(variations, win_params, num_wins_to_process,
                                 classification_config)
     classification = dict(res['classification_per_haplo_id'].iteritems())
 
-    remove_outliers_from_classified_clusters(outlier_config=classification_outlier_config, 
-                                                classification=classification,
-                                                aligned_pcoas_df=aligned_pcoas_df)
+    remove_outliers_from_classified_clusters(outlier_config=outlier_config, 
+                                             classification=classification,
+                                             aligned_pcoas_df=aligned_pcoas_df)
 
     classification.update(outlier_classes)
 
@@ -341,6 +342,7 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                                           classification_outlier_config,
                                           outlier_configs,
                                           out_dir,
+                                          pops=None,
                                           outliers_return_aligned_pcoas=False,
                                           only_outliers=False,
                                           cache_dir=None):
@@ -351,6 +353,7 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                                 samples_to_use=samples_to_use,
                                 n_dims_to_keep=n_dims_to_keep,
                                 outlier_configs=outlier_configs,
+                                pops=pops,
                                 out_dir=out_dir,
                                 cache_dir=cache_dir,
                                 return_aligned_pcoas=outliers_return_aligned_pcoas)
@@ -506,6 +509,7 @@ if __name__ == '__main__':
                                                 classification_outlier_config=classification_outlier_config,
                                                 outlier_configs=outlier_configs,
                                                 out_dir=out_dir,
+                                                pops=pops,
                                                 outliers_return_aligned_pcoas=outliers_return_aligned_pcoas,
                                                 only_outliers=only_outliers,
                                                 cache_dir=cache_dir)
