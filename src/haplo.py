@@ -202,6 +202,10 @@ def parse_haplo_id(haplo_id):
     return chrom, win_start, sample, haploid_idx
 
 
+def create_haplo_id(chrom, win_start, sample, haploid_idx):
+    return f'{chrom}%{win_start}%{sample}%{haploid_idx}'
+
+
 def get_pop_classification_for_haplos(haplo_ids, pops):
 
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}

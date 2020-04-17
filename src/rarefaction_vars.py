@@ -39,7 +39,8 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
                            stats_to_calc=None, ploidy=None):
     if stats_to_calc is None:
         stats_to_calc = ['mafs', 'num_alleles', 'unbiased_exp_het',
-                         'var_is_poly95', 'var_is_poly80']
+                         'var_is_poly95', 'var_is_poly80',
+                         'var_is_variable']
 
     gts = variations[GT_FIELD]
 
@@ -75,7 +76,7 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
     res['num_vars'] = num_vars
     res['num_vars_with_enough_gts'] = num_vars - numpy.sum(var_has_to_much_missing)
 
-    if set(stats_to_calc).intersection(['mafs', 'var_is_poly95', 'var_is_poly80']):
+    if set(stats_to_calc).intersection(['mafs', 'var_is_poly95', 'var_is_poly80', 'var_is_variable']):
         max_ = numpy.amax(allele_counts_per_allele_and_snp, axis=1)
         # To avoid problems with NaNs
         with numpy.errstate(invalid='ignore'):
@@ -84,6 +85,12 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
                                                             var_has_to_much_missing)
         if 'mafs' in stats_to_calc:
             res['mafs_per_var'] = mafs_per_var
+
+        if 'var_is_variable' in stats_to_calc:
+            var_has_enough_data = numpy.logical_not(var_has_to_much_missing)
+            var_is_variable = numpy.logical_not(numpy.isclose(mafs_per_var, 1))
+            var_is_variable = numpy.logical_and(var_is_variable, var_has_enough_data)
+            res['var_is_variable'] = var_is_variable
 
         if 'var_is_poly95' in stats_to_calc:
             with numpy.errstate(invalid='ignore'):
@@ -99,30 +106,58 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
                                                                   var_has_to_much_missing)
 
     if 'unbiased_exp_het' in stats_to_calc:
+        num_called_gts_per_var = numpy.full(num_vars, num_samples) - num_missing_gts_per_var
         with numpy.errstate(invalid='ignore'):
             allele_freq_per_allele_and_var = allele_counts_per_allele_and_snp / tot_allele_count_per_var[:, None]
 
         exp_het_per_var = 1 - numpy.sum(allele_freq_per_allele_and_var ** ploidy, axis=1)
 
-        num_called_gts_per_var = numpy.full(num_vars, num_samples) - num_missing_gts_per_var
         num_called_gts_per_var_doubled = 2 * num_called_gts_per_var
         unbiased_exp_het = (num_called_gts_per_var_doubled / (num_called_gts_per_var_doubled - 1)) * exp_het_per_var
         res['unbiased_exp_het'] = _set_vars_with_not_enough_gts_to_nan(unbiased_exp_het,
                                                                        var_has_to_much_missing)
+    res['stats_calc'] = stats_to_calc
+
     return res
 
 
-def calc_pop_stats(variations, allowed_missing_gts, percentiles=[25, 50, 75]):
-    pop_stas_per_var = calc_pop_stats_per_var(variations, allowed_missing_gts=allowed_missing_gts)
+def calc_pop_stats(variations, allowed_missing_gts=0, percentiles=[25, 50, 75], ploidy=None,
+                   stats_to_calc=None):
+    if stats_to_calc is None:
+        stats_to_calc_per_var = None
+    elif not set(stats_to_calc).difference(['unbiased_exp_het_mean']):
+        stats_to_calc_per_var = ['unbiased_exp_het']
+    else:
+        raise NotImplementedError()
+
+    pop_stas_per_var = calc_pop_stats_per_var(variations,
+                                              allowed_missing_gts=allowed_missing_gts,
+                                              ploidy=ploidy)
     res = {}
-    res['unbiased_exp_het_percentiles'] = numpy.nanpercentile(pop_stas_per_var['unbiased_exp_het'], percentiles)
-    res['unbiased_exp_het_mean'] = numpy.nanmean(pop_stas_per_var['unbiased_exp_het'])
-    res['mean_num_alleles'] = numpy.nanmean(pop_stas_per_var['num_alleles'])
-    num_poly95 = numpy.sum(pop_stas_per_var['var_is_poly95'])
-    num_poly75 = numpy.sum(pop_stas_per_var['var_is_poly80'])
-    res['poly95'] = num_poly95 / pop_stas_per_var['num_vars_with_enough_gts'] * 100
-    res['poly80'] = num_poly75 / pop_stas_per_var['num_vars_with_enough_gts'] * 100
-    res['ratio_poly80/poly95'] = num_poly75 / num_poly95
+    if 'unbiased_exp_het' in pop_stas_per_var['stats_calc']:
+        res['unbiased_exp_het_percentiles'] = numpy.nanpercentile(pop_stas_per_var['unbiased_exp_het'], percentiles)
+    if 'unbiased_exp_het' in pop_stas_per_var['stats_calc']:
+        res['unbiased_exp_het_mean'] = numpy.nanmean(pop_stas_per_var['unbiased_exp_het'])
+    if 'num_alleles' in pop_stas_per_var['stats_calc']:
+        res['mean_num_alleles'] = numpy.nanmean(pop_stas_per_var['num_alleles'])
+    if 'var_is_variable' in pop_stas_per_var['stats_calc']:
+        res['num_variable_vars'] = numpy.sum(pop_stas_per_var['var_is_variable'])
+    if 'var_is_poly95' in pop_stas_per_var['stats_calc']:
+        res['num_poly95'] = numpy.sum(pop_stas_per_var['var_is_poly95'])
+        if 'num_vars_with_enough_gts' in pop_stas_per_var['stats_calc']:
+            res['poly95'] = res['num_poly95'] / pop_stas_per_var['num_vars_with_enough_gts'] * 100
+    if 'var_is_poly80' in pop_stas_per_var['stats_calc']:
+        res['num_poly80'] = numpy.sum(pop_stas_per_var['var_is_poly80'])
+        if 'num_vars_with_enough_gts' in pop_stas_per_var['stats_calc']:
+            res['poly80'] = res['num_poly80'] / pop_stas_per_var['num_vars_with_enough_gts'] * 100
+    try:
+        res['ratio_poly80/poly95'] = res['num_poly80'] / res['num_poly95']
+    except KeyError:
+        pass
+    try:
+        res ['pi'] = numpy.sum(pop_stas_per_var['unbiased_exp_het']) / pop_stas_per_var['num_vars_with_enough_gts']
+    except KeyError:
+        pass
     return res
 
 
