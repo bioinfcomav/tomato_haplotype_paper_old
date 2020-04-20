@@ -223,6 +223,7 @@ if __name__ == '__main__':
                              'n_clusters': 3}
     classification_outlier_config = {'method': 'elliptic_envelope',
                                      'contamination': 0.015}
+
     outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
                         'thinning_dist_threshold': 0.0015}]
 
