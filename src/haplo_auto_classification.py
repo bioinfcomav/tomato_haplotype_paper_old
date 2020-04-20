@@ -14,6 +14,7 @@ from sklearn.cluster import DBSCAN, AgglomerativeClustering, OPTICS
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.ensemble import IsolationForest
 from sklearn.covariance import EllipticEnvelope
+from sklearn.neighbors import KNeighborsClassifier
 
 from variation.variations import VariationsH5
 
@@ -23,7 +24,7 @@ from haplo_pca import do_pcoas_along_the_genome, stack_aligned_pcas_projections
 from procrustes import align_pcas_using_procrustes
 from pca import write_curlywhirly_file
 from haplo import parse_haplo_id, get_pop_classification_for_haplos
-from haplo_pca_plotting import calc_ellipsoids, plot_hist2d
+from haplo_pca_plotting import calc_ellipsoids, plot_hist2d, plot_classifications
 
 
 HAPLO_PCOAS_X_LIMS = (-0.08, 0.03)
@@ -162,7 +163,8 @@ def _detect_outlier_haplos(variations, win_params, num_wins_to_process,
                            samples_to_use, n_dims_to_keep,
                            outlier_config,
                            haplotypes_to_exclude=None,
-                           aligned_pcoas_df=None):
+                           aligned_pcoas_df=None,
+                           cache_dir=None):
     if aligned_pcoas_df is not None and haplotypes_to_exclude is not None:
         raise ValueError('if a pcoa is provided you can not ask for haplos to be excluded in the pcoa')
 
@@ -171,7 +173,8 @@ def _detect_outlier_haplos(variations, win_params, num_wins_to_process,
                                           num_wins_to_process=num_wins_to_process,
                                           samples=samples_to_use,
                                           n_dims_to_keep=n_dims_to_keep,
-                                          haplotypes_to_exclude=haplotypes_to_exclude)
+                                          haplotypes_to_exclude=haplotypes_to_exclude,
+                                          cache_dir=cache_dir)
 
         aligned_pcoas = list(align_pcas_using_procrustes(pcoas))
 
@@ -224,18 +227,19 @@ def detect_outlier_haplos(variations, win_params, num_wins_to_process,
     for idx, outlier_config in enumerate(outlier_configs):
         if aligned_pcoas_df is None:
             outlier_res = _detect_outlier_haplos(variations, win_params, num_wins_to_process,
-                                                samples_to_use, n_dims_to_keep,
-                                                outlier_config,
-                                                haplotypes_to_exclude=collect_outlier_haplos_by_win(outlier_classes.keys()))
+                                                 samples_to_use, n_dims_to_keep,
+                                                 outlier_config,
+                                                 haplotypes_to_exclude=collect_outlier_haplos_by_win(outlier_classes.keys()),
+                                                 cache_dir=cache_dir)
             aligned_pcoas_df = outlier_res['aligned_pcoas_df']
         else:
             current_outliers = set(outlier_classes.keys())
             mask = [haplo_id not in current_outliers for haplo_id in aligned_pcoas_df.index]
             aligned_pcoas_df = aligned_pcoas_df[mask]
             outlier_res = _detect_outlier_haplos(variations, win_params, num_wins_to_process,
-                                                samples_to_use, n_dims_to_keep,
-                                                outlier_config,
-                                                aligned_pcoas_df=aligned_pcoas_df)
+                                                 samples_to_use, n_dims_to_keep,
+                                                 outlier_config,
+                                                 aligned_pcoas_df=aligned_pcoas_df)
         if first_aligned_pcoas_df is None:
             first_aligned_pcoas_df = outlier_res['aligned_pcoas_df']
         for sample, is_outlier in outlier_res['is_outlier'].iteritems():
@@ -274,12 +278,52 @@ def remove_outliers_from_classified_clusters(classification, aligned_pcoas_df,
     for haplo_id, klass in classification.items():
         haplo_ids_by_class[klass].add(haplo_id)
 
+    outlier_names = {klass: f'outlier_from_group_{klass}' for klass in haplo_ids_by_class.keys()}
+
     for klass, haplo_ids in haplo_ids_by_class.items():
         aligned_pcoas_df_for_this_class = aligned_pcoas_df.loc[haplo_ids, :]
 
         res = _detect_outliers(aligned_pcoas_df_for_this_class, outlier_config)
         for haplo_id in res['outliers']:
-            classification[haplo_id] = 'group_outlier'
+            classification[haplo_id] = outlier_names[klass]
+    return {'outlier_classes': outlier_names}
+
+
+def _do_supervissed_classification(aligned_pcoas_df, labelled_haplo_ids, config=None):
+
+    if config is None:
+        config = {'prob_threshold': 0.9,
+                  'classifier': 'kneighbors',
+                  'n_neighbors': 30
+                 }
+
+    known_haplo_ids, known_labels = list(zip(*labelled_haplo_ids.items()))
+
+    aligned_pcoas_df_for_known = aligned_pcoas_df.reindex(known_haplo_ids)
+
+    classifier_config = config.copy()
+    del classifier_config['prob_threshold']
+    del classifier_config['classifier']
+
+    if config['classifier'] == 'kneighbors':
+        classifier = KNeighborsClassifier(**classifier_config)
+
+    classifier.fit(aligned_pcoas_df_for_known.values, known_labels)
+    probs = classifier.predict_proba(aligned_pcoas_df)
+
+    num_classes =  probs.shape[1]
+    haplo_ids = numpy.array(aligned_pcoas_df.index)
+    classification = {}
+    for klass in range(num_classes):
+        mask = probs[:, klass] >= config['prob_threshold']
+        for haplo_id in haplo_ids[mask]:
+            classification[haplo_id] = klass
+
+    for haplo_id in haplo_ids:
+        if haplo_id not in classification:
+            classification[haplo_id] = 'not_classified'
+    return {'classification': classification,
+            'outlier_classes': ['not_classified']}
 
 
 def classify_haplos(variations, win_params, num_wins_to_process,
@@ -308,7 +352,8 @@ def classify_haplos(variations, win_params, num_wins_to_process,
     pcoas = do_pcoas_along_the_genome(variations, win_params,
                                       num_wins_to_process=num_wins_to_process,
                                       samples=samples, n_dims_to_keep=n_dims_to_keep,
-                                      haplotypes_to_exclude=outlier_haplos_by_win)
+                                      haplotypes_to_exclude=outlier_haplos_by_win,
+                                      cache_dir=cache_dir)
 
     aligned_pcoas = list(align_pcas_using_procrustes(pcoas))
 
@@ -319,19 +364,35 @@ def classify_haplos(variations, win_params, num_wins_to_process,
     res = _classify_haplo_pcoas(aligned_pcoas_df,
                                 classification_config)
     classification = dict(res['classification_per_haplo_id'].iteritems())
+    haplo_classes = set(classification.values())
 
-    remove_outliers_from_classified_clusters(outlier_config=outlier_config, 
-                                             classification=classification,
-                                             aligned_pcoas_df=aligned_pcoas_df)
+    res = remove_outliers_from_classified_clusters(outlier_config=outlier_config, 
+                                                   classification=classification,
+                                                   aligned_pcoas_df=aligned_pcoas_df)
+    #outlier_classes = res['outlier_classes']
 
     classification.update(outlier_classes)
 
-    res = {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df}
+    # now we do a suppervised classification
+    core_classification = {haplo_id: klass for haplo_id, klass in classification.items() if klass in haplo_classes}
+
+    res = _do_supervissed_classification(aligned_pcoas_df, core_classification)
+
+    classification.update(res['classification'])
+    outlier_classes = res['outlier_classes']
+
+    res = {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df,
+           'outlier_classes': outlier_classes}
 
     if cache_dir:
         pickle.dump(res, cache_path.open('wb'))
 
     return res
+
+def rename_classification(classification, classification_references):
+    mapping = {classification[haplo_id]: nice_klass_name for haplo_id, nice_klass_name in classification_references.items()}
+
+    return {haplo_id: mapping.get(klass, klass) for haplo_id, klass in classification.items()}
 
 
 def detected_outliers_and_classify_haplos(variations, win_params,
@@ -345,8 +406,9 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                                           pops=None,
                                           outliers_return_aligned_pcoas=False,
                                           only_outliers=False,
+                                          classification_references=None,
                                           cache_dir=None):
-
+    outlier_classes = []
     # first iteration, with outliers,
     res = detect_outlier_haplos(variations, win_params=win_params,
                                 num_wins_to_process=num_wins_to_process,
@@ -357,7 +419,8 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                                 out_dir=out_dir,
                                 cache_dir=cache_dir,
                                 return_aligned_pcoas=outliers_return_aligned_pcoas)
-    outlier_classes = res['outlier_classes']
+    outlier_classification = res['outlier_classes']
+    outlier_classes.extend(set(outlier_classification.values()))
     if outliers_return_aligned_pcoas:
         aligned_pcoas_df = res['aligned_pcoas_df']
 
@@ -368,15 +431,22 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                               num_wins_to_process=num_wins_to_process,
                               samples=samples_to_use,
                               n_dims_to_keep=n_dims_to_keep,
-                              outlier_classes=outlier_classes,
+                              outlier_classes=outlier_classification,
                               classification_config=classification_config,
                               outlier_config=classification_outlier_config,
                               cache_dir=cache_dir)
         classification = res['classification']
         aligned_pcoas_df = res['aligned_pcoas_df']
+        outlier_classes.extend(res['outlier_classes'])
+        print(res['outlier_classes'])
     else:
-        classification = outlier_classes
-    return {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df}
+        classification = outlier_classification
+
+    if classification_references:
+        classification = rename_classification(classification, classification_references)
+
+    return {'classification': classification, 'aligned_pcoas_df': aligned_pcoas_df,
+            'outlier_classes': outlier_classes}
 
 
 def calc_haplo_sample_composition(haplo_classification):
@@ -420,9 +490,18 @@ def calc_haplo_pop_composition_freq(pops, haplo_classification):
     return pop_composition_freqs
 
 
+def group_haploids_by_class(classification):
+    classification_by_class = defaultdict(list)
+    for haplo_id, klass in classification.items():
+        classification_by_class[klass].append(haplo_id)
+    return classification_by_class
+
+
 if __name__ == '__main__':
 
-    debug = False
+    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
+                                 'SL4.0ch01%610462%ts-450%1': 'sp_peru',
+                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
 
     outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.015, 'behaviour': 'deprecated'},
                        {'method': 'lof', 'n_neighbors': 100}]
@@ -456,11 +535,13 @@ if __name__ == '__main__':
     classification_config = {'thinning_dist_threshold': 0.0001,
                              'method': 'agglomerative',
                              'n_clusters': 3}
-    classification_config = {'thinning_dist_threshold': 0.00025,
+    classification_config = {'thinning_dist_threshold': 0.00030,
                              'method': 'agglomerative',
                              'n_clusters': 3}
     classification_outlier_config = {'method': 'elliptic_envelope',
-                                     'contamination': 0.015}
+                                     'contamination': 0.2}
+
+    debug = False
 
     if False:
         num_wins_to_process = 100
@@ -474,6 +555,7 @@ if __name__ == '__main__':
         #num_wins_to_process = 2
         only_outliers = False
         cache_dir = config.CACHE_DIR
+        cache_dir = None
         outliers_return_aligned_pcoas = False
     else:
         num_wins_to_process = None
@@ -512,22 +594,31 @@ if __name__ == '__main__':
                                                 pops=pops,
                                                 outliers_return_aligned_pcoas=outliers_return_aligned_pcoas,
                                                 only_outliers=only_outliers,
+                                                classification_references=classification_references,
                                                 cache_dir=cache_dir)
     classification = res['classification']
-    aligned_pcoas_df = res['aligned_pcoas_df']
 
+    aligned_pcoas_df = res['aligned_pcoas_df']
+    outlier_classes = res['outlier_classes']
     print('classification counts')
-    print(Counter(classification.values()))
+    pprint(Counter(classification.values()))
 
     pop_classification = get_pop_classification_for_haplos(aligned_pcoas_df.index, pops)
 
-    ellipsoids = calc_ellipsoids(classification, aligned_pcoas_df, classes_to_ignore=['out_0', 'group_outlier'],
+    ellipsoids = calc_ellipsoids(classification, aligned_pcoas_df, classes_to_ignore=outlier_classes,
                                  scale=1.5)
 
     path = out_dir / 'pcoas_along_the_genome.hist_2d.svg'
     plot_hist2d(aligned_pcoas_df, path,
                 x_lims=HAPLO_PCOAS_X_LIMS, y_lims=HAPLO_PCOAS_Y_LIMS,
                 ellipsoids=ellipsoids)
+    path = out_dir / 'pcoas_along_the_genome.hist_2d.classifications.svg'
+    haplo_classification_by_class = group_haploids_by_class(classification)
+    plot_classifications(aligned_pcoas_df, haplo_classification_by_class, plot_path=path,
+                         outlier_classes=outlier_classes,
+                         classes_to_ignore=['out_0'],
+                         x_lims=HAPLO_PCOAS_X_LIMS, y_lims=HAPLO_PCOAS_Y_LIMS,
+                         ellipsoids=ellipsoids)
 
     categories = {'population': pop_classification,
                   'classification': classification}

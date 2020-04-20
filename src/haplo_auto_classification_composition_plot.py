@@ -55,11 +55,14 @@ if __name__ == '__main__':
     outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
                         'thinning_dist_threshold': 0.0015}]
     n_dims_to_keep = 3
-    classification_config = {'thinning_dist_threshold': 0.00025,
+    classification_config = {'thinning_dist_threshold': 0.00030,
                              'method': 'agglomerative',
                              'n_clusters': 3}
     classification_outlier_config = {'method': 'elliptic_envelope',
                                      'contamination': 0.015}
+    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
+                                 'SL4.0ch01%610462%ts-450%1': 'sp_peru',
+                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
 
     num_wins_to_process = None
     cache_dir = config.CACHE_DIR
@@ -94,6 +97,7 @@ if __name__ == '__main__':
                                                 classification_outlier_config=classification_outlier_config,
                                                 outlier_configs=outlier_configs,
                                                 out_dir=out_dir,
+                                                classification_references=classification_references,
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
 

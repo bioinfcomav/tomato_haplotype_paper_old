@@ -1,4 +1,8 @@
 
+import hashlib
+import pickle
+
+import numpy
 import pandas
 
 from variation.variations.multivariate import do_pcoa

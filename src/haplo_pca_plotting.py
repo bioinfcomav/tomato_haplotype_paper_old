@@ -1,5 +1,6 @@
 
 from collections import defaultdict
+from pprint import pprint
 
 import numpy
 import pandas
@@ -168,6 +169,50 @@ def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoid
         axes.set_xlim(x_lims)
     if y_lims:
         axes.set_ylim(y_lims)
+
+    fig.tight_layout()
+    fig.savefig(str(plot_path))
+
+
+def plot_classifications(aligned_pcoas_df, haplo_classification,
+                         outlier_classes, plot_path, classes_to_ignore=None,
+                         x_lims=None, y_lims=None, ellipsoids=None):
+
+    if classes_to_ignore is None:
+        classes_to_ignore = []
+
+    fig = Figure((4, 15))
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+
+    all_haplo_ids_in_pca = set(aligned_pcoas_df.index)
+
+    classes = sorted(haplo_classification.keys(), key=str)
+    classes.sort(key=lambda x: x in outlier_classes)
+
+    classes = [klass for klass in classes if klass not in classes_to_ignore]
+
+    num_haplo_classes = len(classes)
+
+    for klass_idx, klass in enumerate(classes):
+
+        haplo_ids = haplo_classification[klass]
+
+        haplo_ids = all_haplo_ids_in_pca.intersection(haplo_ids)
+
+        axes = fig.add_subplot(num_haplo_classes, 1, klass_idx + 1)
+        aligned_pcoas_df_for_this_class = aligned_pcoas_df.reindex(haplo_ids)
+        x_values = aligned_pcoas_df_for_this_class.values[:, 0]
+        y_values = aligned_pcoas_df_for_this_class.values[:, 1]
+        axes.hist2d(x_values, y_values, bins=50,
+                    norm=colors.LogNorm(), cmap=PINK_BLUE_CMAP_R2, zorder=10)
+        plot_ellipsoids(axes, ellipsoids)
+
+        if x_lims:
+            axes.set_xlim(x_lims)
+        if y_lims:
+            axes.set_ylim(y_lims)
+
+        axes.set_ylabel(klass)
 
     fig.tight_layout()
     fig.savefig(str(plot_path))

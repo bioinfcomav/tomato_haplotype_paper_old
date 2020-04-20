@@ -218,7 +218,7 @@ if __name__ == '__main__':
     haplo_classes_to_ignore = ['out_0', 'group_outlier']
     rarefaction_range = (10, 31)
     n_dims_to_keep = 3
-    classification_config = {'thinning_dist_threshold': 0.00025,
+    classification_config = {'thinning_dist_threshold': 0.00030,
                              'method': 'agglomerative',
                              'n_clusters': 3}
     classification_outlier_config = {'method': 'elliptic_envelope',
@@ -226,6 +226,10 @@ if __name__ == '__main__':
 
     outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
                         'thinning_dist_threshold': 0.0015}]
+    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
+                                 'SL4.0ch01%610462%ts-450%1': 'sp_peru',
+                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
+
 
     win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
                   'win_size': config.HAPLO_WIN_SIZE}
@@ -261,6 +265,7 @@ if __name__ == '__main__':
                                                 classification_outlier_config=classification_outlier_config,
                                                 outlier_configs=outlier_configs,
                                                 out_dir=None,
+                                                classification_references=classification_references,
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
     
