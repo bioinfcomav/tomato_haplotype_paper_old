@@ -25,10 +25,11 @@ from procrustes import align_pcas_using_procrustes
 from pca import write_curlywhirly_file
 from haplo import parse_haplo_id, get_pop_classification_for_haplos
 from haplo_pca_plotting import calc_ellipsoids, plot_hist2d, plot_classifications
-
+from util import dict_to_str
 
 HAPLO_PCOAS_X_LIMS = (-0.08, 0.03)
 HAPLO_PCOAS_Y_LIMS = (-0.05, 0.03)
+
 
 def _classify_haplo_pcoas(aligned_pcoas_df, classification_config):
 
@@ -289,13 +290,7 @@ def remove_outliers_from_classified_clusters(classification, aligned_pcoas_df,
     return {'outlier_classes': outlier_names}
 
 
-def _do_supervissed_classification(aligned_pcoas_df, labelled_haplo_ids, config=None):
-
-    if config is None:
-        config = {'prob_threshold': 0.9,
-                  'classifier': 'kneighbors',
-                  'n_neighbors': 30
-                 }
+def _do_supervissed_classification(aligned_pcoas_df, labelled_haplo_ids, config):
 
     known_haplo_ids, known_labels = list(zip(*labelled_haplo_ids.items()))
 
@@ -330,18 +325,19 @@ def classify_haplos(variations, win_params, num_wins_to_process,
                     samples, n_dims_to_keep,
                     outlier_classes,
                     classification_config,
+                    supervised_classification_config,
                     outlier_config, cache_dir=None):
 
     if cache_dir:
         key = ','.join(sorted(variations.samples))
         key += 'num_variations' + str(variations.num_variations)
-        key += 'win_params' + str(win_params)
+        key += 'win_params' + dict_to_str(win_params)
         key += 'num_wins_to_process' + str(num_wins_to_process)
         key += 'samples_to_use' + ','.join(sorted(samples))
         key += 'outlier_clases' + str(sorted(outlier_classes.values()))
         key += 'n_dims_to_keep' + str(n_dims_to_keep)
-        key += 'clasfication_config' + str(classification_config)
-        key += 'outlier_config' + str(outlier_config)
+        key += 'clasfication_config' + dict_to_str(classification_config)
+        key += 'outlier_config' + dict_to_str(outlier_config)
         key = hashlib.md5(key.encode()).hexdigest()
         cache_path = cache_dir / ('haplo_clasfication' + key + '.pickle')
         if cache_path.exists():
@@ -376,7 +372,7 @@ def classify_haplos(variations, win_params, num_wins_to_process,
     # now we do a suppervised classification
     core_classification = {haplo_id: klass for haplo_id, klass in classification.items() if klass in haplo_classes}
 
-    res = _do_supervissed_classification(aligned_pcoas_df, core_classification)
+    res = _do_supervissed_classification(aligned_pcoas_df, core_classification, supervised_classification_config)
 
     classification.update(res['classification'])
     outlier_classes = res['outlier_classes']
@@ -388,6 +384,7 @@ def classify_haplos(variations, win_params, num_wins_to_process,
         pickle.dump(res, cache_path.open('wb'))
 
     return res
+
 
 def rename_classification(classification, classification_references):
     mapping = {classification[haplo_id]: nice_klass_name for haplo_id, nice_klass_name in classification_references.items()}
@@ -402,6 +399,7 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                                           classification_config,
                                           classification_outlier_config,
                                           outlier_configs,
+                                          supervised_classification_config,
                                           out_dir,
                                           pops=None,
                                           outliers_return_aligned_pcoas=False,
@@ -434,11 +432,11 @@ def detected_outliers_and_classify_haplos(variations, win_params,
                               outlier_classes=outlier_classification,
                               classification_config=classification_config,
                               outlier_config=classification_outlier_config,
+                              supervised_classification_config=supervised_classification_config,
                               cache_dir=cache_dir)
         classification = res['classification']
         aligned_pcoas_df = res['aligned_pcoas_df']
         outlier_classes.extend(res['outlier_classes'])
-        print(res['outlier_classes'])
     else:
         classification = outlier_classification
 
@@ -541,6 +539,11 @@ if __name__ == '__main__':
     classification_outlier_config = {'method': 'elliptic_envelope',
                                      'contamination': 0.2}
 
+    supervised_classification_config = {'prob_threshold': 0.99,
+                                        'classifier': 'kneighbors',
+                                        'n_neighbors': 30
+                                       }
+
     debug = False
 
     if False:
@@ -595,6 +598,7 @@ if __name__ == '__main__':
                                                 outliers_return_aligned_pcoas=outliers_return_aligned_pcoas,
                                                 only_outliers=only_outliers,
                                                 classification_references=classification_references,
+                                                supervised_classification_config=supervised_classification_config,
                                                 cache_dir=cache_dir)
     classification = res['classification']
 

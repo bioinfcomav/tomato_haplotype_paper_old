@@ -10,6 +10,7 @@ from variation.variations.multivariate import do_pcoa
 from haplo import (generate_uniq_haplos_along_genome, filter_haplotypes_by_sample,
                    calc_pairwise_dists_among_haplos,
                    generate_df_for_all_haplos_from_one_with_uniq_haplos_in_index)
+from util import dict_to_str
 
 
 def do_pcoa_from_dists(dists):
@@ -63,6 +64,20 @@ def do_pcoas_along_the_genome(variations, win_params, num_wins_to_process=None,
     if haplotypes_to_include is None:
         haplotypes_to_include = {}
 
+    if cache_dir:
+        key = ','.join(sorted(variations.samples))
+        key += 'num_variations' + str(variations.num_variations)
+        key += 'win_params' + str(win_params)
+        key += 'num_wins_to_process' + str(num_wins_to_process)
+        key += 'samples_to_use' + ','.join(sorted(samples))
+        key += 'n_dims_to_keep' + str(n_dims_to_keep)
+        key += 'haplotypes_to_exclude' + dict_to_str(haplotypes_to_exclude)
+        key += 'haplotypes_to_include' + dict_to_str(haplotypes_to_include)
+        key = hashlib.md5(key.encode()).hexdigest()
+        cache_path = cache_dir / ('pcas_along_the_genome' + key + '.pickle')
+        if cache_path.exists():
+            return pickle.load(cache_path.open('rb'))
+
     pcoas = []
     for haplos_info in generate_uniq_haplos_along_genome(variations, win_params,
                                                          num_wins_to_process=num_wins_to_process,
@@ -107,6 +122,9 @@ def do_pcoas_along_the_genome(variations, win_params, num_wins_to_process=None,
         pcoas.append({'projections': projections_for_all_haplos,
                       'chrom': haplos_info['chrom'],
                       'win_start': haplos_info['win_start']})
+
+    if cache_dir:
+        pickle.dump(pcoas, cache_path.open('wb'))
 
     return pcoas
 
