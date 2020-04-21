@@ -497,53 +497,6 @@ def group_haploids_by_class(classification):
 
 if __name__ == '__main__':
 
-    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
-                                 'SL4.0ch01%610462%ts-450%1': 'sp_peru',
-                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
-
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.015, 'behaviour': 'deprecated'},
-                       {'method': 'lof', 'n_neighbors': 100}]
-    outlier_configs = [{'method': 'elliptic_envelope', 'contamination': 0.01}]
-
-    # elliptic does not work very well because there's so many SLL haplotypes
-    # that the evelope is centered there, even with thinning
-    outlier_configs = [{'method': 'elliptic_envelope', 'contamination': 0.015, 'thinning_dist_threshold': 0.0005}]
-
-    # all the ones that are removed are ok, and there are just few outliers left
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.050,
-                        'thinning_dist_threshold': 0.0015}]
-
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
-                        'thinning_dist_threshold': 0.0015}]
-
-    n_dims_to_keep = 3
-
-    # it just creates some groups with the outliers
-    classification_config = {'thinning_dist_threshold': 0.0001,
-                             'method': 'dbscan',
-                             'eps': 0.01}
-
-    # It classifies quite well SP Peru and SLC, but leaves SP Ecuador as unclassified
-    classification_config = {'thinning_dist_threshold': 0.0001,
-                             'method': 'optics',
-                             'max_eps': 0.015,
-                             'min_samples': 0.05
-                             }
-
-    classification_config = {'thinning_dist_threshold': 0.0001,
-                             'method': 'agglomerative',
-                             'n_clusters': 3}
-    classification_config = {'thinning_dist_threshold': 0.00030,
-                             'method': 'agglomerative',
-                             'n_clusters': 3}
-    classification_outlier_config = {'method': 'elliptic_envelope',
-                                     'contamination': 0.2}
-
-    supervised_classification_config = {'prob_threshold': 0.99,
-                                        'classifier': 'kneighbors',
-                                        'n_neighbors': 30
-                                       }
-
     debug = False
 
     if False:
@@ -589,16 +542,16 @@ if __name__ == '__main__':
                                                 win_params=win_params,
                                                 num_wins_to_process=num_wins_to_process,
                                                 samples_to_use=samples_to_use,
-                                                n_dims_to_keep=n_dims_to_keep,
-                                                classification_config=classification_config,
-                                                classification_outlier_config=classification_outlier_config,
-                                                outlier_configs=outlier_configs,
+                                                n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                                classification_config=config.CLASSIFICATION_CONFIG,
+                                                classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                                outlier_configs=config.OUTLIER_CONFIGS,
                                                 out_dir=out_dir,
                                                 pops=pops,
                                                 outliers_return_aligned_pcoas=outliers_return_aligned_pcoas,
                                                 only_outliers=only_outliers,
-                                                classification_references=classification_references,
-                                                supervised_classification_config=supervised_classification_config,
+                                                classification_references=config.CLASSIFICATION_REFERENCES,
+                                                supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
                                                 cache_dir=cache_dir)
     classification = res['classification']
 

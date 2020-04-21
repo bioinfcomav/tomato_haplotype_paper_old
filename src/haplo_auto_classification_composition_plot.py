@@ -52,24 +52,6 @@ if __name__ == '__main__':
 
     debug = False
 
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
-                        'thinning_dist_threshold': 0.0015}]
-    n_dims_to_keep = 3
-    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
-                                 'SL4.0ch01%610462%ts-450%1': 'sp_pe',
-                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
-
-    classification_config = {'thinning_dist_threshold': 0.00030,
-                             'method': 'agglomerative',
-                             'n_clusters': 3}
-    classification_outlier_config = {'method': 'elliptic_envelope',
-                                     'contamination': 0.2}
-
-    supervised_classification_config = {'prob_threshold': 0.99,
-                                        'classifier': 'kneighbors',
-                                        'n_neighbors': 30
-                                       }
-
     num_wins_to_process = None
     cache_dir = config.CACHE_DIR
     only_outliers = False
@@ -98,13 +80,13 @@ if __name__ == '__main__':
                                                 win_params=win_params,
                                                 num_wins_to_process=num_wins_to_process,
                                                 samples_to_use=samples_to_use,
-                                                n_dims_to_keep=n_dims_to_keep,
-                                                classification_config=classification_config,
-                                                classification_outlier_config=classification_outlier_config,
-                                                outlier_configs=outlier_configs,
+                                                n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                                classification_config=config.CLASSIFICATION_CONFIG,
+                                                classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                                outlier_configs=config.OUTLIER_CONFIGS,
                                                 out_dir=out_dir,
-                                                classification_references=classification_references,
-                                                supervised_classification_config=supervised_classification_config,
+                                                classification_references=config.CLASSIFICATION_REFERENCES,
+                                                supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
 

@@ -93,29 +93,17 @@ if __name__ == '__main__':
     out_dir = config.HAPLO_PCOA_DIR
     out_dir.mkdir(exist_ok=True)
 
-    if False:
-        pcoas = do_pcoas_along_the_genome(variations, win_params,
-                                        num_wins_to_process=num_wins_to_process,
-                                        samples=samples_to_use, n_dims_to_keep=3)
-
-        aligned_pcoas = list(align_pcas_using_procrustes(pcoas))
-
-
-        haplotypes_to_include_path = out_dir / 'haplotypes_to_include.txt'
-        haplotypes_to_include = get_haplotypes_to_include(haplotypes_to_include_path)
-
-        haplotypes_to_exclude_path = out_dir / 'haplotypes_to_exclude.txt'
-        haplotypes_to_exclude = get_haplotypes_to_exclude(haplotypes_to_exclude_path)
-
     res = detected_outliers_and_classify_haplos(variations,
                                                 win_params=win_params,
                                                 num_wins_to_process=num_wins_to_process,
                                                 samples_to_use=samples_to_use,
-                                                n_dims_to_keep=n_dims_to_keep,
-                                                classification_config=classification_config,
-                                                classification_outlier_config=classification_outlier_config,
-                                                outlier_configs=outlier_configs,
+                                                n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                                classification_config=config.CLASSIFICATION_CONFIG,
+                                                classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                                outlier_configs=config.OUTLIER_CONFIGS,
                                                 out_dir=out_dir,
+                                                classification_references=config.CLASSIFICATION_REFERENCES,
+                                                supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
     aligned_pcoas_df = res['aligned_pcoas_df']

@@ -144,3 +144,18 @@ SOLCAP_DIR = BASE_DIR / 'solcap'
 RAREFACTION_DIR = BASE_DIR / 'rarefaction'
 RAREFACTION_VARS_DIR = RAREFACTION_DIR / 'vars'
 RAREFACTION_HAPLO_DIR = RAREFACTION_DIR / 'haplo'
+
+CLASSIFICATION_CONFIG = {'thinning_dist_threshold': 0.00030,
+                         'method': 'agglomerative',
+                         'n_clusters': 3}
+CLASSIFICATION_OUTLIER_CONFIG = {'method': 'elliptic_envelope',
+                                 'contamination': 0.2}
+SUPERVISED_CLASSIFICATION_CONFIG = {'prob_threshold': 0.99,
+                                    'classifier': 'kneighbors',
+                                    'n_neighbors': 30}
+CLASSIFICATION_REFERENCES = {'SL4.0ch01%610462%ts-554%1': 'sl',
+                             'SL4.0ch01%610462%ts-450%1': 'sp_peru',
+                             'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
+OUTLIER_CONFIGS = [{'method': 'isolation_forest', 'contamination': 0.070,
+                    'thinning_dist_threshold': 0.0015}]
+N_DIMS_TO_KEEP = 3
