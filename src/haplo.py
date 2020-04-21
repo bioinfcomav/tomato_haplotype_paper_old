@@ -136,7 +136,7 @@ def generate_haplos_along_genome(variations, win_params, num_wins_to_process=Non
 
 def generate_df_for_all_haplos_from_one_with_uniq_haplos_in_index(df_with_uniq_haplos_index, haplos_info):
     uniq_haplo_ids_that_correpond_to_all_haplos = haplos_info['uniq_haplo_ids_that_correpond_to_all_haplos']
-    df_with_all_haplos_index = df_with_uniq_haplos_index.loc[uniq_haplo_ids_that_correpond_to_all_haplos.values, :]
+    df_with_all_haplos_index = df_with_uniq_haplos_index.reindex(uniq_haplo_ids_that_correpond_to_all_haplos)
     df_with_all_haplos_index.index = uniq_haplo_ids_that_correpond_to_all_haplos.index
 
     df_with_all_haplos_index = df_with_all_haplos_index.dropna(how='all')
