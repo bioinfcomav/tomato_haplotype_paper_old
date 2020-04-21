@@ -159,3 +159,6 @@ CLASSIFICATION_REFERENCES = {'SL4.0ch01%610462%ts-554%1': 'sl',
 OUTLIER_CONFIGS = [{'method': 'isolation_forest', 'contamination': 0.070,
                     'thinning_dist_threshold': 0.0015}]
 N_DIMS_TO_KEEP = 3
+
+DIVERSITIES_DIR = BASE_DIR / 'diversities'
+DIVERSITIES_VAR_DIR = DIVERSITIES_DIR / 'vars'

@@ -217,19 +217,6 @@ if __name__ == '__main__':
 
     haplo_classes_to_ignore = ['out_0', 'group_outlier']
     rarefaction_range = (10, 31)
-    n_dims_to_keep = 3
-    classification_config = {'thinning_dist_threshold': 0.00030,
-                             'method': 'agglomerative',
-                             'n_clusters': 3}
-    classification_outlier_config = {'method': 'elliptic_envelope',
-                                     'contamination': 0.015}
-
-    outlier_configs = [{'method': 'isolation_forest', 'contamination': 0.070,
-                        'thinning_dist_threshold': 0.0015}]
-    classification_references = {'SL4.0ch01%610462%ts-554%1': 'sl',
-                                 'SL4.0ch01%610462%ts-450%1': 'sp_peru',
-                                 'SL4.0ch01%610462%bgv007339%1': 'sp_ecu'}
-
 
     win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
                   'win_size': config.HAPLO_WIN_SIZE}
@@ -256,25 +243,27 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, passports)
     all_samples = {sample for samples in pops.values() for sample in samples}
 
+    samples_to_use = sorted(variations.samples)
+
     res = detected_outliers_and_classify_haplos(variations,
                                                 win_params=win_params,
                                                 num_wins_to_process=num_wins_to_process,
-                                                samples_to_use=sorted(variations.samples),
-                                                n_dims_to_keep=n_dims_to_keep,
-                                                classification_config=classification_config,
-                                                classification_outlier_config=classification_outlier_config,
-                                                outlier_configs=outlier_configs,
-                                                out_dir=None,
-                                                classification_references=classification_references,
+                                                samples_to_use=samples_to_use,
+                                                n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                                classification_config=config.CLASSIFICATION_CONFIG,
+                                                classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                                outlier_configs=config.OUTLIER_CONFIGS,
+                                                classification_references=config.CLASSIFICATION_REFERENCES,
+                                                supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
     
-    rarefacted_haplo_diversities = calc_rarefacted_haplo_diversities(variations, pops, rarefaction_range,
+    rarefacted_haplo_diversities = calc_rarefacted_haplo_diversities(variations, pops,
+                                                                     rarefaction_range,
                                                                      win_params=win_params,
                                                                      num_wins_to_process=num_wins_to_process,
                                                                      haplo_classification=haplo_classification,
-                                                                     haplo_classes_to_ignore=haplo_classes_to_ignore
-                                                                    )
+                                                                     haplo_classes_to_ignore=haplo_classes_to_ignore)
 
     pop_colors = colors.CLASSIFICATION_RANK1_COLORS
 
