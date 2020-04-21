@@ -16,7 +16,7 @@ if __name__ == "__main__":
     samples = variations.samples
 
     fieldnames = ['accession', 'country', 'latitude', 'longitude', 'species', 'variety', 'region', 'BGV', 'LA', 'EA', 'PI', 'LYC', 'CATORT', 'CGN']
-    writer = csv.DictWriter(str(config.WORKING_PASSPORTS_CSV), delimiter='\t', fieldnames=fieldnames)
+    writer = csv.DictWriter(open(str(config.WORKING_PASSPORTS_CSV), 'w'), fieldnames=fieldnames)
     writer.writeheader()
 
     for sample in sorted(samples):
