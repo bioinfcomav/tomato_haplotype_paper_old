@@ -57,6 +57,7 @@ elif USER == 'jope':
 SOURCE_DATA_DIR = BASE_DIR / 'source_data'
 
 PASSPORTS_CSV = SOURCE_DATA_DIR / 'passports.csv'
+WORKING_PASSPORTS_CSV = SOURCE_DATA_DIR / 'working_passports.csv'
 
 MAP_BACKGROUNDS_DIR = SOURCE_DATA_DIR / 'map_backgrounds'
 
