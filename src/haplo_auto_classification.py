@@ -170,6 +170,7 @@ def _detect_outlier_haplos(variations, win_params, num_wins_to_process,
         raise ValueError('if a pcoa is provided you can not ask for haplos to be excluded in the pcoa')
 
     if aligned_pcoas_df is None:
+
         pcoas = do_pcoas_along_the_genome(variations, win_params,
                                           num_wins_to_process=num_wins_to_process,
                                           samples=samples_to_use,
@@ -212,11 +213,11 @@ def detect_outlier_haplos(variations, win_params, num_wins_to_process,
     if cache_dir:
         key = ','.join(sorted(variations.samples))
         key += 'num_variations' + str(variations.num_variations)
-        key += 'win_params' + str(win_params)
+        key += 'win_params' + dict_to_str(win_params)
         key += 'num_wins_to_process' + str(num_wins_to_process)
         key += 'samples_to_use' + ','.join(sorted(samples_to_use))
         key += 'n_dims_to_keep' + str(n_dims_to_keep)
-        key += 'outlier_config' + str(outlier_configs)
+        key += 'outlier_config' + str([dict_to_str(outlier_config) for outlier_config in outlier_configs])
         key = hashlib.md5(key.encode()).hexdigest()
         cache_path = cache_dir / ('outlier_haplos' + key + '.pickle')
         if cache_path.exists():

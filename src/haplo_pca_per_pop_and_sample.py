@@ -57,7 +57,7 @@ def get_haplotypes_to_include(path):
 
 if __name__ == '__main__':
 
-    debug = False
+    debug = True
 
     if debug:
         num_wins_to_process = 2
