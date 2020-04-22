@@ -42,6 +42,9 @@ def _do_pcoa_for_haplos(haplos, win_size, min_num_snp_for_dist,
 
     dists = calc_pairwise_dists_among_haplos(haplos, win_size=win_size, min_num_snp_for_dist=min_num_snp_for_dist)
 
+    if numpy.any(numpy.isnan(dists)):
+        raise RuntimeError('Nan distances when trying to do haplo PCoA')
+
     pcoa = do_pcoa_from_dists(dists)
 
     if n_dims_to_keep:

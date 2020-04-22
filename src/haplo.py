@@ -78,7 +78,7 @@ def _generate_haplos_along_genome(variations, win_params,
         if chrom != chrom1:
             continue
         start = chunk[POS_FIELD][0]
-        print(n_processesed_chunks, chunk_idx, chrom, start)
+        #print(n_processesed_chunks, chunk_idx, chrom, start)
 
         if filter_non_variable:
             chunk = filter_non_variable(chunk)

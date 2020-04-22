@@ -5,6 +5,7 @@ from pprint import pprint
 import random
 from collections import defaultdict
 import os
+from functools import partial
 
 import numpy
 
@@ -25,8 +26,9 @@ from rarefaction_vars import (keep_variations_variable_in_samples,
 import colors
 
 
-def calc_diversities(variations, pops, num_samples, num_repeats=100,
-                     allowed_missing_gts=0, confidence=0.95):
+def _calc_diversities(variations, pops, num_samples, diversity_function,
+                      num_repeats=100,
+                      allowed_missing_gts=0, confidence=0.95):
 
     all_samples = {sample for samples in pops.values() for sample in samples}
 
@@ -42,8 +44,8 @@ def calc_diversities(variations, pops, num_samples, num_repeats=100,
             samples_for_this_iter = random.sample(samples, num_samples)
             variations_for_this_iter = SampleFilter(samples_for_this_iter)(variations)[FLT_VARS]
 
-            pop_stats = calc_pop_stats(variations_for_this_iter,
-                                       allowed_missing_gts=allowed_missing_gts)
+            pop_stats = diversity_function(variations_for_this_iter,
+                                           allowed_missing_gts=allowed_missing_gts)
             for diversity_index, value in pop_stats.items():
 
                 if isinstance(value, (numpy.int64, numpy.float64, int, float)):
@@ -71,6 +73,19 @@ def calc_diversities(variations, pops, num_samples, num_repeats=100,
                                          'cim': confidence_interval_of_the_mean}
 
     return res
+
+
+def calc_var_diversities(variations, pops, num_samples, num_repeats=100,
+                         allowed_missing_gts=0, confidence=0.95):
+
+
+    diversity_function = partial(calc_pop_stats,
+                                 allowed_missing_gts=allowed_missing_gts)
+    
+    return _calc_diversities(variations, pops, num_samples,
+                             diversity_function=diversity_function,
+                             num_repeats=num_repeats,
+                             allowed_missing_gts=allowed_missing_gts, confidence=confidence)
 
 
 def plot_diversities(diversities, out_dir, pop_order=None, color_schema=None):
@@ -111,7 +126,7 @@ def plot_diversities(diversities, out_dir, pop_order=None, color_schema=None):
 
 if __name__ == '__main__':
 
-    num_repeats = 1000
+    num_repeats = 100
     percent_indiv_used = 0.75
 
     vars_path = config.WORKING_PHASED_H5
@@ -134,7 +149,7 @@ if __name__ == '__main__':
     pprint(num_samples_per_pop)
     num_samples = round(min(num_samples_per_pop.values()) * percent_indiv_used)
 
-    diversities = calc_diversities(variations, pops, num_samples, num_repeats=5)
+    diversities = calc_var_diversities(variations, pops, num_samples, num_repeats=num_repeats)
 
     out_dir = config.DIVERSITIES_VAR_DIR
     os.makedirs(out_dir, exist_ok=True)
