@@ -20,6 +20,7 @@ from variation.matrix.stats import counts_and_allels_by_row, counts_by_row
 from passport import get_sample_passports
 from pop_building import get_pops
 import colors
+from snp_filtering import keep_variations_variable_in_samples
 
 
 class NotEnoughSamplesError(RuntimeError):
@@ -198,10 +199,6 @@ def do_rarefaction_for_population(variations, samples,
             res[field].append(value)
 
     return res
-
-
-def keep_variations_variable_in_samples(variations, samples):
-    return VariableAndNotAllMissing()(SampleFilter(samples)(variations)[FLT_VARS])[FLT_VARS]
 
 
 def calc_rarefacted_diversities(variations, pops, rarefaction_range):

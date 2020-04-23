@@ -53,6 +53,8 @@ elif USER == 'jope':
 
     TOMATO_GENOME_FASTA = HOME_DIR / '/home/jope/genomes/tomato/SL4.00/S_lycopersicum_chromosomes.4.00.fa'
 
+SOURCE_CODE_DIR = BASE_DIR / 'src'
+TREE_MIX_PLOTTING_R_SOURCE = SOURCE_CODE_DIR / 'plotting_funcs.R'
 
 SOURCE_DATA_DIR = BASE_DIR / 'source_data'
 
@@ -119,7 +121,7 @@ CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
 WORKING_CLASSIFICATION_CSV = BASE_DIR / 'working_classifications.csv'
 CLASSIFICATION_HISTORY_DIR = BASE_DIR / 'old_classifications'
 
-CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type', 'rank3']
+CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type']
 
 RANK1 = 'classification', 'rank1'
 RANK2 = 'classification', 'rank2'
@@ -165,3 +167,5 @@ N_DIMS_TO_KEEP = 3
 DIVERSITIES_DIR = BASE_DIR / 'diversities'
 DIVERSITIES_VAR_DIR = DIVERSITIES_DIR / 'vars'
 DIVERSITIES_HAPLO_DIR = DIVERSITIES_DIR / 'haplo'
+
+TREE_MIX_DIR = BASE_DIR / 'tree_mix'

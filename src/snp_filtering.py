@@ -375,3 +375,7 @@ def keep_one_random_snp_per_window(variations, win_size, cache_dir=None):
         out_variations.put_chunks([chunk])
 
     return out_variations
+
+
+def keep_variations_variable_in_samples(variations, samples):
+    return VariableAndNotAllMissing()(SampleFilter(samples)(variations)[FLT_VARS])[FLT_VARS]
