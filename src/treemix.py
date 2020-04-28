@@ -19,6 +19,7 @@ from pop_building import get_pops
 from snp_filtering import (get_one_random_var_per_haplo_block,
                            keep_variations_variable_in_samples)
 import trees
+from plot import plot_scatter
 
 
 def count_minor_and_major_allele_counts_per_pop(variations, pops):
@@ -135,7 +136,8 @@ def run_one_tree_mix_analysis(variations, out_dir, pops, num_migrations, out_gro
     if num_migrations:
         cmd.extend(['-m', str(num_migrations)])
 
-    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+    stdout_fpath = str(out_base) + '.stdout'
+    process = subprocess.run(cmd, check=True, stdout=open(stdout_fpath, 'wt'))
 
     newick_fpath = str(out_base) + '.treeout.gz'
     newick_str = gzip.open(newick_fpath, 'rt').read()
@@ -147,10 +149,9 @@ def run_one_tree_mix_analysis(variations, out_dir, pops, num_migrations, out_gro
 
 def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range,
                          difference_rate_allowed_for_haplo_block,
+                         max_maf=None,
                          blocks_cache_dir=None,
                          out_group=None, n_bootstraps=100):
-    tmp_dir = out_dir / 'tmp'
-    tmp_dir.mkdir(exist_ok=True)
 
     if n_bootstraps is None or n_bootstraps < 1:
         raise ValueError('n_bootstraps should be at least 1')
@@ -161,9 +162,9 @@ def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range,
         tree_list = trees.TreeWithMigrationsList()
         for boot_idx in range(n_bootstraps):
             this_iter_variations = get_one_random_var_per_haplo_block(variations,
+                                                                      max_maf=max_maf,
                                                                       difference_rate_allowed=difference_rate_allowed_for_haplo_block,
                                                                       blocks_cache_dir=blocks_cache_dir)
-            print(this_iter_variations.num_variations)
             this_iter_iter_out_dir = bootstrap_dir / f'boot_{boot_idx}'
             os.makedirs(this_iter_iter_out_dir, exist_ok=True)
             res = run_one_tree_mix_analysis(this_iter_variations,
@@ -174,7 +175,7 @@ def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range,
             tree_list.append(res['tree'])
         res = tree_list.get_consensus_tree()
 
-        plot_path = this_iter_out_dir / 'majority_rule_consensus_tree.svg'
+        plot_path = this_iter_out_dir / f'majority_rule_consensus_tree.num_vars_{this_iter_variations.num_variations}.svg'
         draw_support = n_bootstraps > 1
         canvas = toyplot.Canvas(style={"background-color": "white"})
         axes = canvas.cartesian()
@@ -183,9 +184,48 @@ def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range,
         toyplot.svg.render(canvas, str(plot_path))
 
 
+def read_treemix_results(out_dir):
+    num_migrationss = []
+    likelihoods = []
+    for path in out_dir.iterdir():
+        if not path.is_dir():
+            continue
+        if not 'num_migrations' in path.name:
+            continue
+
+        num_migrations = int(path.name.split('_')[-1])
+
+        base_boot_dir = path / 'boot'
+        this_likelihoods = []
+        for boot_dir in base_boot_dir.iterdir():
+            if 'boot' not in boot_dir.name:
+                continue
+            treemix_stdout_path = boot_dir / 'treemix_result.stdout'
+            if not treemix_stdout_path.exists():
+                continue
+            lines = treemix_stdout_path.open('rt').read().splitlines()
+            lines = list(filter(lambda x: 'ln(likelihood)' in x, lines))
+            likelihood = float(lines[-1].split(':')[-1].strip())
+            this_likelihoods.append(likelihood)
+        likelihood = numpy.mean(this_likelihoods)
+        num_migrationss.append(num_migrations)
+        likelihoods.append(likelihood)
+    return {'num_migrations': num_migrationss, 'likelihoods': likelihoods}
+
+
+def plot_likelihoods(out_dir):
+    res = read_treemix_results(out_dir)
+
+    plot_path = out_dir / 'likelihoods.svg'
+    plot_scatter(res['num_migrations'], res['likelihoods'], plot_path,
+                 labels={'x_axis': 'Num. migrations', 'y_axis': 'Likelihood'})
+
+
+
 if __name__ == '__main__':
 
-    difference_rate_allowed_for_haplo_block = 0.35
+    difference_rate_allowed_for_haplo_block = 0.40
+    max_maf = 0.95
     cache_dir = config.CACHE_DIR
 
     vars_path = config.WORKING_PHASED_H5
@@ -209,7 +249,7 @@ if __name__ == '__main__':
         all_pops = main_pops
         out_fname = 'only_america'
         out_group = 'sp_pe'
-        num_migration_range = range(0, 6)
+        num_migration_range = range(0, 8)
 
     pops_descriptions = {config.RANK1: all_pops}
     pops = get_pops(pops_descriptions, passports)
@@ -218,10 +258,16 @@ if __name__ == '__main__':
     variations = keep_variations_variable_in_samples(variations, all_samples)
     variations = SampleFilter(all_samples)(variations)[FLT_VARS]
 
-    out_dir = config.TREE_MIX_DIR / out_fname / f'max_ld_corr_{difference_rate_allowed_for_haplo_block}'
+    out_fname2 = f'max_ld_corr_{difference_rate_allowed_for_haplo_block}'
+    if max_maf is not None:
+        out_fname2 += f'.maf_maf_{max_maf}'
+    out_dir = config.TREE_MIX_DIR / out_fname / out_fname2
     os.makedirs(out_dir, exist_ok=True)
-    
+
     do_tree_mix_analysis(variations, out_dir, pops, num_migration_range=num_migration_range,
-                         difference_rate_allowed_for_haplo_block=difference_rate_allowed_for_haplo_block,
-                         out_group=out_group, n_bootstraps=n_boostraps,
-                         blocks_cache_dir=cache_dir)
+                        difference_rate_allowed_for_haplo_block=difference_rate_allowed_for_haplo_block,
+                        out_group=out_group, n_bootstraps=n_boostraps,
+                        max_maf=max_maf,
+                        blocks_cache_dir=cache_dir)
+
+    plot_likelihoods(out_dir)

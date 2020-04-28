@@ -6,6 +6,8 @@ import numpy
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+import seaborn
+
 from variation import CHROM_FIELD, POS_FIELD
 
 from genome_coord_transform import (get_genome_sizes, GenomeCoordinateConverter,

@@ -289,7 +289,7 @@ def keep_the_var_with_lowest_missing_gts_per_haplo_block(variations, cache_dir=N
 
 
 def get_one_random_var_per_haplo_block(variations, blocks_cache_dir=None,
-                                       difference_rate_allowed=0.05):
+                                       difference_rate_allowed=0.05, max_maf=None):
 
     blocks = generate_blocks(variations,
                              difference_rate_allowed=difference_rate_allowed,
@@ -298,8 +298,22 @@ def get_one_random_var_per_haplo_block(variations, blocks_cache_dir=None,
     out_variations = VariationsArrays()
 
     for block in blocks:
-        random_var_idx = random.randint(block['start_idx'], block['stop_idx'])
-        one_var_chunk = variations.get_chunk(slice(random_var_idx, random_var_idx + 1))
+
+        if max_maf is None:
+            random_var_idx = random.randint(block['start_idx'], block['stop_idx'])
+            one_var_chunk = variations.get_chunk(slice(random_var_idx, random_var_idx + 1))
+        else:
+            vars_in_chunk = variations.get_chunk(slice(block['start_idx'], block['stop_idx']))
+            vars_in_win = MafFilter(max_maf=max_maf, do_histogram=False, do_filtering=True)(vars_in_chunk)[FLT_VARS]
+
+            if not vars_in_win.num_variations:
+                continue
+            elif vars_in_win == 1:
+                chunk = vars_in_win
+            else:
+                snp_idx = random.randrange(vars_in_win.num_variations)
+                one_var_chunk = vars_in_win.get_chunk(slice(snp_idx, snp_idx + 1))
+
         out_variations.put_chunks([one_var_chunk])
 
     return out_variations
@@ -365,7 +379,7 @@ def keep_less_missing_snp_per_window(variations, win_size, cache_dir=None):
     return out_variations
 
 
-def keep_one_random_snp_per_window(variations, win_size, cache_dir=None):
+def keep_one_random_snp_per_window(variations, win_size, cache_dir=None, max_maf=None):
 
     if cache_dir:
         key = ','.join(sorted(variations.samples))
@@ -382,6 +396,12 @@ def keep_one_random_snp_per_window(variations, win_size, cache_dir=None):
         out_variations = VariationsArrays()
 
     for vars_in_win in variations.iterate_wins(win_size):
+        if not vars_in_win.num_variations:
+            continue
+
+        if max_maf:
+            vars_in_win = MafFilter(max_maf=max_maf, do_histogram=False, do_filtering=True)(vars_in_win)[FLT_VARS]
+
         if not vars_in_win.num_variations:
             continue
         elif vars_in_win == 1:
