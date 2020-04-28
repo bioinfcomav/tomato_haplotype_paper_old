@@ -7,6 +7,8 @@ import subprocess
 
 import numpy
 
+import toyplot
+
 from variation import GT_FIELD, MISSING_INT
 from variation.variations import VariationsH5
 from variation.matrix.stats import counts_by_row
@@ -14,8 +16,9 @@ from variation.variations.filters import SampleFilter, FLT_VARS
 
 from passport import get_sample_passports
 from pop_building import get_pops
-from snp_filtering import (keep_the_var_with_lowest_missing_gts_per_haplo_block,
+from snp_filtering import (get_one_random_var_per_haplo_block,
                            keep_variations_variable_in_samples)
+import trees
 
 
 def count_minor_and_major_allele_counts_per_pop(variations, pops):
@@ -83,7 +86,8 @@ def write_tree_mix_snp_file(variations, fhand, pops):
     fhand.flush()
 
 
-def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range, out_group=None):
+def do_tree_mix_analysis_old(variations, out_dir, pops, num_migration_range, out_group=None,
+                         n_boostraps=100):
     tmp_dir = out_dir / 'tmp'
     tmp_dir.mkdir(exist_ok=True)
 
@@ -114,10 +118,75 @@ def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range, out_gro
         subprocess.run(['R', '-e', r_plot_command])
 
 
+def run_one_tree_mix_analysis(variations, out_dir, pops, num_migrations, out_group=None):
+
+    snp_path = out_dir / 'snps.treemix.gz'
+    snp_fhand = gzip.open(snp_path, 'wt')
+    write_tree_mix_snp_file(variations, snp_fhand, pops)
+
+    cmd = ['treemix', '-i', str(snp_path)]
+
+    if out_group is not None:
+        cmd.extend(['-root', out_group])
+
+    out_base = out_dir / 'treemix_result'
+    cmd.extend(['-o', str(out_base)])
+
+    if num_migrations:
+        cmd.extend(['-m', str(num_migrations)])
+
+    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+
+    newick_fpath = str(out_base) + '.treeout.gz'
+    newick_str = gzip.open(newick_fpath, 'rt').read()
+
+    tree_with_migrations = trees.parse_treemix_tree(newick_str)
+
+    return {'tree': tree_with_migrations}
+
+
+def do_tree_mix_analysis(variations, out_dir, pops, num_migration_range,
+                         difference_rate_allowed_for_haplo_block,
+                         blocks_cache_dir=None,
+                         out_group=None, n_bootstraps=100):
+    tmp_dir = out_dir / 'tmp'
+    tmp_dir.mkdir(exist_ok=True)
+
+    if n_bootstraps is None or n_bootstraps < 1:
+        raise ValueError('n_bootstraps should be at least 1')
+
+    for num_migrations in num_migration_range:
+        this_iter_out_dir = out_dir / f'num_migrations_{num_migrations}'
+        bootstrap_dir = this_iter_out_dir / 'boot'
+        tree_list = trees.TreeWithMigrationsList()
+        for boot_idx in range(n_bootstraps):
+            this_iter_variations = get_one_random_var_per_haplo_block(variations,
+                                                                      difference_rate_allowed=difference_rate_allowed_for_haplo_block,
+                                                                      blocks_cache_dir=blocks_cache_dir)
+            print(this_iter_variations.num_variations)
+            this_iter_iter_out_dir = bootstrap_dir / f'boot_{boot_idx}'
+            os.makedirs(this_iter_iter_out_dir, exist_ok=True)
+            res = run_one_tree_mix_analysis(this_iter_variations,
+                                            out_dir=this_iter_iter_out_dir,
+                                            pops=pops,
+                                            num_migrations=num_migrations,
+                                            out_group=out_group)
+            tree_list.append(res['tree'])
+        res = tree_list.get_consensus_tree()
+
+        plot_path = this_iter_out_dir / 'majority_rule_consensus_tree.svg'
+        draw_support = n_bootstraps > 1
+        canvas = toyplot.Canvas(style={"background-color": "white"})
+        axes = canvas.cartesian()
+        trees.draw_tree_with_migrations(res['consensus_tree'], axes, draw_support=draw_support)
+        axes.show = False
+        toyplot.svg.render(canvas, str(plot_path))
+
+
 if __name__ == '__main__':
 
+    difference_rate_allowed_for_haplo_block = 0.35
     cache_dir = config.CACHE_DIR
-    difference_rate_allowed_for_haplo_block = 0.5
 
     vars_path = config.WORKING_PHASED_H5
     variations = VariationsH5(str(vars_path), 'r')
@@ -133,7 +202,7 @@ if __name__ == '__main__':
         all_pops = main_pops + vintage_pops #+ hybrid_pops
         out_fname = 'up_to_vintage'
         out_group = 'sp_pe'
-        num_migration_range = range(0, 6)
+        num_migration_range = range(0, 5)
 
     if True:
         main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
@@ -148,12 +217,11 @@ if __name__ == '__main__':
 
     variations = keep_variations_variable_in_samples(variations, all_samples)
     variations = SampleFilter(all_samples)(variations)[FLT_VARS]
-    variations = keep_the_var_with_lowest_missing_gts_per_haplo_block(variations,
-                                                                      difference_rate_allowed=difference_rate_allowed_for_haplo_block,
-                                                                      cache_dir=cache_dir)
 
     out_dir = config.TREE_MIX_DIR / out_fname / f'max_ld_corr_{difference_rate_allowed_for_haplo_block}'
     os.makedirs(out_dir, exist_ok=True)
     
     do_tree_mix_analysis(variations, out_dir, pops, num_migration_range=num_migration_range,
-                         out_group=out_group)
+                         difference_rate_allowed_for_haplo_block=difference_rate_allowed_for_haplo_block,
+                         out_group=out_group, n_bootstraps=n_boostraps,
+                         blocks_cache_dir=cache_dir)

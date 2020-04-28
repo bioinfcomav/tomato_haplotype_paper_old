@@ -288,6 +288,23 @@ def keep_the_var_with_lowest_missing_gts_per_haplo_block(variations, cache_dir=N
     return out_variations
 
 
+def get_one_random_var_per_haplo_block(variations, blocks_cache_dir=None,
+                                       difference_rate_allowed=0.05):
+
+    blocks = generate_blocks(variations,
+                             difference_rate_allowed=difference_rate_allowed,
+                             cache_dir=blocks_cache_dir)
+
+    out_variations = VariationsArrays()
+
+    for block in blocks:
+        random_var_idx = random.randint(block['start_idx'], block['stop_idx'])
+        one_var_chunk = variations.get_chunk(slice(random_var_idx, random_var_idx + 1))
+        out_variations.put_chunks([one_var_chunk])
+
+    return out_variations
+
+
 def keep_most_variable_snp_per_window(variations, win_size, cache_dir=None):
 
     if cache_dir:
