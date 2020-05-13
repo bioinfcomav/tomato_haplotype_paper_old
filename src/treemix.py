@@ -4,6 +4,8 @@ import config
 import os
 import gzip
 import subprocess
+from pprint import pprint
+import math
 
 import numpy
 
@@ -206,6 +208,8 @@ def read_treemix_results(out_dir):
             lines = treemix_stdout_path.open('rt').read().splitlines()
             lines = list(filter(lambda x: 'ln(likelihood)' in x, lines))
             likelihood = float(lines[-1].split(':')[-1].strip())
+            if math.isnan(likelihood):
+                continue
             this_likelihoods.append(likelihood)
         likelihood = numpy.mean(this_likelihoods)
         num_migrationss.append(num_migrations)
@@ -224,7 +228,7 @@ def plot_likelihoods(out_dir):
 
 if __name__ == '__main__':
 
-    difference_rate_allowed_for_haplo_block = 0.40
+    difference_rate_allowed_for_haplo_block = 0.25
     max_maf = 0.95
     cache_dir = config.CACHE_DIR
 
@@ -233,6 +237,7 @@ if __name__ == '__main__':
 
     passports = get_sample_passports()
 
+    run_treemix = True
     n_boostraps = 100
 
     if True:
@@ -249,7 +254,32 @@ if __name__ == '__main__':
         all_pops = main_pops
         out_fname = 'only_america'
         out_group = 'sp_pe'
-        num_migration_range = range(0, 8)
+        num_migration_range = range(0, 6)
+
+    if True:
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        vintage_pops = ['sll_vint', 'slc_world']
+        all_pops = main_pops + vintage_pops
+        out_fname = 'america_and_vint'
+        out_group = 'sp_pe'
+        num_migration_range = range(0, 6)
+
+    if True:
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        vintage_pops = ['sll_vint', 'slc_world']
+        hybrid_pops = ['sll_modern', 'sp_x_sl']
+        all_pops = main_pops + vintage_pops + hybrid_pops
+        out_fname = 'america_vint_and_hyb'
+        out_group = 'sp_pe'
+        num_migration_range = range(0, 6)
+
+    if True:
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        hybrid_pops = ['sp_x_sl']
+        all_pops = main_pops + hybrid_pops
+        out_fname = 'america_and_hyb'
+        out_group = 'sp_pe'
+        num_migration_range = range(0, 6)
 
     pops_descriptions = {config.RANK1: all_pops}
     pops = get_pops(pops_descriptions, passports)
@@ -264,10 +294,11 @@ if __name__ == '__main__':
     out_dir = config.TREE_MIX_DIR / out_fname / out_fname2
     os.makedirs(out_dir, exist_ok=True)
 
-    do_tree_mix_analysis(variations, out_dir, pops, num_migration_range=num_migration_range,
-                        difference_rate_allowed_for_haplo_block=difference_rate_allowed_for_haplo_block,
-                        out_group=out_group, n_bootstraps=n_boostraps,
-                        max_maf=max_maf,
-                        blocks_cache_dir=cache_dir)
+    if run_treemix:
+        do_tree_mix_analysis(variations, out_dir, pops, num_migration_range=num_migration_range,
+                            difference_rate_allowed_for_haplo_block=difference_rate_allowed_for_haplo_block,
+                            out_group=out_group, n_bootstraps=n_boostraps,
+                            max_maf=max_maf,
+                            blocks_cache_dir=cache_dir)
 
     plot_likelihoods(out_dir)
