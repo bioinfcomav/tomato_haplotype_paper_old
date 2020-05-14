@@ -210,7 +210,7 @@ def plot_table_classification_comparison(classification_series1, classification_
     for item in common_items:
         idx1 = classification_kinds1_idxs[classification_series1.loc[item]]
         idx2 = classification_kinds2_idxs[classification_series2.loc[item]]
-        counts[idx1, idx2] += 1
+        counts[idx2, idx1] += 1
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later
