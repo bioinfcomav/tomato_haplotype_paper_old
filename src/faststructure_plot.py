@@ -34,10 +34,30 @@ def plot_marginal_likelihoods(results, plot_path):
 def _plot_admixture_compositions_per_sample(admixtures, plot_path,
                                             pops_for_samples=None,
                                             pop_order=None):
+    _plot_admixtures(admixtures, plot_path,
+                     pops_for_samples=pops_for_samples, pop_order=pop_order)
 
-    for ancestral_pop_idx in range(admixtures.shape[1]):
-        values = admixtures.loc[:, ancestral_pop_idx]
-        sorted_samples = sorted(admixtures.index, key=lambda sample: values.loc[sample])
+
+def _calc_admixtures_per_pop(admixtures, pops_for_samples):
+    pop_col = [pops_for_samples[sample] for sample in admixtures.index]
+    admixtures_per_sample = admixtures.copy()
+    admixtures_per_sample['pop'] = pop_col
+
+    admixtures_per_pop = admixtures_per_sample.groupby('pop').mean()
+
+    assert numpy.allclose(admixtures_per_pop.sum(axis=1), 1)
+    return admixtures_per_pop
+
+
+def _plot_admixtures(admixtures, plot_path, sample_order=None, pops_for_samples=None, pop_order=None):
+
+    if sample_order is None:
+        for ancestral_pop_idx in range(admixtures.shape[1]):
+            values = admixtures.loc[:, ancestral_pop_idx]
+            sorted_samples = sorted(admixtures.index, key=lambda sample: values.loc[sample])
+            admixtures = admixtures.loc[sorted_samples, :]
+    else:
+        sorted_samples = sorted(admixtures.index, key=lambda sample: sample_order.index(sample))
         admixtures = admixtures.loc[sorted_samples, :]
 
     if pops_for_samples:
@@ -55,7 +75,8 @@ def _plot_admixture_compositions_per_sample(admixtures, plot_path,
     bar_centers = (bar_edges[:-1] + bar_edges[1:]) / 2
     width = bar_edges[1] - bar_edges[0]
 
-    fig = Figure((20, 4))
+    fig_width = 0.2 * admixtures.shape[0]
+    fig = Figure((fig_width, 4))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes = fig.add_subplot(111)
 
@@ -84,11 +105,26 @@ def _plot_admixture_compositions_per_sample(admixtures, plot_path,
             axes.text(middle_pos, y_max, str(pop), rotation=45)
 
             start_idx = end_idx
-        axes.spines['right'].set_visible(False)
-        axes.spines['top'].set_visible(False)
+
+    axes.spines['right'].set_visible(False)
+    axes.spines['top'].set_visible(False)
+
+    xtick_labels = admixtures.index
+    xtick_poss = bar_edges[1:]
+    axes.set_xticklabels(xtick_labels, rotation=45, horizontalalignment='right')
+    axes.set_xticks(xtick_poss)
+
+    axes.set_xlim((0, bar_edges[-1]))
 
     fig.tight_layout()
     fig.savefig(str(plot_path))
+
+
+def _plot_admixture_compositions_per_pop(admixtures, plot_path, pops_for_samples,
+                                         pop_order=None):
+
+    admixtures_per_pop = _calc_admixtures_per_pop(admixtures, pops_for_samples)
+    _plot_admixtures(admixtures_per_pop, plot_path, sample_order=pop_order)
 
 
 def plot_admixture_compositions_per_sample(results, out_dir,
@@ -99,6 +135,15 @@ def plot_admixture_compositions_per_sample(results, out_dir,
         _plot_admixture_compositions_per_sample(result['admixtures'], plot_path,
                                                 pops_for_samples=pops_for_samples,
                                                 pop_order=pop_order)
+
+
+def plot_admixture_compositions_per_pop(results, out_dir, pops_for_samples,
+                                        pop_order=None):
+    for k, result in results.items():
+        plot_path = out_dir / f'pop_composition.k_{k}.svg'
+        _plot_admixture_compositions_per_pop(result['admixtures'], plot_path,
+                                             pops_for_samples=pops_for_samples,
+                                             pop_order=pop_order)
 
 
 if __name__ == '__main__':
@@ -131,9 +176,9 @@ if __name__ == '__main__':
                  None
                  ]
 
+    plot_admixture_compositions_per_pop(results, config.FASTSTRUCTURE_PLOT_DIR,
+                                        pops_for_samples, pop_order=pop_order)
+
     plot_admixture_compositions_per_sample(results, config.FASTSTRUCTURE_PLOT_DIR,
                                            pops_for_samples, pop_order=pop_order)
-
-    # per sample
-    # per pop
     # correlation between structure composition and haplo composition
