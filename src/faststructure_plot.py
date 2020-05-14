@@ -181,4 +181,3 @@ if __name__ == '__main__':
 
     plot_admixture_compositions_per_sample(results, config.FASTSTRUCTURE_PLOT_DIR,
                                            pops_for_samples, pop_order=pop_order)
-    # correlation between structure composition and haplo composition

@@ -195,3 +195,45 @@ def plot_scatter(x_values, y_values, plot_path, labels=None, fit_reg=False,
     fig.tight_layout()
     fig.savefig(str(plot_path))
     return {'axes': axes, 'fig': fig}
+
+
+def plot_table_classification_comparison(classification_series1, classification_series2, plot_path,
+                                         x_label=None, y_label=None):
+    common_items = set(classification_series1.index).intersection(classification_series2.index)
+
+    classification_kinds1 = sorted(set(classification_series1.values))
+    classification_kinds1_idxs = {kind: idx for idx, kind in enumerate(classification_kinds1)}
+    classification_kinds2 = sorted(set(classification_series2.values))
+    classification_kinds2_idxs = {kind: idx for idx, kind in enumerate(classification_kinds2)}
+
+    counts = numpy.zeros((len(classification_kinds1), len(classification_kinds2)))
+    for item in common_items:
+        idx1 = classification_kinds1_idxs[classification_series1.loc[item]]
+        idx2 = classification_kinds2_idxs[classification_series2.loc[item]]
+        counts[idx1, idx2] += 1
+
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+
+    x_poss = list(range(len(classification_kinds1)))
+    y_poss = list(range(len(classification_kinds2)))
+    x_values =  x_poss * len(classification_kinds2)
+    y_values =  y_poss * len(classification_kinds1)
+
+    axes.scatter(x_values, y_values, s=counts)
+
+    axes.set_xticklabels(classification_kinds1, rotation=45, horizontalalignment='right')
+    axes.set_xticks(x_poss)
+    if x_label:
+        axes.set_xlabel(x_label)
+
+    axes.set_yticklabels(classification_kinds2)
+    axes.set_yticks(y_poss)
+    if y_label:
+        axes.set_ylabel(y_label)
+
+    axes.set_facecolor('white')
+
+    fig.tight_layout()
+    fig.savefig(str(plot_path))
