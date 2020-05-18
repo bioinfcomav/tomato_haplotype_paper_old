@@ -207,10 +207,11 @@ def plot_table_classification_comparison(classification_series1, classification_
     classification_kinds2_idxs = {kind: idx for idx, kind in enumerate(classification_kinds2)}
 
     counts = numpy.zeros((len(classification_kinds1), len(classification_kinds2)))
+    print(counts.shape)
     for item in common_items:
         idx1 = classification_kinds1_idxs[classification_series1.loc[item]]
         idx2 = classification_kinds2_idxs[classification_series2.loc[item]]
-        counts[idx2, idx1] += 1
+        counts[idx1, idx2] += 1
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later

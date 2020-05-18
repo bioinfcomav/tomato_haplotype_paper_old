@@ -56,8 +56,8 @@ def _run_faststructure(k, input_fpath, output_fpath, prior):
 
 
 def run_faststructure(variations, k_range, prior='logistic'):
-    out_dir = config.FASTSTRUCTURE_DIR
-    run_dir = config.FASTSTRUCTURE_RUN_DIR
+    out_dir = config.FASTSTRUCTURE_DIR / prior
+    run_dir = config.FASTSTRUCTURE_RUN_DIR / prior
 
     plink_files_dir = config.FASTSTRUCTURE_PLINK_DIR
     os.makedirs(plink_files_dir, exist_ok=True)
@@ -81,4 +81,4 @@ if __name__ == '__main__':
 
     variations = filter_variations(variations, max_maf=max_maf)
 
-    run_faststructure(variations, k_range)
+    run_faststructure(variations, k_range, prior='simple')

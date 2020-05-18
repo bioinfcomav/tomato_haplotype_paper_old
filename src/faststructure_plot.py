@@ -147,11 +147,15 @@ def plot_admixture_compositions_per_pop(results, out_dir, pops_for_samples,
 
 
 if __name__ == '__main__':
-    results = parse_faststructure_results()
+    prior = 'simple'
 
-    os.makedirs(config.FASTSTRUCTURE_PLOT_DIR, exist_ok=True)
+    results = parse_faststructure_results(prior)
 
-    plot_path = config.FASTSTRUCTURE_PLOT_DIR / 'marginal_likelihoods.svg'
+    out_dir = config.FASTSTRUCTURE_PLOT_DIR / prior
+
+    os.makedirs(out_dir, exist_ok=True)
+
+    plot_path = out_dir / 'marginal_likelihoods.svg'
     plot_marginal_likelihoods(results, plot_path)
 
     passports = get_sample_passports()
@@ -176,8 +180,8 @@ if __name__ == '__main__':
                  None
                  ]
 
-    plot_admixture_compositions_per_pop(results, config.FASTSTRUCTURE_PLOT_DIR,
+    plot_admixture_compositions_per_pop(results, out_dir,
                                         pops_for_samples, pop_order=pop_order)
 
-    plot_admixture_compositions_per_sample(results, config.FASTSTRUCTURE_PLOT_DIR,
+    plot_admixture_compositions_per_sample(results, out_dir,
                                            pops_for_samples, pop_order=pop_order)

@@ -81,6 +81,8 @@ if __name__ == '__main__':
     only_outliers = False
     outliers_return_aligned_pcoas = False
 
+    prior = 'simple'
+
     win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
                   'win_size': config.HAPLO_WIN_SIZE}
 
@@ -113,9 +115,9 @@ if __name__ == '__main__':
     sample_haplo_composition = get_haplo_sample_composition_dframe(haplo_classification)
 
     haplo_sample_classification = classify_sample_according_to_freqs(sample_haplo_composition)
-    faststructure_results = parse_faststructure_results()
+    faststructure_results = parse_faststructure_results(prior)
 
-    out_dir = config.FASTSTRUCTURE_VS_HAPLO_PLOT_DIR
+    out_dir = config.FASTSTRUCTURE_VS_HAPLO_PLOT_DIR / prior
     os.makedirs(out_dir, exist_ok=True)
 
     print('TODO classification threshold')

@@ -65,13 +65,15 @@ def _parse_admixture_file(path):
     return admixtures
 
 
-def parse_faststructure_results():
+def parse_faststructure_results(prior):
+
+    run_dir = config.FASTSTRUCTURE_RUN_DIR / prior
 
     plink_fam_path = _get_structure_path(config.FASTSTRUCTURE_PLINK_DIR, '.fam')
     samples = _parse_plink_fam_file(plink_fam_path)['samples']
 
     ress = {}
-    for path in config.FASTSTRUCTURE_RUN_DIR.iterdir():
+    for path in run_dir.iterdir():
         res = {}
         if not path.is_dir():
             continue
