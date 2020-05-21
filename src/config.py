@@ -182,3 +182,4 @@ FASTSTRUCTURE_VS_HAPLO_PLOT_DIR = FASTSTRUCTURE_PLOT_DIR / 'faststructure_vs_hap
 
 PLINK_BIN = 'plink1.9'
 
+LD_DIR = BASE_DIR / 'ld'
