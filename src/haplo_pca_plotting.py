@@ -142,7 +142,7 @@ def plot_ellipsoids(axes, ellipsoids):
 
     for haplo_kind, ellipsoid in ellipsoids.items():
         #color = ELLIPSE_COLORS[haplo_kind]
-        color = 'b'
+        color = '#d8d8d8'
         ellipse = patches.Ellipse(ellipsoid['center'],
                                   ellipsoid['width'],
                                   ellipsoid['height'],

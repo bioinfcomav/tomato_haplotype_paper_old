@@ -39,6 +39,7 @@ if __name__ == '__main__':
                       remove_non_variable_snvs=True,
                       kept_fields=kept_fields,
                       hist_path=working_set_stats_dir,
+                      fix_duplicated_alleles=True
                       verbose=True)
 
     print('output num_vars: ', output_vars.num_variations)

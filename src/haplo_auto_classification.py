@@ -473,7 +473,6 @@ def calc_haplo_pop_composition_freq(pops, haplo_classification):
     for pop, samples in pops.items():
         pop_compositions = defaultdict(list)
         for sample in samples:
-            
             try:
                 sample_haplo_composition = sample_haplo_composition_freqs[sample]
             except KeyError:

@@ -29,6 +29,9 @@ if USER == 'jose':
 
     TOMATO_GENOME_FASTA = HOME_DIR / 'magnet/genomes/s_lycopersicum/sl40/S_lycopersicum_chromosomes.4.00.fa'
 
+    PYTHON2_BIN_FOR_FASTSTRUCTURE = ANALYSES_DIR / 'population_ultimate_env2/bin/python'
+    FASTSTRUCTURE_BIN = ANALYSES_DIR / 'population_ultimate_env2/fastStructure-master/structure.py' 
+
 elif USER == 'david':
 
     BASE_DIR = HOME_DIR / '/home/david/Disco/ultimate_paper/'
@@ -169,3 +172,14 @@ DIVERSITIES_VAR_DIR = DIVERSITIES_DIR / 'vars'
 DIVERSITIES_HAPLO_DIR = DIVERSITIES_DIR / 'haplo'
 
 TREE_MIX_DIR = BASE_DIR / 'tree_mix'
+
+FASTSTRUCTURE_DIR = BASE_DIR / 'faststructure'
+FASTSTRUCTURE_RUN_DIR = FASTSTRUCTURE_DIR / 'runs'
+FASTSTRUCTURE_RESULT_BASE_FNAME = 'structure_out'
+FASTSTRUCTURE_PLINK_DIR = FASTSTRUCTURE_DIR / 'plink_files'
+FASTSTRUCTURE_PLOT_DIR = FASTSTRUCTURE_DIR / 'plots'
+FASTSTRUCTURE_VS_HAPLO_PLOT_DIR = FASTSTRUCTURE_PLOT_DIR / 'faststructure_vs_haplo_classes'
+
+PLINK_BIN = 'plink1.9'
+
+LD_DIR = BASE_DIR / 'ld'

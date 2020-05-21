@@ -13,3 +13,6 @@ source_data/solcap/snps_interpolated.beagle.map
 rarefaction/
 diversities/
 tree_mix/
+faststructure/
+src/tmp.py
+ld/
