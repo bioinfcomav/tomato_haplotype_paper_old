@@ -16,7 +16,7 @@ from haplo import get_pop_classification_for_haplos, parse_haplo_id
 
 
 def plot_pop_haplo_composition(pops, haplo_classification, haplo_pop_classification,
-                               plot_path):
+                               plot_path=None, axes=None):
 
     pop_composition_freqs = calc_haplo_pop_composition_freq(pops, haplo_classification)
 
@@ -25,9 +25,13 @@ def plot_pop_haplo_composition(pops, haplo_classification, haplo_pop_classificat
 
     pop_names = sorted(pops.keys(), key=str)
 
-    fig = Figure()
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
+    if axes is None:
+        fig = Figure()
+        FigureCanvas(fig) # Don't remove it or savefig will fail later
+        axes = fig.add_subplot(111)
+        savefig = True
+    else:
+        savefig = False
 
     x_poss = numpy.arange(len(pop_names))
     width = x_poss[1] - x_poss[0]
@@ -44,8 +48,10 @@ def plot_pop_haplo_composition(pops, haplo_classification, haplo_pop_classificat
     axes.set_xticks(x_poss)
 
     axes.legend()
-    fig.tight_layout()
-    fig.savefig(str(plot_path))
+
+    if savefig:
+        fig.tight_layout()
+        fig.savefig(str(plot_path))
 
 
 if __name__ == '__main__':

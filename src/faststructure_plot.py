@@ -49,11 +49,16 @@ def _calc_admixtures_per_pop(admixtures, pops_for_samples):
     return admixtures_per_pop
 
 
-def _plot_admixtures(admixtures, plot_path, sample_order=None, pops_for_samples=None, pop_order=None):
+def plot_admixtures(admixtures, plot_path=None, axes=None, sample_order=None,
+                    pops_for_samples=None, pop_order=None,
+                    composition_classes_colors=None):
+
+    if composition_classes_colors is None:
+        composition_classes_colors = {}
 
     if sample_order is None:
         for ancestral_pop_idx in range(admixtures.shape[1]):
-            values = admixtures.loc[:, ancestral_pop_idx]
+            values = admixtures.iloc[:, ancestral_pop_idx]
             sorted_samples = sorted(admixtures.index, key=lambda sample: values.loc[sample])
             admixtures = admixtures.loc[sorted_samples, :]
     else:
@@ -73,17 +78,28 @@ def _plot_admixtures(admixtures, plot_path, sample_order=None, pops_for_samples=
     samples = list(admixtures.index)
     bar_edges = numpy.arange(len(samples) + 1)
     bar_centers = (bar_edges[:-1] + bar_edges[1:]) / 2
-    width = bar_edges[1] - bar_edges[0]
+    width = (bar_edges[1] - bar_edges[0]) * 0.9
 
-    fig_width = 0.2 * admixtures.shape[0]
-    fig = Figure((fig_width, 4))
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
+    axes.set_facecolor('white')
 
+    if axes is None:
+        fig_width = 0.2 * admixtures.shape[0]
+        fig = Figure((fig_width, 4))
+        FigureCanvas(fig) # Don't remove it or savefig will fail later
+        axes = fig.add_subplot(111)
+        savefig = True
+    else:
+        savefig = False
+
+    ancestral_pops = list(admixtures.columns)
     bottom = None
     for ancestral_pop_idx in range(admixtures.shape[1]):
+        ancestral_pop = ancestral_pops[ancestral_pop_idx]
         height = admixtures.iloc[:, ancestral_pop_idx]
-        axes.bar(bar_centers, height, width=width, bottom=bottom)
+
+        color = composition_classes_colors.get(ancestral_pop, None)
+
+        axes.bar(bar_centers, height, width=width, bottom=bottom, color=color, label=ancestral_pop)
 
         if bottom is None:
             bottom = height
@@ -110,14 +126,16 @@ def _plot_admixtures(admixtures, plot_path, sample_order=None, pops_for_samples=
     axes.spines['top'].set_visible(False)
 
     xtick_labels = admixtures.index
-    xtick_poss = bar_edges[1:]
+    xtick_poss = bar_centers
     axes.set_xticklabels(xtick_labels, rotation=45, horizontalalignment='right')
     axes.set_xticks(xtick_poss)
 
     axes.set_xlim((0, bar_edges[-1]))
+    axes.set_ylim((0, 1))
 
-    fig.tight_layout()
-    fig.savefig(str(plot_path))
+    if savefig:
+        fig.tight_layout()
+        fig.savefig(str(plot_path))
 
 
 def _plot_admixture_compositions_per_pop(admixtures, plot_path, pops_for_samples,

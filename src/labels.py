@@ -40,10 +40,21 @@ LABELS = [
           ('sp_x_sl', 'SP x SL'),
           ('sp_x_sl_cherry_cultivars', 'SP x SL cherry cultivars'),
 
-          (None, 'Unassigned'),
-          ('None', 'Unassigned'),
+          ('sp_x_sp', 'SP x SP'),
+          ('sll_old_cultivars', 'SLL old cultivars'),
+          ('sll_modern', 'SLL modern'),
+
+          (None, 'Unclassified'),
+          ('None', 'Unclassified'),
           ]
 LABELS = OrderedDict(LABELS)
 
 def get_long_label(short_label):
     return LABELS.get(short_label, short_label)
+
+HAPLO_LABELS = {'not_classified': 'Unclassified',
+                'out_0': 'Outlier',
+                'sl': 'SL',
+                'sp_ecu': 'SP EC',
+                'sp_peru': 'SP PE',
+                }

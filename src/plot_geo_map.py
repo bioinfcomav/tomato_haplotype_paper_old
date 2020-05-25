@@ -108,7 +108,7 @@ def plot_geo_map(samples, axes, classifications=None, color_schema=None,
     return {'legend_handles_and_labels': legend_handles_and_labels}
 
 
-def plot_geo_rank1_for_main_pops(passports):
+def plot_geo_rank1_for_main_pops(passports, axes=None):
 
     colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
 
@@ -122,12 +122,16 @@ def plot_geo_rank1_for_main_pops(passports):
 
     classifications = {sample_id: passport.get('classification', {}).get(rank) for sample_id, passport in passports.items()}
 
-    plot_path = config.GEOGRAPHIC_FIGURE_DIR / f'geo_map.svg'
     hypothesis_path = config.HYPOTHESIS_PNG
 
-    fig = Figure((10, 15))
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111, projection=ccrs.PlateCarree(), zorder=1)
+    if axes is None:
+        plot_path = config.GEOGRAPHIC_FIGURE_DIR / f'geo_map.svg'
+        fig = Figure((10, 15))
+        FigureCanvas(fig) # Don't remove it or savefig will fail later
+        axes = fig.add_subplot(111, projection=ccrs.PlateCarree(), zorder=1)
+        savefig = True
+    else:
+        savefig = False
 
     res = plot_geo_map(passports, axes=axes,
                        classifications=classifications,
@@ -156,7 +160,8 @@ def plot_geo_rank1_for_main_pops(passports):
                 prop={'size': 17},
                 loc='lower left')
 
-    fig.savefig(str(plot_path))
+    if savefig:
+        fig.savefig(str(plot_path))
 
 
 def plot_geo_supplemental_rank2_for_all_pops(passports):

@@ -4,6 +4,12 @@ import numpy
 from matplotlib.colors import LinearSegmentedColormap, rgb_to_hsv, hsv_to_rgb
 
 
+SOME_NICE_COLORS = {'dark_pink': '#e178a0',
+                    'light_blue': '#7fcef1',
+                    'middle_blue': '#3aaad3'
+                   }
+
+
 CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'slc_ca_small': '#FF69B4',
                          'slc_tarapoto': '#57acff',
@@ -18,16 +24,66 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'sll_vint': '#CD5C5C',
                          'sll_vint_small': '#E9967A',
                         
-                         'slc_ma': '#b3b300', 
+                         'slc_ma': '#b3b300',
                          'sp_ec': '#2bae2b',
                          'sp_pe': '#556B2F',   # darkolive
                          'slc_co': '#f5ea6f',
-                         'sp_pe_inter-andean': '#20B2AA', 
+                         'sp_pe_inter-andean': '#20B2AA',
 
                          'sll_mx': '#FF6347', #tomato
                          'slc_ec': '#ffc087',
                          'slc_pe': '#ffabb1'
 
+                         }
+
+CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
+                         'slc_ca_small': '#FF69B4',
+                         'slc_tarapoto': '#57acff',
+                         'slc_moyobamba': '#0043ff',
+                         'slc_ecu_center': '#3CB371', 
+                         'slc_ecu_north': '#026b17',
+                         'slc_peru_south': '#fffa05',
+                         'sp_peru': '#cccccc',
+                         'sp_montane': '#888888',
+                         'sp_ecu': '#a35c11',
+                         'gal': '#FFA500',
+                         'sll_vint': '#CD5C5C',
+                         'sll_vint_small': '#E9967A',
+                        
+                         'slc_ma': '#6295d7', #
+                         'sp_ec': '#d88493', #
+                         'sp_pe': '#fecc70', #
+                         'slc_co': '#f5ea6f',
+                         'sp_pe_inter-andean': '#20B2AA',
+
+                         'sll_mx': '#FF6347',
+                         'slc_ec': '#ffc087',
+                         'slc_pe': '#ffabb1'
+                         }
+
+CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
+                         'slc_ca_small': '#FF69B4',
+                         'slc_tarapoto': '#57acff',
+                         'slc_moyobamba': '#0043ff',
+                         'slc_ecu_center': '#3CB371', 
+                         'slc_ecu_north': '#026b17',
+                         'slc_peru_south': '#fffa05',
+                         'sp_peru': '#cccccc',
+                         'sp_montane': '#888888',
+                         'sp_ecu': '#a35c11',
+                         'gal': '#FFA500',
+                         'sll_vint': '#CD5C5C',
+                         'sll_vint_small': '#E9967A',
+                        
+                         'slc_ma': SOME_NICE_COLORS['dark_pink'],
+                         'sp_ec': SOME_NICE_COLORS['middle_blue'], #
+                         'sp_pe': SOME_NICE_COLORS['light_blue'], #
+                         'slc_co': '#f5ea6f',
+                         'sp_pe_inter-andean': '#20B2AA',
+
+                         'sll_mx': '#FF6347',
+                         'slc_ec': '#ffc087',
+                         'slc_pe': '#ffabb1'
                          }
 
 CLASSIFICATION_RANK2_COLORS = {
@@ -71,14 +127,21 @@ CLASSIFICATION_RANK2_COLORS = {
 
 POP_COLORS = {**CLASSIFICATION_RANK1_COLORS, **CLASSIFICATION_RANK2_COLORS}
 
+LIGHT_GRAY = [0.9] * 3
+DARK_GRAY = [0.5] * 3
+BLACK = [0] * 3
+
+HAPLO_COLORS = {'not_classified': LIGHT_GRAY,
+                'out_0':DARK_GRAY,
+                'sl': CLASSIFICATION_RANK1_COLORS['slc_ma'],
+                'sp_ecu': CLASSIFICATION_RANK1_COLORS['sp_ec'],
+                'sp_peru': CLASSIFICATION_RANK1_COLORS['sp_pe']}
+
 SMALL_COLOR_WHEEL = ['#57acff', '#ff6347', '#3CB371']
 COLOR_WHEEL = ['#ff6347', '#57acff', '#8FBC8F', '#FF69B4', '#CD5C5C',
                '#80ced6', '#808000', '#ba68c8', '#FFA07A', '#92a8d1',
                '#3CB371', '#D2B48C', '#667292']
 
-LIGHT_GRAY = [0.9] * 3
-DARK_GRAY = [0.5] * 3
-BLACK = [0] * 3
 
 color_to_1_0 = lambda x: x / 255
 hex_to_rgb_1_0 = lambda h: tuple(int(h[i:i+2], 16) / 255 for i in (1, 3, 5))
@@ -144,9 +207,23 @@ pink_blue_list_r2 = [(0, white),
                     (0.47, color2),
                     (0.55, color1),
                     (1.0, black)]
+pink_blue_list_r2 = [(0, white),
+                    (0.20, color5),
+                    (0.40, color4),
+                    (0.60, color3),
+                    (0.67, color2),
+                    (0.75, color1),
+                    (1.0, black)]
+pink_blue_list_r2 = [(0, white),
+                    (0.30, color5),
+                    (0.50, color4),
+                    (0.66, color3),
+                    (0.75, color2),
+                    (0.85, color1),
+                    (1.0, black)]
 PINK_BLUE_CMAP_R2 = LinearSegmentedColormap.from_list('rg',
-                                                    pink_blue_list_r2,
-                                                    N=256)
+                                                      pink_blue_list_r2,
+                                                      N=256)
 
 
 TERMINAL_RED = '\033[91m'

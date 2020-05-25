@@ -488,6 +488,17 @@ def calc_haplo_pop_composition_freq(pops, haplo_classification):
     return pop_composition_freqs
 
 
+def calc_haplo_pop_composition_freq_dframe(pops, haplo_classification):
+    pop_composition_freqs = calc_haplo_pop_composition_freq(pops, haplo_classification)
+    pops = list(pop_composition_freqs.keys())
+    haplo_classes = sorted({haplo_class for freqs in pop_composition_freqs.values() for haplo_class in freqs.keys()})
+    freqs = numpy.empty((len(pops), len(haplo_classes)))
+    for pop_idx, pop in enumerate(pops):
+        for class_idx, klass in enumerate(haplo_classes):
+            freqs[pop_idx, class_idx] = pop_composition_freqs[pop][klass]
+    return pandas.DataFrame(freqs, index=pops, columns=haplo_classes)
+
+
 def group_haploids_by_class(classification):
     classification_by_class = defaultdict(list)
     for haplo_id, klass in classification.items():

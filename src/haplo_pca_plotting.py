@@ -156,12 +156,9 @@ def plot_ellipsoids(axes, ellipsoids):
         axes.add_patch(ellipse)
 
 
-def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoids=None):
-    fig = Figure()
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
+def plot_hist2d_in_axes(aligned_pcoas_df, axes, x_lims=None, y_lims=None, ellipsoids=None):
 
-    axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=50,
+    res = axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=50,
                norm=colors.LogNorm(), cmap=PINK_BLUE_CMAP_R2, zorder=10)
     plot_ellipsoids(axes, ellipsoids)
 
@@ -169,6 +166,16 @@ def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoid
         axes.set_xlim(x_lims)
     if y_lims:
         axes.set_ylim(y_lims)
+    return res
+
+
+def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoids=None):
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+
+    plot_hist2d_in_axes(aligned_pcoas_df, axes=axes,
+                        x_lims=x_lims, y_lims=y_lims, ellipsoids=ellipsis)
 
     fig.tight_layout()
     fig.savefig(str(plot_path))
