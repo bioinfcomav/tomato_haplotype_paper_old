@@ -152,7 +152,7 @@ def _get_lds(variations, samples, max_maf,
 
     lds = calc_lds(variations, samples, max_maf=max_maf,
                    max_dist=max_dist,
-                   min_num_samples=min_num_samples_in_pop,
+                   min_num_samples=min_num_samples,
                    cache_dir=cache_dir)
     lds = itertools.islice(lds, max_num_lds)
     lds, dists = zip(*((ld, dist) for ld, dist, _ in lds))
