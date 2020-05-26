@@ -19,7 +19,7 @@ import passport
 import plot_thinned_haplos
 from pop_building import get_pops
 from haplo_pca_plotting import calc_ellipsoids
-from colors import PINK_BLUE_CMAP_R2, HAPLO_COLORS
+from colors import PINK_BLUE_CMAP_R2, HAPLO_COLORS, ELLIPSE_COLORS
 from haplo_auto_classification import (detected_outliers_and_classify_haplos,
                                        calc_haplo_pop_composition_freq_dframe)
 from haplo import get_pop_classification_for_haplos
@@ -31,6 +31,7 @@ import labels
 
 
 Y_LABEL_TEXT_SIZE = 25
+HAPLO_IDS_TEXT_SIZE = 40
 
 
 def plot_haplo_composition(axes,
@@ -107,11 +108,15 @@ def plot_figure1(plot_path, sample_passports,
     haplos_hist_axes.set_facecolor('white')
     haplos_hist_axes.set_xlabel('Dim. 1')
     haplos_hist_axes.set_ylabel('Dim. 2')
+    haplos_hist_axes.text(0.0075, 0.0070, 'SL', fontsize=HAPLO_IDS_TEXT_SIZE, color='#782d50', zorder=90)
+    haplos_hist_axes.text(-0.050, -0.045, 'SP EC', fontsize=HAPLO_IDS_TEXT_SIZE, color='#1f6e8c', zorder=90)
+    haplos_hist_axes.text(-0.065, -0.02, 'SP PE', fontsize=HAPLO_IDS_TEXT_SIZE, color='#327795', zorder=90)
     colorbar_axes = fig.add_subplot(grid_spec[1, 0])
     fig.colorbar(res['hist2d_result'][3], cax=colorbar_axes, orientation='horizontal')
     text = AnchoredText('A', prop=dict(size=axes_id_letters_text_size), loc='upper left', frameon=False)
     haplos_hist_axes.add_artist(text)
     text.set_zorder(100)
+
 
     pops_for_samples = get_classifications_for_classification_key_path(sample_passports, config.RANK1)
     pops_for_samples = {sample: labels.get_long_label(pop) for sample, pop in pops_for_samples.items()}

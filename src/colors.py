@@ -137,6 +137,10 @@ HAPLO_COLORS = {'not_classified': LIGHT_GRAY,
                 'sp_ecu': CLASSIFICATION_RANK1_COLORS['sp_ec'],
                 'sp_peru': CLASSIFICATION_RANK1_COLORS['sp_pe']}
 
+ELLIPSE_COLORS = {'sl': '#dc5e8e',
+                  'sp_ecu': '#1f6e8c',
+                  'sp_peru': '#4fbcec'}
+
 SMALL_COLOR_WHEEL = ['#57acff', '#ff6347', '#3CB371']
 COLOR_WHEEL = ['#ff6347', '#57acff', '#8FBC8F', '#FF69B4', '#CD5C5C',
                '#80ced6', '#808000', '#ba68c8', '#FFA07A', '#92a8d1',

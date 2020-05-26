@@ -12,29 +12,10 @@ from matplotlib import colors
 
 from pca import write_curlywhirly_file
 from colors import (ColorSchema, POP_COLORS, PINK_BLUE_CMAP_R, PINK_BLUE_CMAP_R2,
-                    CLASSIFICATION_RANK1_COLORS)
+                    CLASSIFICATION_RANK1_COLORS, ELLIPSE_COLORS)
 from haplo import parse_haplo_id
 from haplo_pca import stack_aligned_pcas_projections
 
-ELLIPSE_COLORS = ColorSchema(CLASSIFICATION_RANK1_COLORS)
-
-
-def plot_ellipsoids(axes, ellipsoids):
-    if not ellipsoids:
-        return
-
-    for haplo_kind, ellipsoid in ellipsoids.items():
-        color = ELLIPSE_COLORS[haplo_kind]
-        ellipse = patches.Ellipse(ellipsoid['center'],
-                                    ellipsoid['width'],
-                                    ellipsoid['height'],
-                                    angle=numpy.degrees(ellipsoid['theta']),
-                                    facecolor='none',
-                                    edgecolor=color,
-                                    linewidth=2,
-                                    zorder=50,
-                                    alpha=0.7)
-        axes.add_patch(ellipse)
 
 
 def plot_haplo_pcas(pcoas, out_dir, populations=None, ellipsoids=None):
@@ -141,25 +122,24 @@ def plot_ellipsoids(axes, ellipsoids):
         return
 
     for haplo_kind, ellipsoid in ellipsoids.items():
-        #color = ELLIPSE_COLORS[haplo_kind]
-        color = '#d8d8d8'
+        color = ELLIPSE_COLORS.get(haplo_kind, '#d8d8d8')
         ellipse = patches.Ellipse(ellipsoid['center'],
                                   ellipsoid['width'],
                                   ellipsoid['height'],
                                   angle=numpy.degrees(ellipsoid['theta']),
                                   facecolor='none',
                                   edgecolor=color,
-                                  linewidth=2,
+                                  linewidth=6,
                                   zorder=30,
-                                  #alpha=0.7
                                   )
         axes.add_patch(ellipse)
 
 
 def plot_hist2d_in_axes(aligned_pcoas_df, axes, x_lims=None, y_lims=None, ellipsoids=None):
 
-    res = axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=50,
+    res = axes.hist2d(aligned_pcoas_df.values[:, 0], aligned_pcoas_df.values[:, 1], bins=100,
                norm=colors.LogNorm(), cmap=PINK_BLUE_CMAP_R2, zorder=10)
+
     plot_ellipsoids(axes, ellipsoids)
 
     if x_lims:
