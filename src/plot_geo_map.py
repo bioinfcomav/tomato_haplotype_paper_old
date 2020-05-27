@@ -108,7 +108,7 @@ def plot_geo_map(samples, axes, classifications=None, color_schema=None,
     return {'legend_handles_and_labels': legend_handles_and_labels}
 
 
-def plot_geo_rank1_for_main_pops(passports, axes=None):
+def plot_geo_rank1_for_main_pops(passports, axes=None, plot_legend=True):
 
     colors = ColorSchema(CLASSIFICATION_RANK1_COLORS)
 
@@ -148,17 +148,18 @@ def plot_geo_rank1_for_main_pops(passports, axes=None):
                                'extent': (-106.31449895265104, -69.52907660642875, -19.596286239604375, 27.67473222177241),
                                'zorder': 20}])
 
-    legend_handles, legend_labels = res['legend_handles_and_labels']
-    handle_and_labels = zip(legend_handles, legend_labels)
+    if plot_legend:
+        legend_handles, legend_labels = res['legend_handles_and_labels']
+        handle_and_labels = zip(legend_handles, legend_labels)
 
-    order = {label: idx for idx, label in enumerate(LABELS.values())}
+        order = {label: idx for idx, label in enumerate(LABELS.values())}
 
-    handle_and_labels = sorted(handle_and_labels, key=lambda t: t[1])
-    handle_and_labels = sorted(handle_and_labels, key=lambda t: order.get(t[1], 1000))
-    handles, labels = zip(*handle_and_labels)
-    axes.legend(handles, labels,
-                prop={'size': 17},
-                loc='lower left')
+        handle_and_labels = sorted(handle_and_labels, key=lambda t: t[1])
+        handle_and_labels = sorted(handle_and_labels, key=lambda t: order.get(t[1], 1000))
+        handles, labels = zip(*handle_and_labels)
+        axes.legend(handles, labels,
+                    prop={'size': 17},
+                    loc='lower left')
 
     if savefig:
         fig.savefig(str(plot_path))

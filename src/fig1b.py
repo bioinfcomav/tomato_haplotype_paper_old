@@ -18,6 +18,7 @@ HAPLO_PCOAS_X_LIMS = (-0.09, 0.04)
 HAPLO_PCOAS_Y_LIMS = (-0.06, 0.04)
 LEGEND_FONT_SIZE = 20
 X_LABEL_SMALL_FONT_SIZE = 20
+LEGEND_MARKER_SIZE = 15
 
 
 def plot_figure1(plot_path, sample_passports,
@@ -47,7 +48,7 @@ def plot_figure1(plot_path, sample_passports,
         color = res['colors'][haplo_class]
         element = Line2D([0], [0], marker='o', color=color,
                          label=labels.HAPLO_LABELS[haplo_class],
-                         markersize=15, linestyle='')
+                         markersize=LEGEND_MARKER_SIZE, linestyle='')
         legend_elements.append(element)
     legend = haplos_pca_axes.legend(handles=legend_elements, prop={'size': LEGEND_FONT_SIZE})
     frame = legend.get_frame()
