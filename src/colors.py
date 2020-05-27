@@ -6,7 +6,8 @@ from matplotlib.colors import LinearSegmentedColormap, rgb_to_hsv, hsv_to_rgb
 
 SOME_NICE_COLORS = {'dark_pink': '#e178a0',
                     'light_blue': '#7fcef1',
-                    'middle_blue': '#3aaad3'
+                    'middle_blue': '#3aaad3',
+                    'middle_green': '#8bca8b',
                    }
 
 
@@ -77,7 +78,7 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                         
                          'slc_ma': SOME_NICE_COLORS['dark_pink'],
                          'sp_ec': SOME_NICE_COLORS['middle_blue'], #
-                         'sp_pe': SOME_NICE_COLORS['light_blue'], #
+                         'sp_pe': SOME_NICE_COLORS['middle_green'], #
                          'slc_co': '#f5ea6f',
                          'sp_pe_inter-andean': '#20B2AA',
 

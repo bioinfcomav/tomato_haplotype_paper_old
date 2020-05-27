@@ -30,6 +30,7 @@ from haplo import parse_haplo_id, get_pop_classification_for_haplos
 from haplo_pca_plotting import calc_ellipsoids, plot_hist2d_in_axes, plot_classifications
 from util import dict_to_str
 from haplo_auto_classification import detected_outliers_and_classify_haplos, thin_close_dots
+import labels
 
 HAPLO_PCOAS_X_LIMS = (-0.08, 0.03)
 HAPLO_PCOAS_Y_LIMS = (-0.05, 0.03)
@@ -164,13 +165,16 @@ def plot_thinned_haplos2(variations, axes, dist_threshold, samples_to_use, pops,
 
     haplo_classes = sorted(set(classification.values()))
 
+    colors = {}
     for haplo_class in haplo_classes:
         mask = [classification[haplo_id] == haplo_class for haplo_id in aligned_thinned_pcoas_df.index]
         x_values = aligned_thinned_pcoas_df.values[mask, 0]
         y_values = aligned_thinned_pcoas_df.values[mask, 1]
         color = haplo_colors.get(haplo_class, None)
-        axes.scatter(x_values, y_values, label=haplo_class, alpha=alpha, color=color)
+        axes.scatter(x_values, y_values, label=labels.HAPLO_LABELS[haplo_class], alpha=alpha, color=color)
+        colors[haplo_class] = color
 
+    return {'haplo_classes': haplo_classes, 'colors': colors}
 
 if __name__ == '__main__':
 
