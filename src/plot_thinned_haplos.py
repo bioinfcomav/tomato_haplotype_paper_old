@@ -83,8 +83,9 @@ def get_aligned_pcoas_thinned_df(variations, dist_threshold, win_params, num_win
     aligned_pcoas_df = res['aligned_pcoas_df']
 
     res3 = thin_close_dots(aligned_pcoas_df,
-                         dist_threshold=dist_threshold)
+                           dist_threshold=dist_threshold)
     thinned_dots = res3['thinned_dots']
+    print(thinned_dots)
 
     res2 = {'thinned_aligned_pcoas_df': thinned_dots, 'aligned_pcoas_df': aligned_pcoas_df,
             'classification': res['classification'], 'outlier_classes': res['outlier_classes']}
@@ -124,17 +125,57 @@ def plot_thinned_haplos(variations, axes, dist_threshold, samples_to_use, pops, 
 
     ellipsoids = calc_ellipsoids(classification, aligned_pcoas_df, classes_to_ignore=outlier_classes,
                                  scale=1.5)
-
     res = plot_hist2d_in_axes(res['thinned_aligned_pcoas_df'], axes,
                               x_lims=HAPLO_PCOAS_X_LIMS, y_lims=HAPLO_PCOAS_Y_LIMS,
                               ellipsoids=ellipsoids)
     return {'hist2d_result': res}
 
 
+def plot_thinned_haplos2(variations, axes, dist_threshold, samples_to_use, pops,
+                         cache_dir, alpha=None, haplo_colors=None):
+
+    if haplo_colors is None:
+        haplo_colors = {}
+
+    win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
+                  'win_size': config.HAPLO_WIN_SIZE}
+
+    res = get_aligned_pcoas_thinned_df(variations,
+                                       dist_threshold=dist_threshold,
+                                       win_params=win_params,
+                                       num_wins_to_process=None,
+                                       samples_to_use=samples_to_use,
+                                       n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                       classification_config=config.CLASSIFICATION_CONFIG,
+                                       classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                       outlier_configs=config.OUTLIER_CONFIGS,
+                                       out_dir=config.HAPLO_PCOA_DIR,
+                                       pops=pops,
+                                       outliers_return_aligned_pcoas=False,
+                                       only_outliers=False,
+                                       classification_references=config.CLASSIFICATION_REFERENCES,
+                                       supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
+                                       cache_dir=cache_dir)
+
+    outlier_classes = res['outlier_classes']
+    classification = res['classification']
+    aligned_pcoas_df = res['aligned_pcoas_df']
+    aligned_thinned_pcoas_df = res['thinned_aligned_pcoas_df']
+
+    haplo_classes = sorted(set(classification.values()))
+
+    for haplo_class in haplo_classes:
+        mask = [classification[haplo_id] == haplo_class for haplo_id in aligned_thinned_pcoas_df.index]
+        x_values = aligned_thinned_pcoas_df.values[mask, 0]
+        y_values = aligned_thinned_pcoas_df.values[mask, 1]
+        color = haplo_colors.get(haplo_class, None)
+        axes.scatter(x_values, y_values, label=haplo_class, alpha=alpha, color=color)
+
+
 if __name__ == '__main__':
 
     cache_dir = config.CACHE_DIR
-    dist_threshold = config.CLASSIFICATION_CONFIG['thinning_dist_threshold'] * 2
+    dist_threshold = config.CLASSIFICATION_CONFIG['thinning_dist_threshold'] * 4
 
     out_dir = config.HAPLO_PCOA_DIR
 

@@ -175,7 +175,7 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     axes3 = fig.add_subplot(224)
     res = _plot_diversities(haplo_diversities['num_variable_vars'], pops, axes3, color_schema=color_schema)
     set_y_ticks_right(axes3)
-    axes3.set_ylabel('Mean num. variable variations in genome region', fontsize=Y_LABEL_SIZE)
+    axes3.set_ylabel('Mean num. variations in genome region', fontsize=Y_LABEL_SIZE)
 
     axes3.set_xticklabels(res['x_labels'], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
     axes3.set_xticks([labels.get_long_label(pop) for pop in res['x_values']])

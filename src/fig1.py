@@ -33,6 +33,9 @@ import labels
 Y_LABEL_TEXT_SIZE = 25
 HAPLO_IDS_TEXT_SIZE = 40
 
+HAPLO_PCOAS_X_LIMS = (-0.09, 0.04)
+HAPLO_PCOAS_Y_LIMS = (-0.06, 0.04)
+
 
 def plot_haplo_composition(axes,
                            variations, pops, samples_to_use, pop_order,
@@ -100,23 +103,37 @@ def plot_figure1(plot_path, sample_passports,
     map_axes.add_artist(text)
     text.set_zorder(100)
 
-    haplos_hist_axes = fig.add_subplot(grid_spec[0, 0])
-    res = plot_thinned_haplos.plot_thinned_haplos(variations, axes=haplos_hist_axes,
-                                                  dist_threshold=dist_threshold,
-                                                  samples_to_use=samples_to_use,
-                                                  pops=pops_for_haplo_classification, cache_dir=cache_dir)
-    haplos_hist_axes.set_facecolor('white')
-    haplos_hist_axes.set_xlabel('Dim. 1')
-    haplos_hist_axes.set_ylabel('Dim. 2')
-    haplos_hist_axes.text(0.0075, 0.0070, 'SL', fontsize=HAPLO_IDS_TEXT_SIZE, color='#782d50', zorder=90)
-    haplos_hist_axes.text(-0.050, -0.045, 'SP EC', fontsize=HAPLO_IDS_TEXT_SIZE, color='#1f6e8c', zorder=90)
-    haplos_hist_axes.text(-0.065, -0.02, 'SP PE', fontsize=HAPLO_IDS_TEXT_SIZE, color='#327795', zorder=90)
-    colorbar_axes = fig.add_subplot(grid_spec[1, 0])
-    fig.colorbar(res['hist2d_result'][3], cax=colorbar_axes, orientation='horizontal')
+    if False:
+        haplos_hist_axes = fig.add_subplot(grid_spec[0, 0])
+        res = plot_thinned_haplos.plot_thinned_haplos(variations, axes=haplos_hist_axes,
+                                                    dist_threshold=dist_threshold,
+                                                    samples_to_use=samples_to_use,
+                                                    pops=pops_for_haplo_classification,
+                                                    cache_dir=cache_dir)
+        haplos_hist_axes.set_facecolor('white')
+        haplos_hist_axes.set_xlabel('Dim. 1')
+        haplos_hist_axes.set_ylabel('Dim. 2')
+        haplos_hist_axes.text(0.0075, 0.0070, 'SL', fontsize=HAPLO_IDS_TEXT_SIZE, color='#782d50', zorder=90)
+        haplos_hist_axes.text(-0.050, -0.045, 'SP EC', fontsize=HAPLO_IDS_TEXT_SIZE, color='#1f6e8c', zorder=90)
+        haplos_hist_axes.text(-0.065, -0.02, 'SP PE', fontsize=HAPLO_IDS_TEXT_SIZE, color='#327795', zorder=90)
+        colorbar_axes = fig.add_subplot(grid_spec[1, 0])
+        fig.colorbar(res['hist2d_result'][3], cax=colorbar_axes, orientation='horizontal')
+    else:
+        haplos_hist_axes = fig.add_subplot(grid_spec[0:2, 0])
+        res = plot_thinned_haplos.plot_thinned_haplos2(variations, axes=haplos_hist_axes,
+                                                    dist_threshold=dist_threshold,
+                                                    samples_to_use=samples_to_use,
+                                                    pops=pops_for_haplo_classification,
+                                                    cache_dir=cache_dir,
+                                                    alpha=0.05,
+                                                    haplo_colors=HAPLO_COLORS)
+        haplos_hist_axes.set_xlim(HAPLO_PCOAS_X_LIMS)
+        haplos_hist_axes.set_ylim(HAPLO_PCOAS_Y_LIMS)
+        haplos_hist_axes.set_facecolor('white')
+
     text = AnchoredText('A', prop=dict(size=axes_id_letters_text_size), loc='upper left', frameon=False)
     haplos_hist_axes.add_artist(text)
     text.set_zorder(100)
-
 
     pops_for_samples = get_classifications_for_classification_key_path(sample_passports, config.RANK1)
     pops_for_samples = {sample: labels.get_long_label(pop) for sample, pop in pops_for_samples.items()}
@@ -185,7 +202,7 @@ def plot_figure1(plot_path, sample_passports,
 if __name__ == '__main__':
 
     cache_dir = config.CACHE_DIR
-    dist_threshold = config.CLASSIFICATION_CONFIG['thinning_dist_threshold'] * 2
+    dist_threshold = config.CLASSIFICATION_CONFIG['thinning_dist_threshold']
 
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     imputed_variations = VariationsH5(str(vars_path), 'r')
