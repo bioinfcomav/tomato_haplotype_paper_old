@@ -121,7 +121,8 @@ def parse_treemix_tree(treemix):
 
 
 def draw_tree(tree, axes, tip_label_mapper=None, tip_label_colors=None,
-              tip_label_style=None, draw_support=False):
+              tip_label_style=None, draw_support=False, tip_labels=True,
+              layout='r', edge_colors=None):
 
     default_tip_label_style = {#"fill": "#262626",
                                "font-size": "20px",
@@ -142,7 +143,8 @@ def draw_tree(tree, axes, tip_label_mapper=None, tip_label_colors=None,
     if tip_label_colors is None:
         tip_label_colors = {}
 
-    tip_labels = [tip_label_mapper.get(tip_label, tip_label) for tip_label in tree.get_tip_labels()]
+    if tip_labels:
+        tip_labels = [tip_label_mapper.get(tip_label, tip_label) for tip_label in tree.get_tip_labels()]
 
     tip_colors = [tip_label_colors.get(tip_label, default_tip_color) for tip_label in tree.get_tip_labels()]
 
@@ -151,7 +153,11 @@ def draw_tree(tree, axes, tip_label_mapper=None, tip_label_colors=None,
               'tip_labels_colors': tip_colors,
               'tip_labels_style': tip_label_style,
               'use_edge_lengths': True,
+              'layout': layout
               }
+
+    if edge_colors:
+        kwargs['edge_colors'] =  tree.get_edge_values_from_dict(edge_colors)
 
     if draw_support:
         kwargs['node_labels'] = 'support'
