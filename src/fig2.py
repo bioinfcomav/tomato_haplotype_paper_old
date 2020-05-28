@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
     out_dir = config.PAPER_FIGURES_DIR
     out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig2d.svg'
+    plot_path = out_dir / 'fig2.svg'
 
     fig = Figure((10, 20))
     FigureCanvas(fig) # Don't remove it or savefig will fail later

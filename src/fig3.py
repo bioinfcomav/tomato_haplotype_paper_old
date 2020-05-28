@@ -140,7 +140,7 @@ if __name__ == '__main__':
 
     out_dir = config.PAPER_FIGURES_DIR
     out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig3d.png'
+    plot_path = out_dir / 'fig3.png'
 
     pcas_col_width = 0.5
     halpos_pca_alpha = 0.1

@@ -190,7 +190,7 @@ if __name__  == '__main__':
 
     out_dir = config.PAPER_FIGURES_DIR
     out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig2.svg'
+    plot_path = out_dir / 'fig4.svg'
 
     num_repeats = 100
     percent_indiv_used = 0.75
@@ -246,4 +246,3 @@ if __name__  == '__main__':
                   cache_dir=cache_dir)
 
     plot_fig2(var_diversities, haplo_diversities, lds, plot_path)
-
