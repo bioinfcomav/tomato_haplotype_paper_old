@@ -6,6 +6,7 @@ import random
 from collections import defaultdict
 import os
 from functools import partial
+import math
 
 import numpy
 
@@ -101,10 +102,10 @@ def plot_diversities(diversities, out_dir, pop_order=None, color_schema=None):
         if pop_order is None:
             pop_order = sorted(diversities_for_index.keys())
 
-        heights = [diversities_for_index[pop]['mean'] for pop in pop_order]
+        heights = [diversities_for_index.get(pop, {}).get('mean', math.nan) for pop in pop_order]
         x_values = numpy.arange(len(pop_order))
 
-        yerr = [diversities_for_index[pop]['cim'] for pop in pop_order]
+        yerr = [diversities_for_index.get(pop, {}).get('cim', math.nan) for pop in pop_order]
 
         if color_schema is not None:
             color = [color_schema[pop] for pop in pop_order]

@@ -185,3 +185,5 @@ PLINK_BIN = 'plink1.9'
 LD_DIR = BASE_DIR / 'ld'
 
 PAPER_FIGURES_DIR = BASE_DIR / 'figures'
+
+TMP_DIR = BASE_DIR / 'tmp'

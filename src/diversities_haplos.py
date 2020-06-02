@@ -39,6 +39,9 @@ def calc_haplo_pop_stats(variations,
             haplos = _keep_only_haplos_from_classes(haplos, haplo_classification,
                                                     haplo_classes_to_keep,
                                                     haplos_info['chrom'], haplos_info['win_start'])
+        if not haplos.size:
+            continue
+
         pop_stats_for_this_win = calc_haplo_diversity_indexes(haplos,
                                                               min_num_segregating_variations=win_params['min_num_snp_for_window'],
                                                               allowed_missing_gts=allowed_missing_gts,
@@ -52,6 +55,7 @@ def calc_haplo_pop_stats(variations,
 
 def calc_haplo_diversities(variations, pops, num_samples, win_params, num_repeats=100,
                            haplo_classification=None,
+                           haplo_classes_to_keep=None,
                            allowed_missing_gts=0, confidence=0.95,
                            num_wins_to_process=None):
 
@@ -59,8 +63,9 @@ def calc_haplo_diversities(variations, pops, num_samples, win_params, num_repeat
                                  win_params=win_params,
                                  num_wins_to_process=num_wins_to_process,
                                  haplo_classification=haplo_classification,
+                                 haplo_classes_to_keep=haplo_classes_to_keep,
                                  allowed_missing_gts=allowed_missing_gts)
-    
+
     return _calc_diversities(variations, pops, num_samples,
                              diversity_function=diversity_function,
                              num_repeats=num_repeats,

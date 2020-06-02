@@ -55,6 +55,9 @@ def get_long_label(short_label):
 HAPLO_LABELS = {'not_classified': 'Unclassified',
                 'out_0': 'Outlier',
                 'sl': 'SL',
-                'sp_ecu': 'SP EC',
+                'sp_ecu': 'EC',
                 'sp_peru': 'SP PE',
+                'outlier': 'Green introgression'
                 }
+
+DIVERSITY_INDEX_LABELS = {'haplo_diversity': 'Mean haplotype diversity'}

@@ -214,3 +214,58 @@ def get_pop_classification_for_haplos(haplo_ids, pops):
         sample = parse_haplo_id(haplo_id)[2]
         pop_classification[haplo_id] = pops_for_samples[sample]
     return pop_classification
+
+
+def _generate_dists_between_haplos(haplos, win_size, min_num_snp_for_dist, chrom, win_start, add_haplo_id):
+    haplo_array = haplos.values
+    haplo_samples_haploid_idxs = list(haplos.columns)
+    num_haplos = haplo_array.shape[1]
+    for haplo_idx1 in range(num_haplos):
+        haplo1 = haplo_array[:, haplo_idx1]
+        haplo1_sample_haploid_idx = haplo_samples_haploid_idxs[haplo_idx1]
+        if add_haplo_id:
+            haplo1_id = create_haplo_id(chrom, win_start,
+                                        haplo1_sample_haploid_idx[0],
+                                        haplo1_sample_haploid_idx[1])
+        for haplo_idx2 in range(haplo_idx1, num_haplos):
+            haplo2 = haplo_array[:, haplo_idx2]
+            haplo2_sample_haploid_idx = haplo_samples_haploid_idxs[haplo_idx2]
+            if add_haplo_id:
+                haplo2_id = create_haplo_id(chrom, win_start,
+                                            haplo2_sample_haploid_idx[0],
+                                            haplo2_sample_haploid_idx[1])
+
+            dist = calc_edit_dist_between_indi_gts(haplo1,
+                                                haplo2,
+                                                win_size,
+                                                min_num_snp_for_dist)
+            res = {'haplo1_sample_haploid_idx': haplo1_sample_haploid_idx,
+                   'haplo2_sample_haploid_idx': haplo2_sample_haploid_idx,
+                   'dist': dist,
+                   'chrom': chrom,
+                   'win_start': win_start
+                   }
+            if add_haplo_id:
+                res['haplo1_id'] = haplo1_id
+                res['haplo2_id'] = haplo2_id
+            yield res
+
+
+def generate_dists_between_sample_haplos_along_genome(variations, win_params,
+                                                      min_num_snp_for_dist,
+                                                      num_wins_to_process=None,
+                                                      samples=None,
+                                                      add_haplo_id=True):
+    win_size = win_params['win_size']
+    for haplos_info in generate_sample_haplos_along_genome(variations=variations, win_params=win_params,
+                                                           num_wins_to_process=num_wins_to_process,
+                                                           samples=samples):
+        haplos = haplos_info['sample_haplos']
+        chrom = haplos_info['chrom']
+        win_start = haplos_info['win_start']
+        yield from _generate_dists_between_haplos(haplos=haplos,
+                                                  win_size=win_size,
+                                                  min_num_snp_for_dist=min_num_snp_for_dist,
+                                                  chrom=chrom,
+                                                  win_start=win_start,
+                                                  add_haplo_id=add_haplo_id)

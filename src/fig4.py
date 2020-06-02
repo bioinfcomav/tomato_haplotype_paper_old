@@ -22,6 +22,7 @@ from diversities_haplos import calc_haplo_diversities as calc_haplo_diversities_
 from ld import _get_lds
 import colors
 import labels
+import matplotlib_support
 
 
 Y_LABEL_SIZE = 15
@@ -147,18 +148,18 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     pops = sorted(poly95.keys(), key=lambda x: pop_order.index(x))
 
     _plot_diversities(poly95, pops, axes1, color_schema=color_schema)
-    turn_off_x_axis(axes1)
+    matplotlib_support.turn_off_x_axis(axes1)
     axes1.set_ylabel('Num. poly variations (95%)', fontsize=Y_LABEL_SIZE)
 
     axes2 = fig.add_subplot(222)
     _plot_diversities(haplo_diversities['num_uniq_haplos'], pops, axes2, color_schema=color_schema)
-    turn_off_x_axis(axes2)
-    set_y_ticks_right(axes2)
+    matplotlib_support.turn_off_x_axis(axes2)
+    matplotlib_support.set_y_ticks_right(axes2)
     axes2.set_ylabel('Mean num. unique haplotypes', fontsize=Y_LABEL_SIZE)
 
     axes3 = fig.add_subplot(224)
     res = _plot_diversities(haplo_diversities['num_variable_vars'], pops, axes3, color_schema=color_schema)
-    set_y_ticks_right(axes3)
+    matplotlib_support.set_y_ticks_right(axes3)
     axes3.set_ylabel('Mean num. variations in genome region', fontsize=Y_LABEL_SIZE)
 
     axes3.set_xticklabels(res['x_labels'], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
@@ -177,10 +178,10 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     axes2.set_facecolor('white')
     axes3.set_facecolor('white')
     axes4.set_facecolor('white')
-    set_axis_color(axes1)
-    set_axis_color(axes2)
-    set_axis_color(axes3)
-    set_axis_color(axes4)
+    matplotlib_support.set_axis_color(axes1)
+    matplotlib_support.set_axis_color(axes2)
+    matplotlib_support.set_axis_color(axes3)
+    matplotlib_support.set_axis_color(axes4)
 
     fig.tight_layout()
     fig.savefig(str(plot_path))
