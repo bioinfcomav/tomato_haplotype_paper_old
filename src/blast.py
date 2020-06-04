@@ -102,6 +102,55 @@ def filter_hsps_by_identity(hsps, threshold=None):
     return filtered_hsps
 
 
+def get_cdna_ids_by_blasting(seq, evalue_threshold=1e-20, evalue_error=10):
+
+    blast_db_dir = config.CACHE_DIR / 'tomato_blast_db'
+
+    res = prepare_blast_db(config.CDNA_FASTA, out_dir=blast_db_dir, db_type='nucl',
+                           skip_if_exists=True)
+    db_path = res['db_path']
+
+    seq = {'name': 'cdna', 'seq': seq}
+    res = blast_seqs([seq],
+                     db_path, 'blastn', tmp_dir=None, evalue_threshold=evalue_threshold)
+
+    cdnas = [cdna_name for cdna_name in res.get('cdna', {}).keys()]
+
+    return cdnas
+
+
+def get_cdna_ids_by_blasting_old(seq, evalue_threshold=1e-20, evalue_error=10):
+
+    blast_db_dir = config.CACHE_DIR / 'tomato_blast_db'
+
+    res = prepare_blast_db(config.CDNA_FASTA, out_dir=blast_db_dir, db_type='nucl',
+                           skip_if_exists=True)
+    db_path = res['db_path']
+
+    with tempfile.NamedTemporaryFile(suffix='.fasta', mode='wt') as query_fhand:
+        query_fhand.write(f'>query\n{seq}\n')
+        query_fhand.flush()
+        cmd = ['blastn', '-query', query_fhand.name, '-db', db_path, '-evalue', str(evalue_threshold),
+               '-outfmt', '6']
+        process = subprocess.run(cmd, capture_output=True, check=True)
+
+    eval_limit = None
+    cdnas = set()
+    for line in process.stdout.splitlines():
+        items = line.split(b'\t')
+        cdna_id = items[1].decode()
+        evalue = float(items[10])
+        if evalue > evalue_threshold:
+            break
+        if not eval_limit:
+            eval_limit = evalue * evalue_error
+        
+        if evalue < eval_limit:
+            cdnas.add(cdna_id)
+        else:
+            break
+    return cdnas
+
 
 if __name__ == '__main__':
 
@@ -110,7 +159,9 @@ if __name__ == '__main__':
     res = prepare_blast_db(config.TOMATO_GENOME_FASTA, out_dir=blast_db_dir, db_type='nucl',
                            skip_if_exists=True)
 
+    seq = 'gatctcctggcagcaatggctggaaaagcttctgccattgatgtgccaggccctgaggttgatctcctggcagcaatggctggaaaatacaaggtgtacttggtgatgggtgtaattgagagagatggatacacgctatattgcacatacaaggtgtacttggtgatgggtgtaattgagagagatggatacacgctatattgcacatacaaggtgtacttggtgatgggtgtaattgagagagatggatacacgctatattgcacagtgcttttcttcgactctcagggtcactaccttgggaagcatcggaagataatgccaacagtgcttttcttcgactctcagggtcactaccttgggaagcatcggaagataatgccaacagtgcttttcttcgactctcagggtcactaccttgggaagcatcggaagataatgccaacagcgttagagcggataatctggggttttggggatggatcaacaattccagtttatgacactgcgttagagcggataatctggggttttggggatggatcaacaattccagtttatgacactgcgttagagcggataatctggggttttggggatggatcaacaattccagtttatgacactcctgttggaaaaataggtgctgcaatatgttgggagaacagaatgccacttctaaggacccctgttggaaaaataggtgctgcaatatgttgggagaacagaatgccacttctaaggacccctgttggaaaaataggtgctgcaatatgttgggagaacagaatgccacttctaaggaccgcaatgtatgctaaaggcattgagatatattgtgcacctacagctgatgctagggaagtggcaatgtatgctaaaggcattgagatatattgtgcacctacagctgatgctagggaagtggcaatgtatgctaaaggcattgagatatattgtgcacctacagctgatgctagggaagtgtgg'
+    cdnas = get_cdna_ids_by_blasting(seq)
+
     seq = {'name': 'seq1',
            'seq': 'AGACAAGTGGTGAAGAAKAAGATGATATGCAGCAATGCATTTCACCACTTTATATAGCATGGAGTGGATTTCTCCACCTCATTTAATAGTATGAAGTGGAGGCAGCCCCCCTCTACACCTGTCCACTAAGGCCAGCCCACAATCTGATCCCTTTTAATTTTTGCCTTGAGTGGTGGGGCCCATTGGATTAAATCAATCCAAATTAGCCAC'}
     res = blast_seqs([seq], res['db_path'], 'blastn')
-    pprint(res)

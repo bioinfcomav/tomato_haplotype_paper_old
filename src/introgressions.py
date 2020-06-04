@@ -2,6 +2,7 @@
 import config
 
 import numpy
+import pandas
 
 from variation import GT_FIELD, MISSING_INT
 from variation.variations import VariationsH5
@@ -99,6 +100,11 @@ def calc_introgession_freq_for_vars(variations, introgession_config, return_coun
     allele_does_not_originate_from_introgression = numpy.logical_not(allele_could_be_introgressed)
     allele_freqs[allele_does_not_originate_from_introgression] = 0
     introgression_freq_per_var = numpy.sum(allele_freqs, axis=1)
+
+    assert variations.num_variations == introgression_freq_per_var.size
+    introgression_freq_per_var = pandas.Series(introgression_freq_per_var,
+                                               index=numpy.arange(introgression_freq_per_var.size))
+
     return introgression_freq_per_var
 
 

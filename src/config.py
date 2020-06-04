@@ -27,7 +27,7 @@ if USER == 'jose':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
-    TOMATO_GENOME_FASTA = HOME_DIR / 'magnet/genomes/s_lycopersicum/sl40/S_lycopersicum_chromosomes.4.00.fa'
+    TOMATO_GENOME_DIR = HOME_DIR / 'magnet/genomes/s_lycopersicum/sl40/'
 
     PYTHON2_BIN_FOR_FASTSTRUCTURE = ANALYSES_DIR / 'population_ultimate_env2/bin/python'
     FASTSTRUCTURE_BIN = ANALYSES_DIR / 'population_ultimate_env2/fastStructure-master/structure.py' 
@@ -42,7 +42,7 @@ elif USER == 'david':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
-    TOMATO_GENOME_FASTA = HOME_DIR / '/home/david/Disco/genomes/s_lycopersicum/sl40/S_lycopersicum_chromosomes.4.00.fa'
+    TOMATO_GENOME_DIR = HOME_DIR / 'Disco/genomes/s_lycopersicum/sl40/'
 
 elif USER == 'jope':
 
@@ -54,7 +54,10 @@ elif USER == 'jope':
     VARIATION_DIR = DEVEL_DIR / 'variation5'
     sys.path.insert(0, str(VARIATION_DIR))
 
-    TOMATO_GENOME_FASTA = HOME_DIR / '/home/jope/genomes/tomato/SL4.00/S_lycopersicum_chromosomes.4.00.fa'
+    TOMATO_GENOME_DIR = HOME_DIR / 'genomes/tomato/SL4.00/'
+    TOMATO_GENOME_FASTA = HOME_DIR / 'S_lycopersicum_chromosomes.4.00.fa'
+
+TOMATO_GENOME_FASTA = HOME_DIR / 'S_lycopersicum_chromosomes.4.00.fa'
 
 SOURCE_CODE_DIR = BASE_DIR / 'src'
 TREE_MIX_PLOTTING_R_SOURCE = SOURCE_CODE_DIR / 'plotting_funcs.R'
@@ -192,3 +195,6 @@ FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT = 0.01
 FREQ_THRESHOLD_TO_CONSIDER_ALLELE_COMMON = 0.1
 
 THERE_AND_BACK_DIR = BASE_DIR / 'there_and_back'
+
+CDNA_FASTA = TOMATO_GENOME_DIR / 'ITAG4.1_cDNA.fasta '
+GENE_MODELS_GFF = TOMATO_GENOME_DIR / 'ITAG4.1_gene_models.gff.gz'
