@@ -124,6 +124,7 @@ RELEVANT_FIELDS = ['/calls/DP', '/calls/GT', '/variations/chrom',
                    '/variations/alt']
 
 CLASSIFICATIONS = BASE_DIR / 'classifications.csv'
+CLASSIFICATIONS_MORPHOLOGICAL = BASE_DIR / 'classifications_morphological.csv'
 WORKING_CLASSIFICATION_CSV = BASE_DIR / 'working_classifications.csv'
 CLASSIFICATION_HISTORY_DIR = BASE_DIR / 'old_classifications'
 
@@ -198,3 +199,7 @@ THERE_AND_BACK_DIR = BASE_DIR / 'there_and_back'
 
 CDNA_FASTA = TOMATO_GENOME_DIR / 'ITAG4.1_cDNA.fasta '
 GENE_MODELS_GFF = TOMATO_GENOME_DIR / 'ITAG4.1_gene_models.gff.gz'
+
+MORPHOLOGICAL_SOURCE_DATA = SOURCE_DATA_DIR / 'morphological_characterization.xlsx'
+
+MORPHOLOGICAL_DIR = BASE_DIR / 'morphology'

@@ -8,6 +8,7 @@ LABELS = [
           ('slc_ca', 'SLC CA'),
 
           ('sll_mx', 'SLL MX'),
+          ('sll', 'SLL'),
 
           ('slc_co', 'SLC CO'),
 
@@ -46,6 +47,7 @@ LABELS = [
 
           (None, 'Unclassified'),
           ('None', 'Unclassified'),
+          ('', 'Unclassified'),
           ]
 LABELS = OrderedDict(LABELS)
 
