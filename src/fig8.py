@@ -21,8 +21,8 @@ if __name__ == '__main__':
     data.columns = [morphological.TRAIT_ABREVIATIONS[trait] for trait in data.columns]
     #print(Counter([acc_data['characterization']['stripy_fruit'] for acc_data in read_morphological_data().values()]))
 
-    data = morphological.fill_missing_data_with_means(data, max_missing_values=8)
-    pca_result = morphological.do_pca(data, num_dims=3)
+    data_no_na = morphological.fill_missing_data_with_means(data, max_missing_values=8)
+    pca_result = morphological.do_pca(data_no_na, num_dims=3)
 
     passports = passport.get_sample_passports()
     morpho_classification = morphological.read_morphological_classification()

@@ -13,7 +13,9 @@ import matplotlib_support
 
 def plot_morphological_progression(morpho_data, morpho_classification, axes,
                                    sorted_morpho_classes=None, traits=None,
-                                   normalize=True):
+                                   normalize=True,
+                                   background_colors=None,
+                                   bar_alpha=1):
 
     if sorted_morpho_classes is None:
         sorted_morpho_classes = sorted({klass for klass in morpho_classification.values()})
@@ -34,7 +36,9 @@ def plot_morphological_progression(morpho_data, morpho_classification, axes,
     if traits is None:
         traits = list(means_per_morpho_class.keys())
 
-    x_values = list(range(len(sorted_morpho_classes)))
+    edge_poss = numpy.arange(len(sorted_morpho_classes) + 1)
+    x_values = (edge_poss[:-1] + edge_poss[1:]) / 2
+
     for trait in traits:
         y_values = [means_per_morpho_class[trait][morpho_class] for morpho_class in sorted_morpho_classes]
 
@@ -44,8 +48,18 @@ def plot_morphological_progression(morpho_data, morpho_classification, axes,
             max_ = numpy.max(y_values)
             y_values = (y_values -min_) / (max_ - min_)
 
-        axes.plot(x_values, y_values, label=trait)
-    
+        axes.plot(x_values, y_values, label=trait, zorder=10)
+
+    if background_colors:
+        y_lims = axes.get_ylim()
+        height = y_lims[1], y_lims[0]
+        width = edge_poss[1] - edge_poss[0]
+        bottom = y_lims[0]
+        for morpho_class, x0 in zip(sorted_morpho_classes, edge_poss[:-1]):
+            color = background_colors[morpho_class]
+            axes.bar([x0], height, width=width, bottom=bottom, align='edge', zorder=1, color=color, alpha=bar_alpha)
+        axes.set_xlim((edge_poss[0], edge_poss[-1]))
+
     matplotlib_support.set_x_ticks(x_values, sorted_morpho_classes, axes, rotation=45)
 
 

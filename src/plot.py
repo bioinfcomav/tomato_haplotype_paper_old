@@ -1,5 +1,6 @@
 
 import math
+from collections import Counter
 
 import numpy
 
@@ -14,6 +15,7 @@ from genome_coord_transform import (get_genome_sizes, GenomeCoordinateConverter,
                                     PositionInPericentromericRegion,
                                     GenomeCoordinateConverter2)
 import colors
+import matplotlib_support
 
 
 def get_sorted_legend_handles(axes):
@@ -197,44 +199,58 @@ def plot_scatter(x_values, y_values, plot_path, labels=None, fit_reg=False,
     return {'axes': axes, 'fig': fig}
 
 
-def plot_table_classification_comparison(classification_series1, classification_series2, plot_path,
-                                         x_label=None, y_label=None):
-    common_items = set(classification_series1.index).intersection(classification_series2.index)
+def plot_table_classification_comparison(classification_series1, classification_series2,
+                                         plot_path=None, axes=None,
+                                         x_label=None, y_label=None,
+                                         color='black', marker='s', size_multiplier=1,
+                                         classes1_order=None, classes2_order=None
+                                         ):
 
-    classification_kinds1 = sorted(set(classification_series1.values))
-    classification_kinds1_idxs = {kind: idx for idx, kind in enumerate(classification_kinds1)}
-    classification_kinds2 = sorted(set(classification_series2.values))
-    classification_kinds2_idxs = {kind: idx for idx, kind in enumerate(classification_kinds2)}
+    common_items = sorted(set(classification_series1.index).intersection(classification_series2.index), key=str)
+    classification_series1 = classification_series1.reindex(common_items)
+    classification_series2 = classification_series2.reindex(common_items)
 
-    counts = numpy.zeros((len(classification_kinds1), len(classification_kinds2)))
-    print(counts.shape)
-    for item in common_items:
-        idx1 = classification_kinds1_idxs[classification_series1.loc[item]]
-        idx2 = classification_kinds2_idxs[classification_series2.loc[item]]
-        counts[idx1, idx2] += 1
+    counts = Counter(zip(classification_series1.values, classification_series2.values))
+    
+    if classes1_order is None:
+        key = str
+    else:
+        key = lambda x: classes1_order.index(x)
+    classes1 = sorted(set(key[0] for key in counts.keys()), key=key)
 
-    fig = Figure()
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
+    if classes2_order is None:
+        key = str
+    else:
+        key = lambda x: classes2_order.index(x)
+    classes2 = sorted(set(key[1] for key in counts.keys()), key=key)
 
-    x_poss = list(range(len(classification_kinds1)))
-    y_poss = list(range(len(classification_kinds2)))
-    x_values =  x_poss * len(classification_kinds2)
-    y_values =  y_poss * len(classification_kinds1)
+    if axes is None:
+        fig = Figure()
+        FigureCanvas(fig) # Don't remove it or savefig will fail later
+        axes = fig.add_subplot(111)
+        savefig = True
+    else:
+        savefig = False
 
-    axes.scatter(x_values, y_values, s=counts)
+    x_poss = numpy.arange(len(classes1))
+    y_poss = numpy.arange(len(classes2))
 
-    axes.set_xticklabels(classification_kinds1, rotation=45, horizontalalignment='right')
-    axes.set_xticks(x_poss)
+    for x_pos, class1 in zip(x_poss, classes1):
+        for y_pos, class2 in zip(y_poss, classes2):
+            size = counts.get((class1, class2), None)
+            if size is None:
+                continue
+            axes.scatter([x_pos], [y_pos], s=size * size_multiplier, color=color, marker='s')
+    matplotlib_support.set_x_ticks(x_poss, classes1, axes, rotation=45)
+    matplotlib_support.set_y_ticks(y_poss, classes2, axes)
+    
+    matplotlib_support.set_axes_background(axes)
+
     if x_label:
         axes.set_xlabel(x_label)
-
-    axes.set_yticklabels(classification_kinds2)
-    axes.set_yticks(y_poss)
     if y_label:
         axes.set_ylabel(y_label)
 
-    axes.set_facecolor('white')
-
-    fig.tight_layout()
-    fig.savefig(str(plot_path))
+    if savefig:
+        fig.tight_layout()
+        fig.savefig(plot_path)
