@@ -269,7 +269,31 @@ def lower_color_luminosity(color_hex_rgb, lower_rate=0.1):
     lowered_luminosity = hsv_color[2] - lower_rate
     if lowered_luminosity < 0:
         lowered_luminosity = 0
+    if lowered_luminosity > 1:
+        lowered_luminosity = 1
     hsv_color = hsv_color[0], hsv_color[1], lowered_luminosity
+
+    rgb_color = hsv_to_rgb(hsv_color)
+    return hex_rgb_tuple_to_rgb_hex(rgb_color)
+
+
+def modify_color(color_hex_rgb, saturation_mod=0, luminosity_mod=0):
+    rgb_color_tuple = hex_rgb_color_to_rgb_tuple(color_hex_rgb)
+    hsv_color = rgb_to_hsv(rgb_color_tuple)
+
+    saturation = hsv_color[1] + saturation_mod
+    if saturation < 0:
+        saturation = 0
+    if saturation > 1:
+        saturation = 1
+
+    luminosity = hsv_color[2] + luminosity_mod
+    if luminosity < 0:
+        luminosity = 0
+    if luminosity > 1:
+        luminosity = 1
+
+    hsv_color = hsv_color[0], saturation, luminosity
 
     rgb_color = hsv_to_rgb(hsv_color)
     return hex_rgb_tuple_to_rgb_hex(rgb_color)

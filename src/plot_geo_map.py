@@ -50,6 +50,9 @@ def plot_geo_map(samples, axes, classifications=None, color_schema=None,
         longitude = sample_info['longitude']
         latitude = sample_info['latitude']
 
+        if longitude is None or latitude is None:
+            continue
+
         if longitude_range is not None:
             if longitude < longitude_range[0] or longitude > longitude_range[1]:
                 continue
