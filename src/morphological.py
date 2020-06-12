@@ -89,16 +89,16 @@ ORDINAL_TRAITS = ['leaf_type', 'leaflet_margin', 'stem_hairiness', 'inflorescenc
                   'stripy_fruit', 'stem_width', 'ribbing', 'presence_of_irregular_inflorescence',
                   'peanut_fruit_shape']
 
-TRAIT_ABREVIATIONS = {'leaf_type': 'L type',
-                      'leaflet_margin': 'L margin',
+TRAIT_ABREVIATIONS = {'leaf_type': 'Leaf type',
+                      'leaflet_margin': 'Leaf margin',
                       'stem_hairiness': 'Stem hair',
                       'inflorescence_ordinal': 'Inflor len',
                       'petal_position': 'Petal pos',
-                      'style_exsertion': 'S Exser',
-                      'style_curvature': 'S Curv',
+                      'style_exsertion': 'Style Exser',
+                      'style_curvature': 'Style Curv',
                       'petal_width': 'Petal width',
-                      'fruit_size': 'F S',
-                      'fruit_elongation': 'F E',
+                      'fruit_size': 'Fruit S',
+                      'fruit_elongation': 'Fruit E',
                       'stripy_fruit': 'F stripes',
                       'stem_width': 'Stem width',
                       'ribbing': 'Rib',
@@ -106,6 +106,14 @@ TRAIT_ABREVIATIONS = {'leaf_type': 'L type',
                       'peanut_fruit_shape': 'Peanut fruit'}
 
 ORIGINAL_TRAITS = list(TRAIT_TYPES.values())
+
+TRAITS_TO_REVERSE_SCALE = {'style_exsertion': {4: 1, 3: 2, 2: 3, 1: 4},
+                           'style_curvature': {2: 1, 1: 2},
+                           'stripy_fruit': {2: 1, 1: 2},
+                           'petal_position': {1: 4, 2: 3, 3: 2, 4: 1},
+                           'petal_width': {1: 3, 2: 2, 3: 1},
+                           'inflorescence': {5: 0, 4: 1, 3: 2, 2: 3, 1: 4},
+                          }
 
 
 def is_nan(item):
@@ -170,9 +178,10 @@ def read_morphological_data():
             chracterization = {}            
             for trait_column, trait in TRAIT_COLUMNS.items():
                 value = _trait_value_to_number(row[trait_column])
+                value = TRAITS_TO_REVERSE_SCALE.get(trait, {}).get(value, value)
                 chracterization[trait] = value
                 if trait == 'inflorescence':
-                    if value == 5:
+                    if value == 0:
                         chracterization['inflorescence_ordinal'] = None
                         chracterization['presence_of_irregular_inflorescence'] = 1
                     else:
@@ -284,7 +293,10 @@ def write_morpho_csv(original_data, morpho_classification):
         row['Longitude'] = location.get('longitude', '')
         characterization = acc_data.get('characterization', {})
         for trait in TRAIT_TYPES:
-            row[trait] = str(characterization.get(trait, ''))
+            value = characterization.get(trait, '')
+            if value is None:
+                value = ''
+            row[trait] = str(value)
         row['Morphological classification'] = morpho_classification[acc_id]
 
         writer.writerow(row)
