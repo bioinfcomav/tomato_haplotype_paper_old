@@ -130,7 +130,7 @@ if __name__ == '__main__':
     num_repeats = 100
     percent_indiv_used = 0.75
 
-    vars_path = config.WORKING_PHASED_H5
+    vars_path = config.WORKING_H5
     variations = VariationsH5(str(vars_path), 'r')
 
     passports = get_sample_passports()
