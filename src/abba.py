@@ -128,7 +128,6 @@ def calc_d_statistic(variations, pops_in_ladderized_order, num_jacknife_repeats=
         # http://evomics.org/learning/population-and-speciation-genomics/2018-population-and-speciation-genomics/abba-baba-statistics/
         d_standard_error = numpy.std(d_stats) / math.sqrt(d_stats.size)
         d_z_score = numpy.mean(d_stats) / d_standard_error
-        d_z_score = 1
         d_p_value = 2 * norm.sf(abs(d_z_score))
         result['d_p_value'] = d_p_value
 
@@ -145,35 +144,17 @@ if __name__ == '__main__':
     passports = passport.get_sample_passports()
     pops = pop_building.get_pops({config.RANK1: config.ALL_POPS}, passports)
 
-    pops_for_tree = ['slc_pe', 'slc_ma', 'sp_ec', 'sp_pe']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('slc_pe', res['d_stat'], res['d_p_value'])
+    pops_names_for_tree = [['slc_pe', 'slc_ma', 'sp_ec', 'sp_pe'],
+                           ['slc_ec', 'slc_ma', 'sp_ec', 'sp_pe'],
+                           ['slc_ma', 'slc_ec', 'sp_ec', 'sp_pe'],
+                           ['slc_ma', 'sp_ec', 'slc_ec', 'sp_pe'],
+                           ['slc_ec', 'slc_pe', 'slc_ma', 'sp_ec'],
+                           ['sp_ec', 'slc_ec', 'slc_ma', 'sp_pe']]
 
-    pops_for_tree = ['slc_ec', 'slc_ma', 'sp_ec', 'sp_pe']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('slc_ec1', res['d_stat'], res['d_p_value'])
-
-    pops_for_tree = ['slc_ma', 'slc_ec', 'sp_ec', 'sp_pe']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('slc_ec2', res['d_stat'], res['d_p_value'])
-
-    pops_for_tree = ['slc_ma', 'sp_ec', 'slc_ec', 'sp_pe']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('slc_ec3', res['d_stat'], res['d_p_value'])
-
-    pops_for_tree = ['slc_ec', 'slc_pe', 'slc_ma', 'sp_ec']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('slc_ec_no_pe', res['d_stat'], res['d_p_value'])
-
-    pops_for_tree = ['sp_ec', 'slc_ec', 'slc_ma', 'sp_pe']
-    pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
-    res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
-    print('pau', res['d_stat'], res['d_p_value'])
+    for pop_names in pops_names_for_tree:
+        pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pop_names])
+        res = calc_d_statistic(variations, pops_for_tree, num_jacknife_repeats=num_jacknife_repeats)
+        print(pop_names, res['d_stat'], res['d_p_value'])
 
     pops_for_tree = ['slc_ec', 'sll_mx', 'slc_pe', 'slc_ma', 'sp_ec', 'sp_pe_inter-andean', 'sp_pe']
     pops_for_tree = OrderedDict([(pop, pops[pop]) for pop in pops_for_tree])
