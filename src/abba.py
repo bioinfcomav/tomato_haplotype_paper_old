@@ -127,7 +127,8 @@ def calc_d_statistic(variations, pops_in_ladderized_order, num_jacknife_repeats=
         # p value calculated according to
         # http://evomics.org/learning/population-and-speciation-genomics/2018-population-and-speciation-genomics/abba-baba-statistics/
         d_standard_error = numpy.std(d_stats) / math.sqrt(d_stats.size)
-        d_z_score = d_stat / d_standard_error
+        d_z_score = numpy.mean(d_stats) / d_standard_error
+        d_z_score = 1
         d_p_value = 2 * norm.sf(abs(d_z_score))
         result['d_p_value'] = d_p_value
 
