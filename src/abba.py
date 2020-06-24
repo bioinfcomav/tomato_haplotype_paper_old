@@ -21,7 +21,7 @@ import passport
 import pop_building
 
 
-def _filter_vars(variations, samples_to_keep):
+def _filter_vars(variations, samples_to_keep, fields_to_keeep=(GT_FIELD, )):
 
     chunk_size = 10000
     max_chunks_to_process = None
@@ -34,7 +34,7 @@ def _filter_vars(variations, samples_to_keep):
 
     result = pipeline.run(variations, filtered_vars, chunk_size=chunk_size,
                             max_chunks_to_process=max_chunks_to_process,
-                            kept_fields=[GT_FIELD])
+                            kept_fields=fields_to_keeep)
     return filtered_vars
 
 

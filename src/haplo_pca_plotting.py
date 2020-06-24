@@ -155,7 +155,7 @@ def plot_hist2d(aligned_pcoas_df, plot_path, x_lims=None, y_lims=None, ellipsoid
     axes = fig.add_subplot(111)
 
     plot_hist2d_in_axes(aligned_pcoas_df, axes=axes,
-                        x_lims=x_lims, y_lims=y_lims, ellipsoids=ellipsis)
+                        x_lims=x_lims, y_lims=y_lims, ellipsoids=ellipsoids)
 
     fig.tight_layout()
     fig.savefig(str(plot_path))

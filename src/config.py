@@ -203,3 +203,5 @@ GENE_MODELS_GFF = TOMATO_GENOME_DIR / 'ITAG4.1_gene_models.gff.gz'
 MORPHOLOGICAL_SOURCE_DATA = SOURCE_DATA_DIR / 'morphological_characterization.xlsx'
 
 MORPHOLOGICAL_DIR = BASE_DIR / 'morphology'
+
+SELECTIVE_SWEEP_DIR = BASE_DIR / 'selective_sweep'

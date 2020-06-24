@@ -549,12 +549,15 @@ if __name__ == '__main__':
     out_dir = config.HAPLO_PCOA_DIR
     out_dir.mkdir(exist_ok=True)
 
+    classification_config = config.CLASSIFICATION_CONFIG
+    classification_config['n_clusters'] = 8
+
     res = detected_outliers_and_classify_haplos(variations,
                                                 win_params=win_params,
                                                 num_wins_to_process=num_wins_to_process,
                                                 samples_to_use=samples_to_use,
                                                 n_dims_to_keep=config.N_DIMS_TO_KEEP,
-                                                classification_config=config.CLASSIFICATION_CONFIG,
+                                                classification_config=classification_config,
                                                 classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
                                                 outlier_configs=config.OUTLIER_CONFIGS,
                                                 out_dir=out_dir,
