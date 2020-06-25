@@ -71,6 +71,7 @@ def run_faststructure(variations, k_range, prior='logistic'):
         os.makedirs(run_dir_for_this_k, exist_ok=True)
         _run_faststructure(k, str(plink_base_path), str(out_base_path), prior)
 
+
 if __name__ == '__main__':
 
     k_range = (2, 11)
