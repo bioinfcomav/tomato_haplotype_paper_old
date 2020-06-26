@@ -49,7 +49,7 @@ def _count_alleles(gts):
 
 def calc_allele_freq(variations, pops):
 
-    if MISSING_INT in variations[GT_FIELD]:
+    if MISSING_INT in variations[GT_FIELD][:]:
         raise ValueError('Allele freq calculation not implemented with missing gts')
 
     freqs = {}
@@ -77,10 +77,12 @@ def sort_dframe_columns_by_similarity(dframe):
     return dframe.reindex(columns=new_columns)
 
 
-def plot_allele_freqs_bars(freqs, axes, pop_order=None, col_width=0.9):
+def plot_allele_freqs_bars(freqs, axes, pop_order=None, col_width=0.9, color_schema=None):
 
     if pop_order is None:
         freqs = sort_dframe_columns_by_similarity(freqs)
+    else:
+        freqs = freqs.reindex(columns=pop_order)
     sorted_pops = list(freqs.columns)
 
     alleles = list(freqs.sum(axis=1).sort_values(ascending=False).index)
@@ -95,7 +97,13 @@ def plot_allele_freqs_bars(freqs, axes, pop_order=None, col_width=0.9):
         allele_idx = orig_allele_order.index(allele)
 
         heights = freqs.iloc[allele_idx, :].values
-        axes.bar(x_values, heights, bottom=bottom, width=width, label=''.join(map(str, allele)))
+
+        if color_schema is None:
+            color = None
+        else:
+            color = color_schema[allele]
+        axes.bar(x_values, heights, bottom=bottom, width=width,
+                 label=''.join(map(str, allele)), color=color)
 
         if bottom is None:
             bottom = heights
@@ -141,6 +149,25 @@ def get_chunk_with_n_uniq_haplos(variations, start_pos, num_desired_haplos):
 
     return {'variations': variations.get_chunk(slice(start_pos, stop_pos)),
             'haplo_counts': counts}
+
+
+def get_chunk_for_gene(variations, genes, gene_id, min_num_desired_haplos=0):
+    gene = genes.get_gene(gene_id)
+
+    vars_index = variations.pos_index
+    gene = genes.get_gene(gene_id)
+    idx0 = vars_index.index_pos(gene['Chromosome'].encode(), gene['Start'])
+    idx1 = vars_index.index_pos(gene['Chromosome'].encode(), gene['End'])
+
+    chunk = variations.get_chunk(slice(idx0, idx1 + 1))
+
+    gts = chunk[GT_FIELD]
+    counts = _count_alleles(gts)
+
+    if len(counts) < min_num_desired_haplos:
+        raise NotImplementedError('expand the region to get more haplos')
+
+    return chunk
 
 
 def _name_the_haplos(freqs, ref_pops):
@@ -225,9 +252,6 @@ def calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempt
 
 
 if __name__ == '__main__':
-
-    k_range = (2, 11)
-    max_maf = 0.95
 
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')

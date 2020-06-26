@@ -14,6 +14,16 @@ import introgressions
 import kegg
 
 
+def _calc_gene_introgression_freqs(solgenomics_gene_id, genes, vars_index, introgression_freqs):
+    gene = genes.get_gene(solgenomics_gene_id)
+    idx0 = vars_index.index_pos(gene['Chromosome'].encode(), gene['Start'])
+    idx1 = vars_index.index_pos(gene['Chromosome'].encode(), gene['End'])
+    mask = numpy.logical_and(introgression_freqs.index >= idx0,
+                             introgression_freqs.index <= idx1)
+    gene_introgression_freqs = introgression_freqs.loc[mask].values
+    return gene_introgression_freqs
+
+
 def characterize_introgressions_per_pathways(variations, introgression_freqs, pathways, method, genes):
 
     vars_index = variations.pos_index
@@ -26,14 +36,11 @@ def characterize_introgressions_per_pathways(variations, introgression_freqs, pa
         gene_ids = info['solgenomic_gene_ids']
         pathway_introgression_freqs = []
         for gene_id in gene_ids:
-            gene = genes.get_gene(gene_id)
             try:
-                idx0 = vars_index.index_pos(gene['Chromosome'].encode(), gene['Start'])
-                idx1 = vars_index.index_pos(gene['Chromosome'].encode(), gene['End'])
+                gene_introgression_freqs = _calc_gene_introgression_freqs(gene_id, genes, vars_index, introgression_freqs)
             except KeyError:
                 continue
-            mask = numpy.logical_and(introgression_freqs.index >= idx0, introgression_freqs.index <= idx1)
-            gene_introgression_freqs = introgression_freqs.loc[mask].values
+
             pathway_introgression_freqs.extend(gene_introgression_freqs)
             mean_gene_introgression_freqs[gene_id] = numpy.mean(gene_introgression_freqs)
 

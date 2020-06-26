@@ -139,6 +139,10 @@ class Genes:
 
         return list(dists.values())
 
+    @property
+    def gene_ids(self):
+        return iter(self._genes_df.index)
+
 
 def read_go_annotation():
     first = True
@@ -164,4 +168,6 @@ def write_tomato_go_annotation_for_topgo():
 if __name__ == '__main__':
     genes = Genes()
     genes.get_annotated_function('Solyc11g008780')
+    print(list(genes.gene_ids))
+
     #write_tomato_go_annotation_for_topgo()
