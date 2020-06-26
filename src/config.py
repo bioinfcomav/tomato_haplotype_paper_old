@@ -205,3 +205,5 @@ MORPHOLOGICAL_SOURCE_DATA = SOURCE_DATA_DIR / 'morphological_characterization.xl
 MORPHOLOGICAL_DIR = BASE_DIR / 'morphology'
 
 SELECTIVE_SWEEP_DIR = BASE_DIR / 'selective_sweep'
+
+RELEVANT_GENES_DIR = BASE_DIR / 'relevant_genes'

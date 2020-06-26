@@ -2,6 +2,7 @@
 import config
 
 from collections import Counter
+import random
 
 import numpy
 import pandas
@@ -36,6 +37,16 @@ def _allele_freqs_to_dframe(freqs):
     return freq_dframe
 
 
+def _count_alleles(gts):
+    counts = Counter()
+    for ploid_id in range(gts.shape[2]):
+        alleles, this_counts = numpy.unique(gts[:, :, ploid_id], axis=1, return_counts=True)
+        for allele_idx, count in enumerate(this_counts):
+            allele = tuple(alleles[:, allele_idx])
+            counts[allele] += count
+    return counts
+
+
 def calc_allele_freq(variations, pops):
 
     if MISSING_INT in variations[GT_FIELD]:
@@ -45,13 +56,7 @@ def calc_allele_freq(variations, pops):
     for pop, samples in pops.items():
         vars_for_this_pop = SampleFilter(samples)(variations)[FLT_VARS]
         gts = vars_for_this_pop[GT_FIELD]
-        counts = Counter()
-        for ploid_id in range(gts.shape[2]):
-            alleles, this_counts = numpy.unique(gts[:, :, ploid_id], axis=1, return_counts=True)
-            for allele_idx, count in enumerate(this_counts):
-                allele = tuple(alleles[:, allele_idx])
-                counts[allele] += count
-    
+        counts = _count_alleles(gts)
         pop_freqs = {allele: count / sum(counts.values()) for allele, count in counts.items()}
         freqs[pop] = pop_freqs
 
@@ -102,6 +107,123 @@ def plot_allele_freqs_bars(freqs, axes, pop_order=None, col_width=0.9):
     return {'alleles': alleles, 'x_values': x_values, 'sorted_pops': sorted_pops}
 
 
+def get_chunk_with_n_uniq_haplos(variations, start_pos, num_desired_haplos):
+
+    gts = variations[GT_FIELD]
+
+    stop_pos = start_pos + 1
+
+    n_haplos = 0
+    last_n_vars = None
+    while n_haplos < num_desired_haplos:
+        this_gts = gts[start_pos:stop_pos, :, :]
+        counts = _count_alleles(this_gts)
+        n_haplos = len(counts)
+
+        if n_haplos > num_desired_haplos:
+            msg = 'Imposible to select a region with exactly the asked num of desired haplos'
+            raise RuntimeError(msg)
+
+        if n_haplos < num_desired_haplos:
+            stop_pos += 1
+            continue
+
+        n_vars = this_gts.shape[0]
+        if last_n_vars is None:
+            last_n_vars = n_vars
+        elif last_n_vars == n_vars:
+            msg = 'There are no more vars left'
+            raise RuntimeError(msg)
+        else:
+            last_n_vars = n_vars
+
+        break
+
+    return {'variations': variations.get_chunk(slice(start_pos, stop_pos)),
+            'haplo_counts': counts}
+
+
+def _name_the_haplos(freqs, ref_pops):
+
+    if freqs.shape[1] < len(ref_pops):
+        msg = 'There are more ref pops than pops in freqs'
+        raise ValueError(msg)
+
+    most_freq_haplo_idx_for_pops = []
+    for ref_pop in ref_pops:
+        most_freq_haplo_idx_for_pop = numpy.argmax(freqs.loc[:, ref_pop].values)
+        most_freq_haplo_idx_for_pops.append(most_freq_haplo_idx_for_pop)
+
+    if len(most_freq_haplo_idx_for_pops) > len(set(most_freq_haplo_idx_for_pops)):
+        msg = 'The most freq haplotype for some pops is the same one'
+        raise RuntimeError(msg)
+
+    new_haplo_names = []
+    other_idx = 1
+    for haplo_idx in range(freqs.shape[0]):
+        if haplo_idx in most_freq_haplo_idx_for_pops:
+            name = ref_pops[most_freq_haplo_idx_for_pops.index(haplo_idx)]
+        else:
+            name = f'other_{other_idx}'
+            other_idx += 1
+        new_haplo_names.append(name)
+    freqs.index = new_haplo_names
+
+
+def calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100, n_max_attempts=None):
+
+    if n_max_attempts is None:
+        n_max_attempts = n_succesful_attempts * 100
+
+    num_vars = variations.num_variations
+
+    num_desired_haplos = len(ref_pops) + 1
+
+    num_attempts = 0
+    num_attemps_failed_due_to_n_haplos = 0
+    num_attemps_failed_due_to_shared_haplos_between_ref_pops = 0
+    freqss = []
+    sorted_columns = None
+    while len(freqss) < n_succesful_attempts:
+        num_attempts += 1
+        if num_attempts > n_max_attempts:
+            raise RuntimeError('Num. max attempts exceeded')
+        start_pos = random.randint(0, num_vars)
+
+        try:
+            res = get_chunk_with_n_uniq_haplos(variations, start_pos=start_pos, num_desired_haplos=num_desired_haplos)
+        except RuntimeError:
+            num_attemps_failed_due_to_n_haplos += 1
+            continue
+
+        freqs = calc_allele_freq(res['variations'], pops)
+
+        try:
+            _name_the_haplos(freqs, ref_pops=ref_pops)
+        except RuntimeError:
+            num_attemps_failed_due_to_shared_haplos_between_ref_pops += 1
+            continue
+
+        if sorted_columns is None:
+            sorted_columns = sorted(freqs.columns, key=str)
+
+        freqs = freqs.reindex(index=ref_pops + sorted(set(freqs.index).difference(ref_pops)),
+                              columns=sorted_columns)
+
+        freqss.append(freqs)
+
+    total = None
+    for freqs in freqss:
+        if total is None:
+            total = freqs
+        else:
+            total = total + freqs
+    freqs = freqs / len(freqss)
+
+    return {'mean_freqs': freqs, 'num_attemps_failed_due_to_n_haplos': num_attemps_failed_due_to_n_haplos,
+            'num_attemps_failed_due_to_shared_haplos_between_ref_pops': num_attemps_failed_due_to_shared_haplos_between_ref_pops}
+
+
 if __name__ == '__main__':
 
     k_range = (2, 11)
@@ -110,13 +232,18 @@ if __name__ == '__main__':
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
 
-    variations = variations.get_chunk(slice(2000, 2005))
-
     passports = passport.get_sample_passports()
     pops_descriptions = {config.RANK1: config.ALL_POPS}
     pops = pop_building.get_pops(pops_descriptions, passports)
 
-    freqs = calc_allele_freq(variations, pops)
+    res = get_chunk_with_n_uniq_haplos(variations, start_pos=80, num_desired_haplos=4)
+    freqs = calc_allele_freq(res['variations'], pops)
+
+    ref_pops = ['sp_pe', 'sp_ec' ,'sll_mx']
+    _name_the_haplos(freqs, ref_pops=ref_pops)
+
+    res = calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100)
+    freqs = res['mean_freqs']
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later
