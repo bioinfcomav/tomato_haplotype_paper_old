@@ -8,71 +8,78 @@ from variation.variations import VariationsH5
 
 import passport
 import pop_building
-from threre_and_back import calculate_and_plot_diversity_in_one_pop_vs_introgression_in_another
-import matplotlib_support
+from haplo_auto_classification import detected_outliers_and_classify_haplos
+import colors
 import labels
+from haplo_priv import (count_num_shared_and_priv_haplos,
+                        plot_shared_and_priv_haplo_counts)
+import matplotlib_support
 
 
 if __name__ == '__main__':
-    vars_path = config.WORKING_H5
+
+    debug = False
+    classify_haplos = True
+    if debug:
+        num_wins_to_process = 2
+    else:
+        num_wins_to_process = None
+
+    win_params={'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
+                'win_size': config.HAPLO_WIN_SIZE}
+
+    sample_passports = passport.get_sample_passports()
+    pops_descriptions = {config.RANK1: config.ALL_POPS}
+    pops = pop_building.get_pops(pops_descriptions, sample_passports)
+
+    vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
 
-    passports = passport.get_sample_passports()
-    pops_descriptions = {config.RANK1: config.ALL_POPS}
-    pops_rank1 = pop_building.get_pops(pops_descriptions, passports)
-    pop_labels = labels.LABELS
+    if classify_haplos:
+        res = detected_outliers_and_classify_haplos(variations,
+                                                    win_params=win_params,
+                                                    num_wins_to_process=None,
+                                                    samples_to_use=variations.samples,
+                                                    n_dims_to_keep=config.N_DIMS_TO_KEEP,
+                                                    classification_config=config.CLASSIFICATION_CONFIG,
+                                                    classification_outlier_config=config.CLASSIFICATION_OUTLIER_CONFIG,
+                                                    outlier_configs=config.OUTLIER_CONFIGS,
+                                                    out_dir=config.HAPLO_PCOA_DIR,
+                                                    pops=pops,
+                                                    outliers_return_aligned_pcoas=False,
+                                                    only_outliers=False,
+                                                    classification_references=config.CLASSIFICATION_REFERENCES,
+                                                    supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
+                                                    cache_dir=config.CACHE_DIR)
+        haplo_classification = res['classification']
+    else:
+        haplo_classification = None
 
-    win_size = 10000
+    pop1 = 'slc_ma'
+    pop2 = 'slc_pe'
+    pop3 = 'sll_mx'
+    pop_names = pop1, pop2, pop3
+    pop_combination_order = [('slc_ma', 'slc_pe'), ('slc_pe', 'sll_mx'), ('slc_ma', 'sll_mx'),
+                              'slc_ma', 'slc_pe', 'sll_mx']
+    color_schema = colors.ColorSchema(colors.HAPLO_COLORS)
 
-    founder_pop = 'slc_ma'
+    pops = {pop: pops[pop] for pop in pop_names}
 
-    samples_in_founder_pop = pops_rank1[founder_pop]
-
-    fig = Figure()
-    FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes = fig.add_subplot(111)
+    counts = count_num_shared_and_priv_haplos(pops,
+                                              variations,
+                                              win_params=win_params,
+                                              haplo_classification=haplo_classification,
+                                              num_wins_to_process=num_wins_to_process)
 
     out_dir = config.FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
 
     plot_path = out_dir / f'fig7.svg'
-    diversity_index = 'num_poly95'
-
-    introgression_source_pop = 'sp_pe'
-    target_pop = 'slc_pe'
-    label = pop_labels[introgression_source_pop] + ' → ' + pop_labels[target_pop]
-    samples_in_pop_with_possible_introgressions = pops_rank1[target_pop]
-    samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
-    calculate_and_plot_diversity_in_one_pop_vs_introgression_in_another(variations,
-                                                                        samples_in_pop_with_possible_introgressions,
-                                                                        samples_in_founder_pop,
-                                                                        samples_in_introgression_source_pop,
-                                                                        diversity_index,
-                                                                        win_size,
-                                                                        axes,
-                                                                        plot_line_label=label)
-
-    introgression_source_pop = 'sp_ec'
-    target_pop = 'slc_ec'
-    label = pop_labels[introgression_source_pop] + ' → ' + pop_labels[target_pop]
-    samples_in_pop_with_possible_introgressions = pops_rank1[target_pop]
-    samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
-    calculate_and_plot_diversity_in_one_pop_vs_introgression_in_another(variations,
-                                                                        samples_in_pop_with_possible_introgressions,
-                                                                        samples_in_founder_pop,
-                                                                        samples_in_introgression_source_pop,
-                                                                        diversity_index,
-                                                                        win_size,
-                                                                        axes,
-                                                                        plot_line_label=label)
-
-
+    fig = Figure((10, 7))
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+    res = plot_shared_and_priv_haplo_counts(counts, axes, sorted_pop_names=pop_names, ignore_shared_by_all_pops=True, pop_combination_order=pop_combination_order)
+    matplotlib_support.plot_legend([labels.HAPLO_LABELS[klass] for klass in res['haplo_classes']],
+                                   [color_schema[klass] for klass in res['haplo_classes']], axes)
     matplotlib_support.set_axes_background(axes)
-    axes.legend()
-    axes.set_xlabel(f'Mean introgression freq. in Andean region')
-    y_label = f'Mean num. poly. vars. (95%) ratio in {pop_labels[founder_pop]}'
-    axes.set_ylabel(y_label)
-
     fig.tight_layout()
     fig.savefig(plot_path)
-
