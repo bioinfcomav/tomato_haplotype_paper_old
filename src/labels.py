@@ -56,9 +56,9 @@ def get_long_label(short_label):
 
 HAPLO_LABELS = {'not_classified': 'Unclassified',
                 'out_0': 'Outlier',
-                'sl': 'SL',
-                'sp_ecu': 'EC',
-                'sp_peru': 'SP PE',
+                'sl': 'hSL',
+                'sp_ecu': 'hEc',
+                'sp_peru': 'hPe',
                 'outlier': 'Green introgression'
                 }
 
