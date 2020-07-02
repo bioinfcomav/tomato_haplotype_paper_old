@@ -43,17 +43,24 @@ def set_axis_color(axes, color='black'):
             child.set_color('#dddddd')
 
 
-def set_axes_background(axes, color='white'):
+def set_axes_background(axes, color='white',
+                        spine_left_color='grey', spine_bottom_color='grey'):
     axes.set_facecolor(color)
+    axes.spines['left'].set_color(spine_left_color)
+    axes.spines['bottom'].set_color(spine_bottom_color)
+
+
+def turn_off_grid(axes):
+    axes.grid(False)
 
 
 def plot_legend(labels, colors, axes, fontize=fig_style.LEGEND_FONT_SIZE,
-                nrows=None,
+                nrows=None, marker='o',
                 location='best'):
 
     legend_elements = []
     for label, color in zip(labels, colors):
-        element = matplotlib.lines.Line2D([0], [0], marker='o', color=color,
+        element = matplotlib.lines.Line2D([0], [0], marker=marker, color=color,
                          label=label,
                          markersize=fig_style.LEGEND_MARKER_SIZE, linestyle='')
         legend_elements.append(element)

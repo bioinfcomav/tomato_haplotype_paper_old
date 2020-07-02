@@ -65,8 +65,11 @@ if __name__ == '__main__':
     axes1.set_xlabel('K')
     axes2.set_ylabel('Marginal likelihood')
     matplotlib_support.set_axes_background(axes2)
+    axes2.spines['right'].set_color('grey')
+    matplotlib_support.turn_off_grid(axes1)
+    matplotlib_support.turn_off_grid(axes2)
 
-    matplotlib_support.plot_legend(labels, colors, axes2, fontize=10)
+    matplotlib_support.plot_legend(labels, colors, axes2, fontize=10, marker='_')
 
     plot_path = out_dir / 'supl_fig_num_clusters.svg'
     fig.tight_layout()
