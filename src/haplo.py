@@ -1,4 +1,6 @@
 
+import config
+
 import numpy
 import pandas
 
@@ -269,3 +271,16 @@ def generate_dists_between_sample_haplos_along_genome(variations, win_params,
                                                   chrom=chrom,
                                                   win_start=win_start,
                                                   add_haplo_id=add_haplo_id)
+
+if __name__ == '__main__':
+    win_params = {'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
+                  'win_size': config.HAPLO_WIN_SIZE}
+
+    from variation.variations import VariationsH5
+    vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
+    variations = VariationsH5(str(vars_path), 'r')
+
+    haplos = generate_sample_haplos_along_genome(variations, win_params)
+    haplos = list(haplos)
+    print(haplos[0])
+    print(len(haplos))

@@ -568,6 +568,7 @@ if __name__ == '__main__':
                                                 supervised_classification_config=config.SUPERVISED_CLASSIFICATION_CONFIG,
                                                 cache_dir=cache_dir)
     classification = res['classification']
+    print(len(classification))
 
     aligned_pcoas_df = res['aligned_pcoas_df']
     outlier_classes = res['outlier_classes']
