@@ -41,7 +41,7 @@ def plot_haplo_pca(axes, sample_passports,
                                                    haplo_colors=HAPLO_COLORS)
     haplos_pca_axes.set_xlim(HAPLO_PCOAS_X_LIMS)
     haplos_pca_axes.set_ylim(HAPLO_PCOAS_Y_LIMS)
-    haplos_pca_axes.set_facecolor('white')
+    #haplos_pca_axes.set_facecolor('white')
 
     legend_elements = []
     for haplo_class in res['haplo_classes']:
@@ -97,7 +97,6 @@ def plot_haplo_pca_for_sample(axes, variations, sample, samples_to_use, pops, ca
                      color=color, label=labels.HAPLO_LABELS[haplo_class])
     axes.set_xlabel(f'Dim 1', fontsize=X_LABEL_SMALL_FONT_SIZE)
     axes.set_ylabel(f'Dim 2', fontsize=X_LABEL_SMALL_FONT_SIZE)
-    axes.set_facecolor('white')
 
 
 if __name__ == '__main__':
@@ -122,7 +121,8 @@ if __name__ == '__main__':
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes_row_heights = [0.5, 0.5]
 
-    haplos_pca_axes = matplotlib_support.add_axes(fig, row_idx=0, axes_row_heights=axes_row_heights)
+    haplos_pca_axes = matplotlib_support.add_axes(fig, row_idx=0,
+                                                  axes_row_heights=axes_row_heights)
 
     plot_haplo_pca(haplos_pca_axes, sample_passports=sample_passports,
                    variations=imputed_variations, dist_threshold=dist_threshold,
@@ -130,8 +130,18 @@ if __name__ == '__main__':
                    pops_for_haplo_classification=pops,
                    structure_prior='simple', structure_k=3,
                    haplo_label_mapping=labels.HAPLO_LABELS)
+    matplotlib_support.turn_off_grid(haplos_pca_axes)
+    #haplos_pca_axes.tick_params(axis='both', which='both', grid_alpha=1, grid_color='red')
+
 
     axes2 = matplotlib_support.add_axes(fig, row_idx=1, axes_row_heights=axes_row_heights)
     plot_haplo_pca_for_sample(axes2, imputed_variations, sample_for_haplo_pca, samples_to_use, pops, cache_dir)
+
+    matplotlib_support.turn_off_grid(axes2)
+
+    matplotlib_support.write_text_in_figure('A', 0.15, 0.97, fig, fontsize=30)
+    matplotlib_support.write_text_in_figure('B', 0.15, 0.47, fig, fontsize=30)
+    matplotlib_support.set_axes_background(haplos_pca_axes)
+    matplotlib_support.set_axes_background(axes2)
 
     fig.savefig(plot_path)

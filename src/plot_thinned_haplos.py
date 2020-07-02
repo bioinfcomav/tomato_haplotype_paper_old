@@ -171,7 +171,8 @@ def plot_thinned_haplos2(variations, axes, dist_threshold, samples_to_use, pops,
         x_values = aligned_thinned_pcoas_df.values[mask, 0]
         y_values = aligned_thinned_pcoas_df.values[mask, 1]
         color = haplo_colors.get(haplo_class, None)
-        axes.scatter(x_values, y_values, label=labels.HAPLO_LABELS[haplo_class], alpha=alpha, color=color)
+        axes.scatter(x_values, y_values, label=labels.HAPLO_LABELS[haplo_class],
+                     alpha=alpha, color=color, zorder=10)
         colors[haplo_class] = color
 
     return {'haplo_classes': haplo_classes, 'colors': colors}
