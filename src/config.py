@@ -207,3 +207,7 @@ MORPHOLOGICAL_DIR = BASE_DIR / 'morphology'
 SELECTIVE_SWEEP_DIR = BASE_DIR / 'selective_sweep'
 
 RELEVANT_GENES_DIR = BASE_DIR / 'relevant_genes'
+
+BAM_LIST = SOURCE_DATA_DIR / 'bam.list'
+
+BAM_STATS_DIR = SOURCE_DATA_DIR / 'bamstats'
