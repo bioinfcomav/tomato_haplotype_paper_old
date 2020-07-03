@@ -151,28 +151,27 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     matplotlib_support.turn_off_x_axis(axes1)
     axes1.set_ylabel('Num. poly variations (95%)', fontsize=Y_LABEL_SIZE)
 
-    axes2 = fig.add_subplot(222)
-    _plot_diversities(haplo_diversities['num_uniq_haplos'], pops, axes2, color_schema=color_schema)
-    matplotlib_support.turn_off_x_axis(axes2)
-    matplotlib_support.set_y_ticks_right(axes2)
-    axes2.set_ylabel('Mean num. unique haplotypes', fontsize=Y_LABEL_SIZE)
-
-    axes3 = fig.add_subplot(224)
-    res = _plot_diversities(haplo_diversities['num_variable_vars'], pops, axes3, color_schema=color_schema)
-    matplotlib_support.set_y_ticks_right(axes3)
-    axes3.set_ylabel('Mean num. variations in genome region', fontsize=Y_LABEL_SIZE)
-
-    axes3.set_xticklabels(res['x_labels'], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
-    axes3.set_xticks([labels.get_long_label(pop) for pop in res['x_values']])
-
-    axes4 = fig.add_subplot(223)
-    heights = [lds.get(pop, 0) for pop in pops]
     x_values = numpy.arange(len(pops))
-    color = [color_schema[pop] for pop in pops]
-    axes4.bar(x_values, heights, color=color)
-    axes4.set_ylabel('LD at 10 Kb', fontsize=Y_LABEL_SIZE)
+    axes4 = fig.add_subplot(224)
+    res = _plot_diversities(haplo_diversities['num_uniq_haplos'], pops, axes4, color_schema=color_schema)
+    matplotlib_support.set_y_ticks_right(axes4)
+    axes4.set_ylabel('Mean num. unique haplotypes', fontsize=Y_LABEL_SIZE)
     axes4.set_xticklabels([labels.get_long_label(pop) for pop in pops], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
     axes4.set_xticks(x_values)
+
+    axes2 = fig.add_subplot(222)
+    _plot_diversities(haplo_diversities['num_variable_vars'], pops, axes2, color_schema=color_schema)
+    matplotlib_support.set_y_ticks_right(axes2)
+    axes2.set_ylabel('Mean num. variations in genome region', fontsize=Y_LABEL_SIZE)
+    matplotlib_support.turn_off_x_axis(axes2)
+
+    axes3 = fig.add_subplot(223)
+    heights = [lds.get(pop, 0) for pop in pops]
+    color = [color_schema[pop] for pop in pops]
+    axes3.bar(x_values, heights, color=color)
+    axes3.set_ylabel('LD at 10 Kb', fontsize=Y_LABEL_SIZE)
+    axes3.set_xticklabels([labels.get_long_label(pop) for pop in pops], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
+    axes3.set_xticks(x_values)
 
     axes1.set_facecolor('white')
     axes2.set_facecolor('white')
@@ -182,6 +181,16 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     matplotlib_support.set_axis_color(axes2)
     matplotlib_support.set_axis_color(axes3)
     matplotlib_support.set_axis_color(axes4)
+
+    fontsize = 20
+    x0 = 0.1
+    x1 = 0.55
+    y0 = 0.45
+    y1 = 0.9
+    matplotlib_support.write_text_in_figure('A', x0, y1, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('B', x1, y1, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('C', x0, y0, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('D', x1, y0, fig, fontsize=fontsize)
 
     fig.tight_layout()
     fig.savefig(str(plot_path))
