@@ -469,11 +469,11 @@ bgv006454,sp_pe,sp_pe_n_hills,sp_coast
 bgv006457,sp_pe,sp_pe_n_hills,sp_coast
 ecu570b,sp_pe,sp_pe_n_hills,
 tr00028,sp_pe,sp_pe_n_hills,
-bgv015380,sp_pe_inter-andean,sp_pe_n_inter-andean,
-bgv015382,sp_pe_inter-andean,sp_pe_n_inter-andean,sp_montane
-pas014479,sp_pe_inter-andean,sp_pe_n_inter-andean,
-ts-156,sp_pe_inter-andean,sp_pe_n_inter-andean,
-ts-420,sp_pe_inter-andean,sp_pe_n_inter-andean,
+bgv015380,sp_montane,sp_pe_n_inter-andean,
+bgv015382,sp_montane,sp_pe_n_inter-andean,sp_montane
+pas014479,sp_montane,sp_pe_n_inter-andean,
+ts-156,sp_montane,sp_pe_n_inter-andean,
+ts-420,sp_montane,sp_pe_n_inter-andean,
 bgv007992,sp_x_sl,sp_x_sl,
 bgv008042,sp_x_sl,sp_x_sl,slc_cherry
 bgv008225,sp_x_sl,sp_x_sl,slc_wild_like

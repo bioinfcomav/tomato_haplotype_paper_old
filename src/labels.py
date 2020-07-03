@@ -33,6 +33,7 @@ LABELS = [
           ('sp_ec', 'SP EC'),
           ('sp_pe', 'SP PE'),
           ('sp_pe_inter-andean', 'SP PE Inter-Andean'),
+          ('sp_montane', 'SP Montane'),
           ('slc_ec', 'SLC EC'),
           ('slc_pe', 'SLC PE'),
 

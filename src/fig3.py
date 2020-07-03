@@ -203,7 +203,7 @@ if __name__ == '__main__':
     plot_geo_rank1_for_main_pops(sample_passports, axes=axes)
 
     axes_col_widths = [0.25, 0.25, 0.22, 0.28]
-    structure_pop_order = ['sp_pe', 'sp_x_sp', 'sp_pe_inter-andean',
+    structure_pop_order = ['sp_pe', 'sp_x_sp', 'sp_montane',
                            'sp_ec',
                            'slc_co',
                            'slc_ma',

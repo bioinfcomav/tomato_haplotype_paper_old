@@ -164,6 +164,9 @@ if __name__ == '__main__':
                                    location='center')
     matplotlib_support.turn_off_both_axis(axes0)
     matplotlib_support.set_axes_background(axes0, 'white')
+    axes0.spines['left'].set_color('white')
+    axes0.spines['bottom'].set_color('white')
+
 
     axes2 = matplotlib_support.add_axes(fig, row_idx=2, axes_row_heights=axes_row_heights)
     pops = ['sll_modern', 'sll_vint','sll_mx', 'sll_old_cultivars', 'slc_world', 'slc_ma']
