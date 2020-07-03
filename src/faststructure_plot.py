@@ -137,6 +137,8 @@ def plot_admixtures(admixtures, plot_path=None, axes=None, sample_order=None,
         fig.tight_layout()
         fig.savefig(str(plot_path))
 
+    return {'sample_order': sorted_samples}
+
 
 def _plot_admixture_compositions_per_pop(admixtures, plot_path, pops_for_samples,
                                          pop_order=None):
