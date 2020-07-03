@@ -83,20 +83,21 @@ def set_x_ticks(tick_poss, tick_labels, axes, rotation=0, ha='right', fontsize=1
     axes.set_xticks(tick_poss)
 
 
-def write_text_in_figure(text, x_pos, y_pos, fig, fontsize=12):
+def write_text_in_figure(text, x_pos, y_pos, fig, fontsize=12, zorder=200):
     axes = add_axes(fig, left_margin=0, right_margin=0,
-                    top_margin=0, bottom_margin=0)
+                    top_margin=0, bottom_margin=0, zorder=zorder)
     axes.set_xlim((0, 1))
     axes.set_ylim((0, 1))
     axes.text(x_pos, y_pos, text, fontsize=fontsize)
     axes.set_facecolor('#00000000')
+    axes.grid(False)
 
 
 def add_axes(figure, row_idx=0, col_idx=0,
              left_margin=0.1, right_margin=0.02,
              top_margin=0.02, bottom_margin=0.07,
              axes_col_widths=None, axes_row_heights=None,
-             projection=None):
+             projection=None, zorder=1):
     if axes_col_widths is None:
         axes_col_widths = [1]
 
@@ -130,4 +131,4 @@ def add_axes(figure, row_idx=0, col_idx=0,
     bottom = next_rows_height + bottom_margin
     width = this_axes_width - left_margin - right_margin
     height = this_axes_height - top_margin - bottom_margin
-    return figure.add_axes((left, bottom, width, height), projection=projection)
+    return figure.add_axes((left, bottom, width, height), projection=projection, zorder=zorder)

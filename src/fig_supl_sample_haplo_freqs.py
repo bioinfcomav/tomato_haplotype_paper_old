@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
     pop_order = ['sp_pe', 'sp_pe_inter-andean', 'sp_x_sp', 'sp_ec',
                  'slc_ec', 'slc_co', 'slc_ma', 'slc_pe', 'slc_world',
-                 'sll_mx', 'sll_vint', 'sll_old_cultivars', 'sll_modern',
+                 'sll_mx', 'sll_vint', 'sll_modern',
                  'sp_x_sl', None]
     pop_order = [labels.LABELS[pop] for pop in pop_order]
 

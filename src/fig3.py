@@ -18,7 +18,7 @@ from haplo_pca_plotting import filter_aligned_pcoas_df_for_samples
 import colors
 import labels
 import matplotlib_support
-from fig1d import HAPLO_PCOAS_X_LIMS, HAPLO_PCOAS_Y_LIMS
+from fig1 import HAPLO_PCOAS_X_LIMS, HAPLO_PCOAS_Y_LIMS
 from plot_geo_map import plot_geo_rank1_for_main_pops
 from faststructure_parse_results import parse_faststructure_results
 from faststructure_plot import _calc_admixtures_per_pop
@@ -225,6 +225,8 @@ if __name__ == '__main__':
                                2: colors.HAPLO_COLORS['sp_peru']}
     plot_structure(axes, prior=structure_prior, pops_for_samples=pops_for_samples, k=structure_k,
                    ancestral_pop_colors=structure_color_mapping, pop_order=structure_pop_order)
+    matplotlib_support.turn_off_y_axis(axes)
+    axes.spines['left'].set_color('#ffffff')
 
     axes = matplotlib_support.add_axes(fig, row_idx=1, col_idx=2,
                                        left_margin=0.1, right_margin=0.05,
@@ -232,5 +234,12 @@ if __name__ == '__main__':
                                        axes_col_widths=axes_col_widths,
                                        axes_row_heights=axes_row_heights)
     plot_haplo_compositions(pops, haplo_classification, axes, pop_order=structure_pop_order)
+    axes.spines['left'].set_color('#ffffff')
+
+    fontsize = 25
+    matplotlib_support.write_text_in_figure('A', 0.01, 0.97, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('B', 0.55, 0.97, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('C', 0.523, 0.355, fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('D', 0.72, 0.355, fig, fontsize=fontsize)
 
     fig.savefig(plot_path)
