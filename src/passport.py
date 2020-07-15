@@ -1,4 +1,5 @@
 
+from csv import DictReader
 import config
 
 from pprint import pprint
@@ -44,6 +45,17 @@ def get_classifications():
     return classifications
 
 
+def get_razifard_classifications():
+
+    reader = DictReader(config.RAZIFARD_CLASSIFICATION.open('rt'), delimiter='\t')
+
+    classification = {}
+    for sample in reader:
+        if sample['Razifard_pop']:
+            classification[sample['sample']] = sample['Razifard_pop']
+    return classification
+
+
 def get_sample_passports():
     
     accessions = get_acc_passports()
@@ -52,10 +64,14 @@ def get_sample_passports():
     samples = accessions
 
     classifications = get_classifications()
+
+    razifard_classifications = get_razifard_classifications()
     
     for sample, sample_info in samples.items():
         classification = classifications.get(sample)
         sample_info['classification'] = classification
+        if razifard_classifications.get(sample):
+            sample_info['razifard_classification'] = razifard_classifications.get(sample)
     return samples
 
 
