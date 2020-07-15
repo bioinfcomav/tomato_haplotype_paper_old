@@ -132,6 +132,7 @@ CLASSIFICATION_RANKS = ['rank1', 'rank2', 'morpho_type']
 
 RANK1 = 'classification', 'rank1'
 RANK2 = 'classification', 'rank2'
+RAZIFARD = 'razifard_classification',
 KEEP = 'keep'
 REMOVE = 'remove'
 ALL_POPS = 'all_pops'
@@ -211,3 +212,5 @@ RELEVANT_GENES_DIR = BASE_DIR / 'relevant_genes'
 BAM_LIST = SOURCE_DATA_DIR / 'bam.list'
 
 BAM_STATS_DIR = SOURCE_DATA_DIR / 'bamstats'
+
+RAZIFARD_CLASSIFICATION = SOURCE_DATA_DIR / 'razifard_classification.csv'
