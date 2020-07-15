@@ -210,7 +210,7 @@ if __name__  == '__main__':
 
     dist_for_ld = 10000
     num_lds_for_loess = 5000
-    max_maf_for_ld = 0.95
+    max_maf_for_ld = 0.99
     max_dist_for_ld = 1e6
     max_num_lds = 500000
 

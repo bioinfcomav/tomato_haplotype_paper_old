@@ -88,6 +88,7 @@ if __name__ == '__main__':
                            max_num_lds=max_num_lds,
                            cache_dir=cache_dir)
             plot_path = pop_dir / f'ld_{pop}.svg'
+            print(plot_path)
             try:
                 plot_ld_decay(res['lds'], res['dists'], plot_path,
                               max_dist_for_decay=max_dist_for_decay,
