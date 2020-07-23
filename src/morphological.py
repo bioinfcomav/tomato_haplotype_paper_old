@@ -1,4 +1,5 @@
 
+from os import remove
 import config
 
 import math
@@ -156,7 +157,83 @@ def _trait_value_to_number(value):
     return int_value
 
 
+def read_collecting_sources():
+
+    reader = csv.DictReader(config.ECOSYSTEM_DATA.open('rt'), delimiter='\t')
+
+    origins = {}
+    for row in reader:
+        accession_id = row['Accession'].lower()
+        collecting_source = row['origen colecta']
+        biological_status = row['tipo muestra']
+        natural_checked = row['Natural comprobado: no afectado por humanos']
+        ruderal_checked = row['ruderal comprobado: hábitat afectado por seres humanos']
+        weedy_checked = row['Mala hierba comprobado']
+        tolerated_checked = row['tolerada: surge expotáneamente (adventicia), pero la aprovechan (4, 1)']
+        cultivated_in_garden = row['cultivada pequeño huerto']
+        comercial_cultivation = row['cultivo comercial']
+        market = row['market']
+
+        if natural_checked:
+            origin = 'natural'
+        elif ruderal_checked or weedy_checked:
+            origin = 'disturbed'
+        elif weedy_checked and tolerated_checked:
+            origin = 'weede_or_semi-cultivated'
+        elif tolerated_checked:
+            origin = 'semi-cultivated'
+        elif cultivated_in_garden or comercial_cultivation:
+            origin = 'cultivated'
+        elif collecting_source == '21' and biological_status == '300':
+            origin = 'cultivated'
+        elif collecting_source == '22' and biological_status == '300':
+            origin = 'cultivated'
+        elif collecting_source == '23' and biological_status == '300':
+            origin = 'cultivated'
+        elif market:
+            origin = 'market'
+        elif collecting_source == '4' and biological_status == '1':
+            origin = 'semi-cultivated'
+        elif collecting_source == '1' and biological_status == '1':
+            origin = 'natural_or_disturbed'
+        elif collecting_source == '10' and biological_status == '100':
+            origin = 'natural_or_disturbed'
+        elif collecting_source == '1' and biological_status == '2':
+            origin = 'disturbed'
+        elif collecting_source == '4' and biological_status == '2':
+            origin = 'semi-cultivated'
+        elif collecting_source == '4' and biological_status == '4':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '23' and biological_status == '200':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '200' and biological_status == '23':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '300' and biological_status == '21':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '300' and biological_status == '23':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '300' and biological_status == '22':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '300':
+            origin = 'semi-cultivated_or_cultivated'
+        elif collecting_source == '2':
+            origin = 'weed_or_semi-cultivated'
+        elif biological_status == '4':
+            origin = None
+        elif collecting_source and biological_status:
+            msg = f'Uknown collecting origin: {collecting_source}, {biological_status}'
+            raise RuntimeError(msg)
+        else:
+            origin = None
+        origins[accession_id] = origin
+
+    return origins
+
+
 def read_morphological_data():
+
+    collecting_sources = read_collecting_sources()
+
     accs = {}
     for sheet_idx in range(5):
         sheet = pandas.read_excel(config.MORPHOLOGICAL_SOURCE_DATA, sheet_name=sheet_idx)
@@ -166,6 +243,8 @@ def read_morphological_data():
             acc['taxon'] = TAXONS_FOR_EXCEL_SHEET[sheet_idx]
             acc_id = _get_acc_id(row['Entrada'], row['BGV'])
             acc_id = acc_id.lower()
+            acc['collection_id'] = row['Entrada']
+            acc['collecting_source'] = collecting_sources[acc_id]
 
             location = {}
             location['country'] = _get_country(row['País'], row['Dpto'])
@@ -273,11 +352,14 @@ def read_morphological_classification(column='morpho_class'):
     return pandas.read_csv(config.CLASSIFICATIONS_MORPHOLOGICAL, sep=',', index_col=0, na_filter=False).to_dict()[column]
 
 
-def write_morpho_csv(original_data, morpho_classification):
+def write_morpho_csv(original_data, morpho_classification, write_collection_id=False):
     out_dir = config.FIGURES_DIR
     path = out_dir / 'morphological_data.csv'
 
-    fields = ['Accession', 'Taxon', 'Country', 'Latitude', 'Longitude']
+    if write_collection_id:
+        fields = ['Accession', 'CollectionID', 'Taxon', 'Country', 'Latitude', 'Longitude', 'Collecting_source']
+    else:
+        fields = ['Accession', 'Taxon', 'Country', 'Latitude', 'Longitude', 'Collecting_source']
     fields.append('Morphological classification')
     fields += sorted(TRAIT_TYPES.keys())
     writer = csv.DictWriter(path.open('wt'), fieldnames=fields)
@@ -291,6 +373,8 @@ def write_morpho_csv(original_data, morpho_classification):
         row['Country'] = location.get('country', '')
         row['Latitude'] = location.get('latitude', '')
         row['Longitude'] = location.get('longitude', '')
+        if write_collection_id:
+            row['CollectionID'] = acc_data['collection_id']
         characterization = acc_data.get('characterization', {})
         for trait in TRAIT_TYPES:
             value = characterization.get(trait, '')
@@ -298,6 +382,7 @@ def write_morpho_csv(original_data, morpho_classification):
                 value = ''
             row[trait] = str(value)
         row['Morphological classification'] = morpho_classification[acc_id]
+        row['Collecting_source'] = acc_data['collecting_source']
 
         writer.writerow(row)
 
@@ -350,8 +435,82 @@ def plot_morphological_pca(pca_result, axes, classification, color_schema=None,
             axes.text(x_pos, y_pos, trait)
 
 
+def do_collecting_source_stats(morphological_data, remove_unknown_sources=True, calc_freqs=True, taxon_mapping=None):
+
+    if taxon_mapping is None:
+        taxon_mapping = {}
+    counts = defaultdict(Counter)
+    for acc_data in morphological_data.values():
+        taxon = acc_data['taxon']
+        collecting_source = acc_data['collecting_source']
+        country = acc_data.get('location', {}).get('country')
+        if remove_unknown_sources and (collecting_source is None or taxon is None or country is None):
+            continue
+        taxon_key = taxon_mapping.get((taxon, country), (taxon, country))
+        #print(taxon_key)
+        counts[taxon_key][collecting_source] += 1
+
+    if calc_freqs:
+        freqs = {}
+        for taxon_country, this_counts in counts.items():
+            tot_counts = sum(this_counts.values())
+            freqs[taxon_country] = {source: source_counts / tot_counts for source, source_counts in this_counts.items()}
+        counts = freqs
+
+    return counts
+
+
+def plot_collecting_sources(morphological_data, axes, color_schema, source_order, taxon_mapping, taxon_order):
+
+    freqs = do_collecting_source_stats(morphological_data, taxon_mapping=taxon_mapping)
+
+    sorted_taxons = sorted(freqs.keys(), key=lambda x: taxon_order.index(x))
+    sources = {source for taxon_freqs in freqs.values() for source in taxon_freqs.keys()}
+    sorted_sources = sorted(sources, key=lambda x: source_order.index(x))
+
+    x_poss = numpy.arange(len(sorted_taxons))
+    width = x_poss[1] - x_poss[0]
+
+    bottoms = None
+    for source in sorted_sources:
+        heights = numpy.array([freqs[taxon].get(source, 0) for taxon in sorted_taxons])
+        color = color_schema[source]
+        axes.bar(x_poss, heights, bottom=bottoms, width=width, label=source, color=color)
+
+        if bottoms is None:
+            bottoms = heights
+        else:
+            bottoms += heights
+
+    tick_labels = [f'{taxon} {country}' for taxon, country in sorted_taxons]
+    matplotlib_support.set_x_ticks(x_poss, tick_labels, axes=axes, rotation=45)
+    axes.set_ylabel('Freq.')
+
+
 if __name__ == '__main__':
     original_data = read_morphological_data()
+
+    out_dir = config.MORPHOLOGICAL_DIR
+    plot_path = out_dir / 'collecting_sources.svg'
+
+    source_order = ['natural', 'natural_or_disturbed', 'disturbed',
+                    'weed_or_semi-cultivated', 'semi-cultivated', 'semi-cultivated_or_cultivated',
+                    'cultivated', 'market']
+
+    taxon_mapping = {('SLC', 'CRI'): ('SLC', 'MA'),
+                     ('SLC', 'MEX'): ('SLC', 'MA')}
+    taxon_order = ('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'), ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'), ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX')
+
+    fig = Figure()
+    FigureCanvas(fig) # Don't remove it or savefig will fail later
+    axes = fig.add_subplot(111)
+    plot_collecting_sources(original_data, axes, color_schema=colors.ColorSchema(colors.SOURCE_COLORS),
+                            source_order=source_order, taxon_mapping=taxon_mapping, taxon_order=taxon_order)
+    matplotlib_support.set_axes_background(axes)
+    axes.legend()
+    fig.tight_layout()
+    fig.savefig(plot_path)
+
     data = get_morphological_table_for_ordinal_traits()
     data.columns = [TRAIT_ABREVIATIONS[trait] for trait in data.columns]
     #print(Counter([acc_data['characterization']['stripy_fruit'] for acc_data in read_morphological_data().values()]))
@@ -367,7 +526,6 @@ if __name__ == '__main__':
     morpho_classification_old = read_morphological_classification('morpho_class_old')
     write_morphological_curlywirly(pca_result, original_data, passports, morpho_classification, morpho_classification_old)
 
-    out_dir = config.MORPHOLOGICAL_DIR
     plot_path = out_dir / 'morphological_pca.svg'
     fig = Figure((10, 10))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
@@ -382,4 +540,4 @@ if __name__ == '__main__':
     fig.tight_layout()
     fig.savefig(str(plot_path))
 
-    write_morpho_csv(original_data, morpho_classification)
+    write_morpho_csv(original_data, morpho_classification, write_collection_id=False)

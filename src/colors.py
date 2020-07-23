@@ -147,6 +147,14 @@ COLOR_WHEEL = ['#ff6347', '#57acff', '#8FBC8F', '#FF69B4', '#CD5C5C',
                '#80ced6', '#808000', '#ba68c8', '#FFA07A', '#92a8d1',
                '#3CB371', '#D2B48C', '#667292']
 
+SOURCE_COLORS = {'natural': '#00b300',
+                 'disturbed': '#005757',
+                 'natural_or_disturbed': '#008080', 
+                 'cultivated': '#e60000',
+                 'market': '#bd0000',
+                 'semi-cultivated': '#ff8080',
+                 'semi-cultivated_or_cultivated': '#ff3333',
+                 'weed_or_semi-cultivated': '#ffd1e8'}
 
 color_to_1_0 = lambda x: x / 255
 hex_to_rgb_1_0 = lambda h: tuple(int(h[i:i+2], 16) / 255 for i in (1, 3, 5))

@@ -214,3 +214,5 @@ BAM_LIST = SOURCE_DATA_DIR / 'bam.list'
 BAM_STATS_DIR = SOURCE_DATA_DIR / 'bamstats'
 
 RAZIFARD_CLASSIFICATION = SOURCE_DATA_DIR / 'razifard_classification.csv'
+
+ECOSYSTEM_DATA = SOURCE_DATA_DIR / 'ecosystem_data.csv'
