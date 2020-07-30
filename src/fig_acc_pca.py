@@ -139,9 +139,7 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, sample_passports)
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
 
-    out_dir = config.PAPER_FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig2.svg'
+    plot_path = config.FIG_ACC_PCA
 
     fig = Figure((10, 20))
     FigureCanvas(fig) # Don't remove it or savefig will fail later

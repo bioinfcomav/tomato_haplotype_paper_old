@@ -73,9 +73,8 @@ if __name__ == '__main__':
     ref_pops = ['sp_pe', 'sp_ec' ,'sll_mx']
 
     pop_order = ['sp_pe', 'sp_pe_inter-andean', 'sp_ec',
-                 'slc_ec',
                  'slc_co',
-                 'slc_ma', 'slc_pe', 'slc_world', 'sll_mx']
+                 'slc_ma', 'slc_ec', 'slc_pe', 'slc_world', 'sll_mx']
 
     if False:
         res = allele_freq.calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100)
@@ -146,6 +145,10 @@ if __name__ == '__main__':
 
     matplotlib_support.turn_off_x_axis(axes1)
     matplotlib_support.turn_off_x_axis(axes2)
+
+    print('TODO edh1 with imputed vars')
+    print('TODO'*100)
+    print('Rerun everything with imputed vars')
 
     plot_path = config.FIGURES_DIR / 'fig9.svg'
     fig.tight_layout()

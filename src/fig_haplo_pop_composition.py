@@ -18,7 +18,7 @@ from haplo_pca_plotting import filter_aligned_pcoas_df_for_samples
 import colors
 import labels
 import matplotlib_support
-from fig1 import HAPLO_PCOAS_X_LIMS, HAPLO_PCOAS_Y_LIMS
+from fig_haplo_pca import HAPLO_PCOAS_X_LIMS, HAPLO_PCOAS_Y_LIMS
 from plot_geo_map import plot_geo_rank1_for_main_pops
 from faststructure_parse_results import parse_faststructure_results
 from faststructure_plot import _calc_admixtures_per_pop
@@ -138,9 +138,7 @@ def plot_haplo_compositions(pops, haplo_classification, axes, pop_order):
 
 if __name__ == '__main__':
 
-    out_dir = config.PAPER_FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig3.png'
+    plot_path = config.FIG_HAPLO_POP_COMPOSITION
 
     pcas_col_width = 0.5
     halpos_pca_alpha = 0.1

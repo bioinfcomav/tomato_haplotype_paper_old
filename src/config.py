@@ -31,6 +31,7 @@ if USER == 'jose':
 
     PYTHON2_BIN_FOR_FASTSTRUCTURE = ANALYSES_DIR / 'population_ultimate_env2/bin/python'
     FASTSTRUCTURE_BIN = ANALYSES_DIR / 'population_ultimate_env2/fastStructure-master/structure.py' 
+    BEAGLE_JAR = HOME_DIR / 'soft/beagle/beagle.18May20.d20.jar'
 
 elif USER == 'david':
 
@@ -189,8 +190,6 @@ PLINK_BIN = 'plink1.9'
 
 LD_DIR = BASE_DIR / 'ld'
 
-PAPER_FIGURES_DIR = BASE_DIR / 'figures'
-
 TMP_DIR = BASE_DIR / 'tmp'
 
 FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT = 0.01
@@ -216,3 +215,14 @@ BAM_STATS_DIR = SOURCE_DATA_DIR / 'bamstats'
 RAZIFARD_CLASSIFICATION = SOURCE_DATA_DIR / 'razifard_classification.csv'
 
 ECOSYSTEM_DATA = SOURCE_DATA_DIR / 'ecosystem_data.csv'
+
+TABLE_MAPPING_STATS = FIGURES_DIR / 'suppl_table_1_mapping_stats.csv'
+TABLE_PASSPORT_AND_MORPHOLOGICAL_DATA = FIGURES_DIR / 'suppl_table_2_passport_and_morphological_data.csv'
+
+FIG_HAPLO_PCA = FIGURES_DIR / 'fig_1_haplo_pca.svg'
+FIG_ACC_PCA = FIGURES_DIR / 'fig_2_acc_pca.svg'
+FIG_HAPLO_POP_COMPOSITION = FIGURES_DIR / 'fig_3_haplo_pop_composition.png'
+
+FIG_NUM_HAPLO_TYPES = FIGURES_DIR / 'suppl_fig_1_num_haplo_types.svg'
+FIG_HAPLO_PCA_PER_SAMPLE = FIGURES_DIR / 'suppl_fig_2_haplo_pca_per_sample.png'
+FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION = FIGURES_DIR / 'suppl_fig_3_suppl_razifard_classification_comparison.svg'

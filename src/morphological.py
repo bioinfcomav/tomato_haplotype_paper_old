@@ -352,9 +352,7 @@ def read_morphological_classification(column='morpho_class'):
     return pandas.read_csv(config.CLASSIFICATIONS_MORPHOLOGICAL, sep=',', index_col=0, na_filter=False).to_dict()[column]
 
 
-def write_morpho_csv(original_data, morpho_classification, write_collection_id=False):
-    out_dir = config.FIGURES_DIR
-    path = out_dir / 'morphological_data.csv'
+def write_morpho_csv(path, original_data, morpho_classification, write_collection_id=False):
 
     if write_collection_id:
         fields = ['Accession', 'CollectionID', 'Taxon', 'Country', 'Latitude', 'Longitude', 'Collecting_source']
@@ -539,5 +537,3 @@ if __name__ == '__main__':
     axes.legend()
     fig.tight_layout()
     fig.savefig(str(plot_path))
-
-    write_morpho_csv(original_data, morpho_classification, write_collection_id=False)

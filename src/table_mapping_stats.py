@@ -56,5 +56,5 @@ def write_mapping_stats(fhand):
 
 
 if __name__ == '__main__':
-    path = config.FIGURES_DIR / 'mapping_stats.csv'
+    path = config.TABLE_MAPPING_STATS
     write_mapping_stats(path.open('wt'))

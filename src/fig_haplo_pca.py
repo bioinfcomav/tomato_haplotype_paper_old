@@ -56,13 +56,10 @@ def plot_haplo_pca(axes, sample_passports,
     frame.set_edgecolor('#cccccc')
     frame.set_alpha(0.8)
 
-    haplos_pca_axes.set_xlabel('Dim. 1', fontsize=X_LABEL_SMALL_FONT_SIZE)
-    haplos_pca_axes.set_ylabel('Dim. 2', fontsize=X_LABEL_SMALL_FONT_SIZE)
-
     fig.savefig(plot_path)
 
 
-def plot_haplo_pca_for_sample(axes, variations, sample, samples_to_use, pops, cache_dir):
+def plot_haplo_pca_for_sample(axes, variations, sample, samples_to_use, pops, cache_dir, marker='o'):
 
     res = detected_outliers_and_classify_haplos(variations,
                                                 win_params={'min_num_snp_for_window': config.MIN_NUM_SNPS_FOR_HAPLO_IN_PCA,
@@ -92,11 +89,11 @@ def plot_haplo_pca_for_sample(axes, variations, sample, samples_to_use, pops, ca
         mask = haplo_classes == haplo_class
         aligned_pcoas_for_sample_and_haplo_class = aligned_pcoas_df_for_sample.values[mask, :]
         color = HAPLO_COLORS.get(haplo_class, None)
-        axes.scatter(aligned_pcoas_for_sample_and_haplo_class[:, 0],
-                     aligned_pcoas_for_sample_and_haplo_class[:, 1],
-                     color=color, label=labels.HAPLO_LABELS[haplo_class])
-    axes.set_xlabel(f'Dim 1', fontsize=X_LABEL_SMALL_FONT_SIZE)
-    axes.set_ylabel(f'Dim 2', fontsize=X_LABEL_SMALL_FONT_SIZE)
+        if aligned_pcoas_for_sample_and_haplo_class.size:
+            axes.plot(aligned_pcoas_for_sample_and_haplo_class[:, 0],
+                         aligned_pcoas_for_sample_and_haplo_class[:, 1],
+                         color=color, label=labels.HAPLO_LABELS[haplo_class],
+                         marker=marker, linestyle='')
 
 
 if __name__ == '__main__':
@@ -108,9 +105,7 @@ if __name__ == '__main__':
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     imputed_variations = VariationsH5(str(vars_path), 'r')
 
-    out_dir = config.PAPER_FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig1.svg'
+    plot_path = config.FIG_HAPLO_PCA
 
     sample_passports = passport.get_sample_passports()
     pops_descriptions = {config.RANK1: config.ALL_POPS}
@@ -132,10 +127,13 @@ if __name__ == '__main__':
                    haplo_label_mapping=labels.HAPLO_LABELS)
     matplotlib_support.turn_off_grid(haplos_pca_axes)
     #haplos_pca_axes.tick_params(axis='both', which='both', grid_alpha=1, grid_color='red')
-
+    haplos_pca_axes.set_xlabel(f'Dim 1', fontsize=X_LABEL_SMALL_FONT_SIZE)
+    haplos_pca_axes.set_ylabel(f'Dim 2', fontsize=X_LABEL_SMALL_FONT_SIZE)
 
     axes2 = matplotlib_support.add_axes(fig, row_idx=1, axes_row_heights=axes_row_heights)
     plot_haplo_pca_for_sample(axes2, imputed_variations, sample_for_haplo_pca, samples_to_use, pops, cache_dir)
+    axes2.set_xlabel('Dim. 1', fontsize=X_LABEL_SMALL_FONT_SIZE)
+    axes2.set_ylabel('Dim. 2', fontsize=X_LABEL_SMALL_FONT_SIZE)
 
     matplotlib_support.turn_off_grid(axes2)
 

@@ -17,10 +17,6 @@ import matplotlib_support
 
 if __name__ == '__main__':
 
-
-    out_dir = config.FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-
     cache_dir = config.CACHE_DIR
 
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
@@ -71,6 +67,6 @@ if __name__ == '__main__':
 
     matplotlib_support.plot_legend(labels, colors, axes2, fontize=10, marker='_')
 
-    plot_path = out_dir / 'supl_fig_num_clusters.svg'
+    plot_path = config.FIG_NUM_HAPLO_TYPES
     fig.tight_layout()
     fig.savefig(str(plot_path))

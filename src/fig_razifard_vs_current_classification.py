@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 import passport
 import pop_building
 import plot
+import labels
 
 
 def _get_classifications(passports):
@@ -16,7 +17,7 @@ def _get_classifications(passports):
     rank1_classification = []
     razifard_classification = []
     for sample_name, passport in passports.items():
-        rank1_pop = pop_building.get_classification_from_passport(config.RANK2, passport)
+        rank1_pop = labels.LABELS[pop_building.get_classification_from_passport(config.RANK1, passport)]
         razifard_pop = pop_building.get_classification_from_passport(config.RAZIFARD, passport)
         if not razifard_pop:
             continue
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 
     classifications = _get_classifications(passports)
 
-    plot_path = config.FIGURES_DIR / 'fig_suppl_razifard_classification_comparison.svg'
+    plot_path = config.FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later

@@ -8,6 +8,7 @@ import morphological
 import colors
 import matplotlib_support
 
+
 if __name__ == '__main__':
     original_data = morphological.read_morphological_data()
 
