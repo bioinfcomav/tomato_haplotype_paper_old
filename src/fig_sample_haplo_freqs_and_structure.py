@@ -78,9 +78,7 @@ if __name__ == '__main__':
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
 
-    out_dir = config.PAPER_FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'suppl_haplo_composition.svg'
+    plot_path = config.FIG_ACC_HAPLO_FREQS_AND_STRUCTURE
 
     sample_passports = passport.get_sample_passports()
     pops_descriptions = {config.RANK1: config.ALL_POPS}
@@ -88,7 +86,7 @@ if __name__ == '__main__':
     pops_for_samples = {sample: labels.LABELS[pop] for pop, samples in pops.items() for sample in samples}
     samples_to_use = {sample for samples in pops.values() for sample in samples}
 
-    pop_order = ['sp_pe', 'sp_pe_inter-andean', 'sp_x_sp', 'sp_ec',
+    pop_order = ['sp_pe', 'sp_montane', 'sp_x_sp', 'sp_ec',
                  'slc_ec', 'slc_co', 'slc_ma', 'slc_pe', 'slc_world',
                  'sll_mx', 'sll_vint', 'sll_modern',
                  'sp_x_sl', None]

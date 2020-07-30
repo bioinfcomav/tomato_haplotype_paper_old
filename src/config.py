@@ -225,4 +225,6 @@ FIG_HAPLO_POP_COMPOSITION = FIGURES_DIR / 'fig_3_haplo_pop_composition.png'
 
 FIG_NUM_HAPLO_TYPES = FIGURES_DIR / 'suppl_fig_1_num_haplo_types.svg'
 FIG_HAPLO_PCA_PER_SAMPLE = FIGURES_DIR / 'suppl_fig_2_haplo_pca_per_sample.png'
-FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION = FIGURES_DIR / 'suppl_fig_3_suppl_razifard_classification_comparison.svg'
+FIG_ACC_HAPLO_FREQS_AND_STRUCTURE = FIGURES_DIR / 'suppl_fig_3_acc_haplo_freqs_and_structure.svg'
+FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION = FIGURES_DIR / 'suppl_fig_4_suppl_razifard_classification_comparison.svg'
+FIG_RAREFACTION = FIGURES_DIR / 'suppl_fig_6_rarefaction.svg'
