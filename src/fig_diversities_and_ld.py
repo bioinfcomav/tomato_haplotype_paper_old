@@ -198,9 +198,7 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
 
 if __name__  == '__main__':
 
-    out_dir = config.PAPER_FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-    plot_path = out_dir / 'fig4.svg'
+    plot_path = config.FIG_DIVERSITIES_AND_LD
 
     num_repeats = 100
     percent_indiv_used = 0.75

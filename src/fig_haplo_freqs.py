@@ -22,8 +22,8 @@ import matplotlib_support
 import introgressions_for_genes
 import introgressions
 import genome
-
-print('TODO fig 10:, genes relacionados con la domesticación')
+import relevant_genes
+import labels
 
 
 def get_gene_with_most_introgressions(founder_pop, target_pop, introgression_source_pop, pops):
@@ -61,6 +61,11 @@ def _name_allele_freqs(freqs):
 
     return freqs
 
+
+def _set_nice_labels(freqs):
+    freqs.columns = [labels.LABELS[pop] for pop in  freqs.columns]
+    return freqs
+
 if __name__ == '__main__':
 
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
@@ -72,15 +77,15 @@ if __name__ == '__main__':
 
     ref_pops = ['sp_pe', 'sp_ec' ,'sll_mx']
 
-    pop_order = ['sp_pe', 'sp_pe_inter-andean', 'sp_ec',
+    pop_order = ['sp_pe', 'sp_montane', 'sp_ec',
                  'slc_co',
                  'slc_ma', 'slc_ec', 'slc_pe', 'slc_world', 'sll_mx']
 
-    if False:
+    if True:
         res = allele_freq.calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100)
         typical_freqs = res['mean_freqs']
     else:
-        pop_names = [None, 'slc_co', 'slc_ec', 'slc_ma', 'slc_pe', 'slc_world', 'sll_modern', 'sll_mx', 'sll_old_cultivars', 'sll_vint', 'sp_ec', 'sp_pe', 'sp_pe_inter-andean', 'sp_x_sl', 'sp_x_sp']
+        pop_names = [None, 'slc_co', 'slc_ec', 'slc_ma', 'slc_pe', 'slc_world', 'sll_modern', 'sll_mx', 'sll_old_cultivars', 'sll_vint', 'sp_ec', 'sp_pe', 'sp_montane', 'sp_x_sl', 'sp_x_sp']
         freqs = numpy.array([[0.00041667, 0.        , 0.00297619, 0.        , 0.        ,
         0.        , 0.        , 0.        , 0.        , 0.        ,
         0.0040625 , 0.00478261, 0.        , 0.00123077, 0.002     ],
@@ -96,6 +101,8 @@ if __name__ == '__main__':
         typical_freqs= pandas.DataFrame(freqs,
                                         index=['sp_pe', 'sp_ec', 'sll_mx', 'other_1'],
                                         columns=pop_names)
+
+    pop_order = [labels.LABELS[pop] for pop in pop_order]
 
     genes = genome.Genes()
 
@@ -120,37 +127,68 @@ if __name__ == '__main__':
                     'other_1': colors.LIGHT_GRAY}
     color_schema = colors.ColorSchema(haplo_colors)
 
-    fig = Figure()
+    fig = Figure((5, 7))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes1 = fig.add_subplot(311)
+    axes1 = fig.add_subplot(411)
 
+    typical_freqs = _set_nice_labels(typical_freqs)
     allele_freq.plot_allele_freqs_bars(typical_freqs, axes1, pop_order=pop_order,
-                                       color_schema=color_schema)
-    matplotlib_support.set_axes_background(axes1)
 
-    chunk = allele_freq.get_chunk_for_gene(variations, genes, most_introgressed_ec_gene_id)
+                                       color_schema=color_schema)
+    chunk = allele_freq.get_chunk_for_gene(variations, genes,
+                                           most_introgressed_ec_gene_id)
     freqs = allele_freq.calc_allele_freq(chunk, pops)
-    freqs = _name_allele_freqs(freqs)
-    axes2 = fig.add_subplot(312)
+    freqs = _set_nice_labels(_name_allele_freqs(freqs))
+    axes2 = fig.add_subplot(412)
     allele_freq.plot_allele_freqs_bars(freqs, axes2, pop_order=pop_order,
                                        color_schema=color_schema)
 
 
     chunk = allele_freq.get_chunk_for_gene(variations, genes, most_introgressed_pe_gene_id)
     freqs = allele_freq.calc_allele_freq(chunk, pops)
-    freqs = _name_allele_freqs(freqs)
-    axes3 = fig.add_subplot(313)
+    freqs = _set_nice_labels(_name_allele_freqs(freqs))
+    axes3 = fig.add_subplot(413)
     allele_freq.plot_allele_freqs_bars(freqs, axes3, pop_order=pop_order,
+                                       color_schema=color_schema)
+
+    gene = edh1_mut = {'common_name': 'edh1_mut',
+                'chrom': 'SL4.0ch09',
+                'start': 63111577,
+                'end': 63111579,
+                'min_num_var_for_haplo_freqs': 2}
+    chunk = relevant_genes.get_variations_in_region(variations,
+                                     chrom=gene['chrom'],
+                                     start=gene['start'],
+                                     end=gene['end'],
+                                     min_num_vars=gene['min_num_var_for_haplo_freqs'])
+    freqs = allele_freq.calc_allele_freq(chunk, pops)
+    freqs = _set_nice_labels(_name_allele_freqs(freqs))
+    axes4 = fig.add_subplot(414)
+    allele_freq.plot_allele_freqs_bars(freqs, axes4, pop_order=pop_order,
                                        color_schema=color_schema)
 
     matplotlib_support.turn_off_x_axis(axes1)
     matplotlib_support.turn_off_x_axis(axes2)
+    matplotlib_support.turn_off_x_axis(axes3)
 
-    print('TODO edh1 with imputed vars')
+    matplotlib_support.set_axes_background(axes1)
+    matplotlib_support.set_axes_background(axes2)
+    matplotlib_support.set_axes_background(axes3)
+    matplotlib_support.set_axes_background(axes4)
+
+    axes1.set_ylabel('Haplo. freq.')
+    axes2.set_ylabel('Haplo. freq.')
+    axes3.set_ylabel('Haplo. freq.')
+    axes4.set_ylabel('Haplo. freq.')
+
+    axes1.set_title('Random region', fontsize=10)
+    axes2.set_title('Gene with most introgressions in SLC Ec', fontsize=10)
+    axes3.set_title('Gene with most introgressions in SLC Pe', fontsize=10)
+    axes4.set_title('Solyc09g075080 (EDH1)', fontsize=10)
+
     print('TODO'*100)
     print('Rerun everything with imputed vars')
 
-    plot_path = config.FIGURES_DIR / 'fig9.svg'
+    plot_path = config.FIG_HAPLO_FREQS
     fig.tight_layout()
     fig.savefig(plot_path)
-

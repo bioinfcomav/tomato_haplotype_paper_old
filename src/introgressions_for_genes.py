@@ -83,7 +83,9 @@ if __name__ == '__main__':
                                }
         introgression_freqs = introgressions.calc_introgession_freq_for_vars(variations, introgession_config)
 
-        gene_introgression_freqs = get_genes_with_most_introgressions(variations, introgression_freqs, genes, num_genes=10)
+        gene_introgression_freqs = get_genes_with_most_introgressions(variations,
+                                                                      introgression_freqs,
+                                                                      genes, num_genes=10)
         print(gene_introgression_freqs)
 
 '''

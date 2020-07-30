@@ -245,7 +245,7 @@ def calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempt
             total = freqs
         else:
             total = total + freqs
-    freqs = freqs / len(freqss)
+    freqs = total / len(freqss)
 
     return {'mean_freqs': freqs, 'num_attemps_failed_due_to_n_haplos': num_attemps_failed_due_to_n_haplos,
             'num_attemps_failed_due_to_shared_haplos_between_ref_pops': num_attemps_failed_due_to_shared_haplos_between_ref_pops}
@@ -266,7 +266,7 @@ if __name__ == '__main__':
     ref_pops = ['sp_pe', 'sp_ec' ,'sll_mx']
     _name_the_haplos(freqs, ref_pops=ref_pops)
 
-    res = calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100)
+    res = calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=5)
     freqs = res['mean_freqs']
 
     fig = Figure()

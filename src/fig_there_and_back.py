@@ -32,10 +32,7 @@ if __name__ == '__main__':
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes = fig.add_subplot(111)
 
-    out_dir = config.FIGURES_DIR
-    out_dir.mkdir(exist_ok=True)
-
-    plot_path = out_dir / f'fig6.svg'
+    plot_path = config.FIG_THERE_AND_BACK
     diversity_index = 'num_poly95'
 
     introgression_source_pop = 'sp_pe'

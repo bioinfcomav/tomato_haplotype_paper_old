@@ -145,11 +145,11 @@ def calc_pop_stats(variations, allowed_missing_gts=0, percentiles=[25, 50, 75], 
         res['num_variable_vars'] = numpy.sum(pop_stas_per_var['var_is_variable'])
     if 'var_is_poly95' in pop_stas_per_var['stats_calc']:
         res['num_poly95'] = numpy.sum(pop_stas_per_var['var_is_poly95'])
-        if 'num_vars_with_enough_gts' in pop_stas_per_var['stats_calc']:
+        if 'num_vars_with_enough_gts' in pop_stas_per_var:
             res['poly95'] = res['num_poly95'] / pop_stas_per_var['num_vars_with_enough_gts'] * 100
     if 'var_is_poly80' in pop_stas_per_var['stats_calc']:
         res['num_poly80'] = numpy.sum(pop_stas_per_var['var_is_poly80'])
-        if 'num_vars_with_enough_gts' in pop_stas_per_var['stats_calc']:
+        if 'num_vars_with_enough_gts' in pop_stas_per_var:
             res['poly80'] = res['num_poly80'] / pop_stas_per_var['num_vars_with_enough_gts'] * 100
     try:
         res['ratio_poly80/poly95'] = res['num_poly80'] / res['num_poly95']

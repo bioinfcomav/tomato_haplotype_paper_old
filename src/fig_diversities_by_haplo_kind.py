@@ -168,9 +168,7 @@ if __name__ == '__main__':
 
     diversity_index = 'haplo_diversity'
 
-    out_dir = config.FIGURES_DIR
-    plot_path = out_dir / 'fig5.svg'
-    os.makedirs(out_dir, exist_ok=True)
+    plot_path = config.FIG_DIVERSITIES_BY_HAPLO_TYPE
 
     color_schema = colors.ColorSchema(colors.HAPLO_COLORS)
 

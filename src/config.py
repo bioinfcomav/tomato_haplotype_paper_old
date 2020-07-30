@@ -222,9 +222,13 @@ TABLE_PASSPORT_AND_MORPHOLOGICAL_DATA = FIGURES_DIR / 'suppl_table_2_passport_an
 FIG_HAPLO_PCA = FIGURES_DIR / 'fig_1_haplo_pca.svg'
 FIG_ACC_PCA = FIGURES_DIR / 'fig_2_acc_pca.svg'
 FIG_HAPLO_POP_COMPOSITION = FIGURES_DIR / 'fig_3_haplo_pop_composition.png'
+FIG_DIVERSITIES_AND_LD = FIGURES_DIR / 'fig4_diversities_and_ld.svg'
+FIG_DIVERSITIES_BY_HAPLO_TYPE = FIGURES_DIR / 'fig5_diversities_by_haplo_kind.svg'
+FIG_THERE_AND_BACK = FIGURES_DIR / 'fig_6_slc_ma_genomic_diversity_vs_andean_slc_introgressions.svg'
 
 FIG_NUM_HAPLO_TYPES = FIGURES_DIR / 'suppl_fig_1_num_haplo_types.svg'
 FIG_HAPLO_PCA_PER_SAMPLE = FIGURES_DIR / 'suppl_fig_2_haplo_pca_per_sample.png'
 FIG_ACC_HAPLO_FREQS_AND_STRUCTURE = FIGURES_DIR / 'suppl_fig_3_acc_haplo_freqs_and_structure.svg'
 FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION = FIGURES_DIR / 'suppl_fig_4_suppl_razifard_classification_comparison.svg'
 FIG_RAREFACTION = FIGURES_DIR / 'suppl_fig_6_rarefaction.svg'
+FIG_HAPLO_FREQS = FIGURES_DIR / 'suppl_fig_7_haplo_freqs.svg'
