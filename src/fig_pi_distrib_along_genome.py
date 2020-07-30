@@ -147,10 +147,7 @@ if __name__ == '__main__':
 
     pis = {labels.LABELS[pop]: values for pop, values in pis.items()}
 
-    out_dir = config.FIGURES_DIR
-    os.makedirs(out_dir, exist_ok=True)
-
-    plot_path = out_dir / 'fig_supl_pi_distrib_along_genome.svg'
+    plot_path = config.FIG_PI_DISTRIBUTIONS
 
     color_schema = colors.ColorSchema(colors.CLASSIFICATION_RANK1_COLORS)
 

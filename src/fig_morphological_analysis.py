@@ -29,8 +29,8 @@ if __name__ == '__main__':
 
     morpho_classification = {acc: labels.LABELS[klass] for acc, klass in morpho_classification.items()}
 
-    out_dir = config.FIGURES_DIR
-    plot_path = out_dir / 'fig8.svg'
+    plot_path = config.FIG_MORPHOLOGICAL_ANALYSIS
+
     fig = Figure((10, 10))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
@@ -104,5 +104,3 @@ if __name__ == '__main__':
         axes.text(0.1, 0.9, structure, fontsize=12)
         matplotlib_support.set_axes_background(axes)
     fig.savefig(str(plot_path))
-
-    morphological.write_morpho_csv(original_data, morpho_classification)

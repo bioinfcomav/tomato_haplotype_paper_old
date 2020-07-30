@@ -71,9 +71,8 @@ if __name__ == '__main__':
                                               haplo_classification=haplo_classification,
                                               num_wins_to_process=num_wins_to_process)
 
-    out_dir = config.FIGURES_DIR
 
-    plot_path = out_dir / f'fig7.svg'
+    plot_path = config.FIG_HSL_SHARED_HAPLOS
     fig = Figure((10, 7))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes = fig.add_subplot(111)

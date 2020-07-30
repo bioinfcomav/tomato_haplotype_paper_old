@@ -98,6 +98,7 @@ def write_introgression_pathways_result(results, genes, fhand):
             if introgression_freq > 0:
                 fhand.write(f'\t{gene["gene_id"]}\t {function}\tintrogression_freq: {introgression_freq}\n')
 
+
 if __name__ == '__main__':
     vars_path = config.WORKING_H5
     variations = VariationsH5(str(vars_path), 'r')
@@ -139,7 +140,6 @@ if __name__ == '__main__':
         samples_in_founder_pop = pops_rank1[founder_pop]
         samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
 
-
         introgession_config = {'samples_in_pop_with_introgressions': samples_in_pop_with_possible_introgressions,
                                'samples_in_founder_pop': samples_in_founder_pop,
                                'samples_in_introgression_source_pop': samples_in_introgression_source_pop,
@@ -150,5 +150,5 @@ if __name__ == '__main__':
 
         res = characterize_introgressions_per_pathways(variations, introgression_freqs, pathways, method, genes)
 
-        path = out_dir / f'pathways_with_introgressions_for_{target_pop}.txt'
+        path = out_dir / f'suppl_report_pathways_with_introgressions_for_{target_pop}.txt'
         write_introgression_pathways_result(res, genes, path.open('wt'))

@@ -12,8 +12,7 @@ import matplotlib_support
 if __name__ == '__main__':
     original_data = morphological.read_morphological_data()
 
-    out_dir = config.FIGURES_DIR
-    plot_path = out_dir / 'collecting_sources.svg'
+    plot_path = config.FIG_COLLECTING_SOURCES
 
     source_order = ['natural', 'natural_or_disturbed', 'disturbed',
                     'weed_or_semi-cultivated', 'semi-cultivated', 'semi-cultivated_or_cultivated',

@@ -64,17 +64,16 @@ if __name__ == '__main__':
                                   genetic_classes_to_ignore=genetic_classes_to_ignore,
                                   morpho_classes_to_ignore=[None, ''])
 
-    out_dir = config.FIGURES_DIR
-    plot_path = out_dir / 'fig_supp1.genetic_vs_morphological_classifications.svg'
+    plot_path = config.FIG_MORPHOLOGICAL_VS_MOLECULAR_CLASSIFICATION
 
     fig = Figure((10, 10))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
     axes = fig.add_subplot(111)
 
     #print(Counter(zip(res['genetic_classification'], res['morpho_classification'])))
-    classes1_order = ['SP PE', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC CO',
+    classes1_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC CO',
                       'SLC MA', 'SLC PE', 'SLC world', 'SLL MX']
-    classes2_order = ['SP PE', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC MA',
+    classes2_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC MA',
                       'SLC PE', 'SLL']
 
     plot.plot_table_classification_comparison(res['genetic_classification'],
