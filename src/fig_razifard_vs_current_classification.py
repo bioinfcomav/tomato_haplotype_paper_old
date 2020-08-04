@@ -45,6 +45,7 @@ if __name__ == '__main__':
     plot.plot_table_classification_comparison(classifications['razifard_classification'],
                                               classifications['rank1_classification'],
                                               axes=axes)
-
+    axes.set_xlabel('Razifard et al. classification', fontsize=12)
+    axes.set_ylabel('Current study classification', fontsize=12)
     fig.tight_layout()
     fig.savefig(plot_path)
