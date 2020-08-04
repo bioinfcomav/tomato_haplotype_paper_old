@@ -151,7 +151,7 @@ if __name__ == '__main__':
     allele_freq.plot_allele_freqs_bars(freqs, axes3, pop_order=pop_order,
                                        color_schema=color_schema)
 
-    gene = edh1_mut = {'common_name': 'edh1_mut',
+    gene = {'common_name': 'edh1_mut',
                 'chrom': 'SL4.0ch09',
                 'start': 63111577,
                 'end': 63111579,
@@ -182,8 +182,8 @@ if __name__ == '__main__':
     axes4.set_ylabel('Haplo. freq.')
 
     axes1.set_title('Random region', fontsize=10)
-    axes2.set_title('Gene with most introgressions in SLC Ec', fontsize=10)
-    axes3.set_title('Gene with most introgressions in SLC Pe', fontsize=10)
+    axes2.set_title(f'Gene with most introgressions in SLC Ec ({most_introgressed_ec_gene_id})', fontsize=10)
+    axes3.set_title(f'Gene with most introgressions in SLC Pe ({most_introgressed_pe_gene_id})', fontsize=10)
     axes4.set_title('Solyc09g075080 (EDH1)', fontsize=10)
 
     print('TODO'*100)
