@@ -155,7 +155,7 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     axes4 = fig.add_subplot(224)
     res = _plot_diversities(haplo_diversities['num_uniq_haplos'], pops, axes4, color_schema=color_schema)
     matplotlib_support.set_y_ticks_right(axes4)
-    axes4.set_ylabel('Mean num. unique haplotypes', fontsize=Y_LABEL_SIZE)
+    axes4.set_ylabel('Mean num. different haplotypes', fontsize=Y_LABEL_SIZE)
     axes4.set_xticklabels([labels.get_long_label(pop) for pop in pops], rotation=45, ha='right', fontsize=X_TICK_LABEL_SIZE)
     axes4.set_xticks(x_values)
 
