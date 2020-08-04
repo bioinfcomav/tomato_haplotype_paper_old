@@ -139,22 +139,37 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, sample_passports)
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
 
-    plot_path = config.FIG_ACC_PCA
+    plot_path = config.FIG_ACC_PCA_HIERALCHICAL
 
-    fig = Figure((10, 10))
+    fig = Figure((10, 30))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
-    axes_row_heights = [0.1, 1]
 
-    axes1 = matplotlib_support.add_axes(fig, row_idx=1, axes_row_heights=axes_row_heights)
-    criteria = {'criteria': [], 'samples_to_remove': [],
-                'samples_to_keep': []}
-    res = plot_samples_pca(axes1, variations, criteria, passports=sample_passports,
-                           color_schema=color_schema,
-                           alpha=alpha, marker_size=marker_size)
-    matplotlib_support.set_axes_background(axes1, 'white')
+    ['sp_montane', 'sll_vint', 'slc_world', None, 'slc_co', 'sll_mx', 'slc_ec', 'sp_ec', 'sll_modern',
+    'sp_x_sp', 'sp_x_sl', 'slc_ma', 'slc_pe', 'sp_pe']
+
+    popss = [['sp_pe', 'sp_montane', 'sp_ec', 'sp_x_sp'],
+             ['slc_co', 'slc_pe', 'slc_ec', 'slc_ma'],
+             ['sll_mx', 'slc_world', 'slc_ma'],
+             ['sll_modern', 'sll_vint','sll_mx']]
+
+    axes_row_heights = [0.1] + [1 / len(popss)] * len(popss)
+
+    uniq_pops = None
+    for pops_idx, pops in enumerate(popss):
+        axes = matplotlib_support.add_axes(fig, row_idx=pops_idx + 1, axes_row_heights=axes_row_heights)
+        criteria = {'criteria': [((config.RANK1, pops, config.KEEP))], 'samples_to_remove': [],
+                    'samples_to_keep': []}
+        res = plot_samples_pca(axes, variations, criteria, passports=sample_passports,
+                            color_schema=color_schema,
+                            alpha=alpha, marker_size=marker_size)
+        matplotlib_support.set_axes_background(axes, 'white')
+        if uniq_pops is None:
+            uniq_pops = set(res['uniq_pops'])
+        else:
+            uniq_pops.update(res['uniq_pops'])
 
     axes0 = matplotlib_support.add_axes(fig, row_idx=0, axes_row_heights=axes_row_heights)
-    pops = [(labels.LABELS[pop], color_schema[pop]) for pop in res['uniq_pops']]
+    pops = [(labels.LABELS[pop], color_schema[pop]) for pop in uniq_pops]
     pops = sorted(pops, key=lambda x: x[0])
     pop_labels, pop_colors = zip(*pops)
     matplotlib_support.plot_legend(pop_labels, pop_colors, axes0,
@@ -164,5 +179,6 @@ if __name__ == '__main__':
     matplotlib_support.set_axes_background(axes0, 'white')
     axes0.spines['left'].set_color('white')
     axes0.spines['bottom'].set_color('white')
+
 
     fig.savefig(plot_path)
