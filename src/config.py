@@ -218,6 +218,7 @@ ECOSYSTEM_DATA = SOURCE_DATA_DIR / 'ecosystem_data.csv'
 
 TABLE_MAPPING_STATS = FIGURES_DIR / 'suppl_table_1_mapping_stats.csv'
 TABLE_PASSPORT_AND_MORPHOLOGICAL_DATA = FIGURES_DIR / 'suppl_table_2_passport_and_morphological_data.csv'
+TABLE_GENES_WITH_MANY_INTROGRESSIONS = FIGURES_DIR / 'suppl_table_3_genes_with_many_introgressions.csv'
 
 FIG_HAPLO_PCA = FIGURES_DIR / 'fig_1_haplo_pca.svg'
 FIG_ACC_PCA = FIGURES_DIR / 'fig_2_acc_pca.svg'

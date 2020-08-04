@@ -41,7 +41,7 @@ class Genes:
             if line.startswith('#'):
                 continue
 
-            items = line.split()
+            items = line.split('\t')
             if items[2] != 'mRNA':
                 continue
             annotation = dict(item.split('=') for item in items[8].split(';'))

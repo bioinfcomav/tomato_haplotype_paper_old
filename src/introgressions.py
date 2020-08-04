@@ -4,7 +4,7 @@ import config
 import numpy
 import pandas
 
-from variation import GT_FIELD, MISSING_INT
+from variation import GT_FIELD, MISSING_INT, POS_FIELD
 from variation.variations import VariationsH5
 from variation.variations.filters import SampleFilter, FLT_VARS
 from variation.matrix.stats import counts_by_row
@@ -71,7 +71,6 @@ def calc_introgession_freq_for_vars(variations, introgession_config, return_coun
     '''It assumes that target_pop was originated out from a founder_pop and
     that the introgression_source_pop is known
     '''
-
     samples_in_pop_with_introgressions = introgession_config['samples_in_pop_with_introgressions']
     samples_in_founder_pop = introgession_config['samples_in_founder_pop']
     samples_in_introgression_source_pop = introgession_config['samples_in_introgression_source_pop']
@@ -88,6 +87,8 @@ def calc_introgession_freq_for_vars(variations, introgession_config, return_coun
     allele_could_be_introgressed = numpy.logical_and(allele_is_not_present_in_founder_pop,
                                                      allele_is_common_in_introgression_origin_pop)
 
+    allele_does_not_originate_from_introgression = numpy.logical_not(allele_could_be_introgressed)
+
     samples_in_pop_to_check = samples_in_pop_with_introgressions
     sample_flt = SampleFilter(samples_in_pop_to_check)
     vars_for_pop_to_check = sample_flt(variations)[FLT_VARS]
@@ -97,7 +98,6 @@ def calc_introgession_freq_for_vars(variations, introgession_config, return_coun
     if return_counts:
         allele_freqs *= res['max']
 
-    allele_does_not_originate_from_introgression = numpy.logical_not(allele_could_be_introgressed)
     allele_freqs[allele_does_not_originate_from_introgression] = 0
     introgression_freq_per_var = numpy.sum(allele_freqs, axis=1)
 

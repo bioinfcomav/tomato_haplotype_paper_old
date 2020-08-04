@@ -1,5 +1,6 @@
 
 
+from collections import defaultdict
 import config
 
 import requests
@@ -8,6 +9,7 @@ import pickle, gzip, hashlib
 from pprint import pprint
 
 from blast import get_cdna_ids_by_blasting
+from config import CACHE_DIR
 
 
 def get_pathway_info(path_id, organism, cache_dir=None):
@@ -145,11 +147,49 @@ def get_genes(kegg_gene_ids, cache_dir=None):
     return genes
 
 
+class KeggGenes:
+    def __init__(self, cache_dir=None):
+        self._cache_dir = cache_dir
+        pathways = get_pathways(add_solgenomic_ids=True, cache_dir=cache_dir)
+        genes = pathways['genes']
+        self._genes = get_genes(genes, cache_dir=cache_dir)
+
+        self._genes_by_solcap_id = {}
+        self._update_genes_by_solcap_id()
+
+        self._pathways = get_pathways(organism='sly', add_solgenomic_ids=True, cache_dir=cache_dir)
+
+        pathways_by_gene_id = defaultdict(list)
+        for pathway_id, pathway in self._pathways['pathways'].items():
+            for gene_id in pathway['info']['genes'].keys():
+                 pathways_by_gene_id[gene_id].append(pathway_id)
+        self._pathways_by_gene_id = pathways_by_gene_id
+
+
+    def _update_genes_by_solcap_id(self):
+        genes_by_solcap_id = self._genes_by_solcap_id
+        for gene in self._genes:
+            solgenomic_id =  gene.get('solgenomic_id')
+            if solgenomic_id:
+                genes_by_solcap_id[solgenomic_id] = gene['kegg_gene_id']
+
+    def get_kegg_gene_id_for_solcap_id(self, solcap_id):
+        return self._genes_by_solcap_id[solcap_id]
+
+    def get_patways_for_solcap_id(self, solcap_id):
+        kegg_id = self.get_kegg_gene_id_for_solcap_id(solcap_id)
+        pathways = [self._pathways['pathways'][pathway_id] for pathway_id in self._pathways_by_gene_id[kegg_id]]
+        return pathways
+
+
+
 if __name__ == '__main__':
     #pathways = get_pathway_info('path:sly00510')
     pathways = get_pathways(add_solgenomic_ids=True, cache_dir=config.CACHE_DIR)
     genes = pathways['genes']
 
-    get_genes(genes, cache_dir=config.CACHE_DIR)
+    genes = get_genes(genes, cache_dir=config.CACHE_DIR)
 
-    #pprint(pathways['pathways'])
+    kegg_genes = KeggGenes(cache_dir=config.CACHE_DIR)
+    kegg_id = kegg_genes.get_patways_for_solcap_id('Solyc02g089160')
+
