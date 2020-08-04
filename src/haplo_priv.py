@@ -102,9 +102,10 @@ def plot_shared_and_priv_haplo_counts(counts, axes, sorted_pop_names=None, haplo
 
     axes.set_xlim((x_pos_edges[0], x_pos_edges[-1]))
     axes.set_ylim((0, accumulated_haplo_counts))
-    axes.set_ylabel('Num. haplotypes', fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)
+    axes.set_ylabel('Haplotypes', fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)
 
-    matplotlib_support.set_x_ticks(pops_x_pos, sorted_pop_names, axes, rotation=45, fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)
+    x_labels = [labels.LABELS[pop] for pop in sorted_pop_names]
+    matplotlib_support.set_x_ticks(pops_x_pos, x_labels, axes, rotation=45, fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)
     return {'haplo_classes': haplo_classes}
 
 
