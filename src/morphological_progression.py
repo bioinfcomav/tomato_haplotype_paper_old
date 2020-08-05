@@ -63,6 +63,59 @@ def plot_morphological_progression(morpho_data, morpho_classification, axes,
     matplotlib_support.set_x_ticks(x_values, sorted_morpho_classes, axes, rotation=45)
 
 
+def plot_morphological_progression(morpho_data, classes_for_accessions, axes,
+                                   sorted_classes=None, traits=None,
+                                   normalize=True,
+                                   background_colors=None,
+                                   bar_alpha=1):
+
+    if sorted_classes is None:
+        sorted_classes = sorted({klass for klass in classes_for_accessions.values()}, key=str)
+
+    accs_by_morpho_class = defaultdict(list)
+    for acc, morpho_class in classes_for_accessions.items():
+        accs_by_morpho_class[morpho_class].append(acc)
+
+    means_per_morpho_class = {}
+    for morpho_class, accs in accs_by_morpho_class.items():
+        common_accs = set(accs).intersection(morpho_data.index)
+        morpho_data_for_this_morpho_class = morpho_data.reindex(common_accs)
+        means = morpho_data_for_this_morpho_class.mean()
+        for trait, mean in means.to_dict().items():
+            if trait not in means_per_morpho_class:
+                means_per_morpho_class[trait] = {}
+            means_per_morpho_class[trait][morpho_class] = mean
+
+    if traits is None:
+        traits = list(means_per_morpho_class.keys())
+
+    edge_poss = numpy.arange(len(sorted_classes) + 1)
+    x_values = (edge_poss[:-1] + edge_poss[1:]) / 2
+
+    for trait in traits:
+        y_values = numpy.array([means_per_morpho_class[trait][morpho_class] for morpho_class in sorted_classes])
+        y_values[numpy.isnan(y_values)] = 0
+        if normalize:
+            y_values = numpy.array(y_values)
+            min_ = numpy.min(y_values)
+            max_ = numpy.max(y_values)
+            y_values = (y_values -min_) / (max_ - min_)
+
+        axes.plot(x_values, y_values, label=trait, zorder=10)
+
+    if background_colors:
+        y_lims = axes.get_ylim()
+        height = y_lims[1], y_lims[0]
+        width = edge_poss[1] - edge_poss[0]
+        bottom = y_lims[0]
+        for morpho_class, x0 in zip(sorted_classes, edge_poss[:-1]):
+            color = background_colors[morpho_class]
+            axes.bar([x0], height, width=width, bottom=bottom, align='edge', zorder=1, color=color, alpha=bar_alpha)
+        axes.set_xlim((edge_poss[0], edge_poss[-1]))
+
+    matplotlib_support.set_x_ticks(x_values, sorted_classes, axes, rotation=45)
+
+
 if __name__ == '__main__':
     #original_data = morphological.read_morphological_data()
     data = morphological.get_morphological_table_for_ordinal_traits()

@@ -5,6 +5,7 @@ import pandas
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from labels import LABELS
 
 import morphological
 import passport
@@ -52,6 +53,10 @@ def compare_classifications(passports, morpho_classification, genetic_rank,
 
 
 if __name__ == '__main__':
+
+    sample_passports = passport.get_sample_passports()
+    pops = pop_building.get_pops({config.RANK1: config.ALL_POPS}, sample_passports)
+
     original_data = morphological.read_morphological_data()
     data = morphological.get_morphological_table_for_ordinal_traits()
     data.columns = [morphological.TRAIT_ABREVIATIONS[trait] for trait in data.columns]
@@ -110,6 +115,8 @@ if __name__ == '__main__':
 
     morpho_classes = ['sp_pe', 'sp_montane', 'sp_ec',
                       'slc_ec', 'slc_small', 'slc_big', 'sll']
+    morpho_classes = ['sp_pe', 'sp_ec',
+                      'slc_ec', 'slc_ma', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
     morpho_classes = [labels.LABELS[klass] for klass in morpho_classes]
     background_colors = {klass: colors.modify_color(color_schema[klass], saturation_mod=-0.1, luminosity_mod=0.15) for klass in morpho_classes}
 
@@ -134,10 +141,27 @@ if __name__ == '__main__':
         axes = matplotlib_support.add_axes(fig, row_idx=row_idx, col_idx=col_idx,
                                            top_margin=top_margin, left_margin=left_margin, bottom_margin=bottom_margin,
                                            axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.22, 0.29])
-        morphological_progression.plot_morphological_progression(data, morpho_classification, axes, sorted_morpho_classes=morpho_classes,
-                                                                traits=traits,
-                                                                background_colors=background_colors,
-                                                                bar_alpha=0.4)
+        if True:
+            pop_order = ['sp_pe', 'sp_ec', 'slc_ec', 'slc_pe_s', 'slc_ma', 'slc_pe_n', 'sll_mx']
+            #['sll_vint', 'slc_co', 'slc_world', , None, , , 'sp_x_sp', , , , 'sp_x_sl', , , 'sll_modern']
+            classes_for_accessions = {sample: labels.LABELS[pop] for pop, samples in pops.items() for sample in samples if pop in pop_order}
+            morpho_accs = set(data.index)
+            genet_accs = set(classes_for_accessions.keys())
+            common_accs = morpho_accs.intersection(genet_accs)
+            data = data.reindex(common_accs)
+
+            pop_order = [labels.LABELS[pop] for pop in pop_order]
+            morphological_progression.plot_morphological_progression(data, classes_for_accessions, axes,
+                                                                    sorted_classes=pop_order,
+                                                                    traits=traits,
+                                                                    background_colors=background_colors,
+                                                                    bar_alpha=0.4)
+        else:
+            morphological_progression.plot_morphological_progression(data, morpho_classification, axes,
+                                                                    sorted_classes=morpho_classes,
+                                                                    traits=traits,
+                                                                    background_colors=background_colors,
+                                                                    bar_alpha=0.4)
         if row_idx == 1:
             matplotlib_support.turn_off_x_axis(axes)
         if col_idx == 1:
