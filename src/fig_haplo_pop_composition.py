@@ -54,6 +54,7 @@ def plot_haplo_pop_pcas(fig, pcas_col_width, haplo_pop_pca_locations,
     axes_col_widths = [pca_col_width] * num_pca_cols + [1 - pcas_col_width]
     axes_row_heights = [common_top_margin] + [pca_row_height] * num_pca_rows
 
+    legend_axes = None
     for pop, (row_idx, col_idx) in haplo_pop_pca_locations.items():
         axes = matplotlib_support.add_axes(fig, row_idx=row_idx + 1, col_idx=col_idx,
                                             left_margin=0, right_margin=0,
@@ -71,18 +72,23 @@ def plot_haplo_pop_pcas(fig, pcas_col_width, haplo_pop_pca_locations,
                   labels.LABELS[pop],
                   verticalalignment='center', rotation='vertical',
                   fontsize=20)
+        if pop == 'sll_mx':
+            legend_axes = axes
 
-    axes = matplotlib_support.add_axes(fig, row_idx=legend_pos[0] + 1, col_idx=legend_pos[1],
-                                        left_margin=0, right_margin=0,
-                                        top_margin=0, bottom_margin=0,
-                                        axes_col_widths=axes_col_widths,
-                                        axes_row_heights=axes_row_heights)
+    if False:
+        axes_row_heights = [common_top_margin] + [pca_row_height] * num_pca_rows * 3
+        axes = matplotlib_support.add_axes(fig, row_idx=3, col_idx=legend_pos[1],
+                                            left_margin=0, right_margin=0,
+                                            top_margin=0, bottom_margin=0,
+                                            axes_col_widths=axes_col_widths,
+                                            axes_row_heights=axes_row_heights)
     legend_info = [(labels.HAPLO_LABELS[haplo_class], colors.HAPLO_COLORS[haplo_class]) for haplo_class in res['uniq_haplo_classes']]
     legend_info = sorted(legend_info, key=lambda x: x[0])
     labels_, colors_ = zip(*legend_info)
-    matplotlib_support.plot_legend(labels_, colors_, axes)
-    matplotlib_support.set_axes_background(axes)
-    matplotlib_support.turn_off_both_axis(axes)
+    matplotlib_support.plot_legend(labels_, colors_, legend_axes, location='lower center')
+    if False:
+        matplotlib_support.set_axes_background(axes)
+        matplotlib_support.turn_off_both_axis(axes)
 
 
 def plot_hbar_admixtures(admixtures_per_pop, axes,
@@ -176,9 +182,9 @@ if __name__ == '__main__':
     fig = Figure((20, 15))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
-    haplo_pop_pca_locations = {'slc_ma': (0, 0), 'sll_mx': (0, 2),
-                               'sp_ec': (1, 0), 'slc_ec': (1, 1), 'sll_vint': (1, 2),
-                               'sp_pe': (2, 0), 'slc_pe': (2, 1), 'sll_modern': (2, 2)}
+    haplo_pop_pca_locations = {'slc_ma': (0, 0), 'slc_ec': (0, 1), 'sll_mx': (0, 2),
+                               'sp_ec': (1, 0), 'slc_pe_n': (1, 1), 'sll_vint': (1, 2),
+                               'sp_pe': (2, 0), 'slc_pe_s': (2, 1), 'sll_modern': (2, 2)}
 
     fontsize = 25
     matplotlib_support.write_text_in_figure('Wild', 0.065, 0.95, fig, fontsize=fontsize)
@@ -211,6 +217,8 @@ if __name__ == '__main__':
                            'sp_x_sl',
                            None,
                            'slc_pe',
+                           'slc_pe_n',
+                           'slc_pe_s',
                            'slc_ec']
     structure_pop_order = list(map(labels.get_long_label, structure_pop_order))
     axes = matplotlib_support.add_axes(fig, row_idx=1, col_idx=3,

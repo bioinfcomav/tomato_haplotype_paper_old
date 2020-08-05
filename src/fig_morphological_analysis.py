@@ -62,8 +62,8 @@ if __name__ == '__main__':
                                                             'saturation_addition': -0.2}}])
     axes.legend()
 
-    morpho_classes = ['sp_pe', 'sp_pe_inter-andean', 'sp_ec',
-                      'slc_ec', 'slc_ma', 'slc_pe', 'sll']
+    morpho_classes = ['sp_pe', 'sp_montane', 'sp_ec',
+                      'slc_ec', 'slc_small', 'slc_big', 'sll']
     morpho_classes = [labels.LABELS[klass] for klass in morpho_classes]
     background_colors = {klass: colors.modify_color(color_schema[klass], saturation_mod=-0.1, luminosity_mod=0.15) for klass in morpho_classes}
 

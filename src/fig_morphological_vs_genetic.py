@@ -59,10 +59,12 @@ if __name__ == '__main__':
     morpho_classification = morphological.read_morphological_classification()
 
     genetic_classes_to_ignore = [None, 'sp_x_sl', 'sp_x_sp']
+    morpho_classes_to_ignore = [None, '']
+    genetic_classes_to_ignore = [None]
 
     res = compare_classifications(passports, morpho_classification, config.RANK1,
                                   genetic_classes_to_ignore=genetic_classes_to_ignore,
-                                  morpho_classes_to_ignore=[None, ''])
+                                  morpho_classes_to_ignore=morpho_classes_to_ignore)
 
     plot_path = config.FIG_MORPHOLOGICAL_VS_MOLECULAR_CLASSIFICATION
 
@@ -71,10 +73,10 @@ if __name__ == '__main__':
     axes = fig.add_subplot(111)
 
     #print(Counter(zip(res['genetic_classification'], res['morpho_classification'])))
-    classes1_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC CO',
-                      'SLC MA', 'SLC PE', 'SLC world', 'SLL MX']
-    classes2_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SLC EC', 'SLC MA',
-                      'SLC PE', 'SLL']
+    classes1_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SP x SP', 'SLC EC', 'SLC CO',
+                      'SLC MA', 'SLC PE', 'SLC world', 'SLL MX', 'SP x SL', 'SP-SL', 'Unclassified']
+    classes2_order = ['SP PE', 'SP Montane', 'SP PE Inter-Andean', 'SP EC', 'SP x SP', 'SLC EC', 'SLC MA',
+                      'SLC PE', 'SLC small', 'SLC big', 'SLL', 'SP x SL', 'SP-SL', 'Unclassified']
 
     plot.plot_table_classification_comparison(res['genetic_classification'],
                                               res['morpho_classification'],

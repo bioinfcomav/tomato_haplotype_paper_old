@@ -84,7 +84,9 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
 
                          'sll_mx': '#FF6347',
                          'slc_ec': '#ffc087',
-                         'slc_pe': '#ffabb1'
+                         'slc_pe': '#ffabb1',
+                         'slc_pe_n': '#ffabb1',
+                         'slc_pe_s': '#cdae29',
                          }
 
 CLASSIFICATION_RANK2_COLORS = {

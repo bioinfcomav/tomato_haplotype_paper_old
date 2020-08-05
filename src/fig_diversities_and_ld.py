@@ -135,7 +135,8 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
                            'sll_modern',
                            'sp_x_sl',
                            None,
-                           'slc_pe',
+                           'slc_pe_n',
+                           'slc_pe_s',
                            'slc_ec']
 
     color_schema = colors.ColorSchema(colors.CLASSIFICATION_RANK1_COLORS)

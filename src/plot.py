@@ -215,13 +215,13 @@ def plot_table_classification_comparison(classification_series1, classification_
     if classes1_order is None:
         key = str
     else:
-        key = lambda x: classes1_order.index(x)
+        key = lambda x: str(classes1_order.index(x)) if x in classes1_order else str(x)
     classes1 = sorted(set(key[0] for key in counts.keys()), key=key)
 
     if classes2_order is None:
         key = str
     else:
-        key = lambda x: classes2_order.index(x)
+        key = lambda x: str(classes2_order.index(x)) if x in classes1_order else str(x)
     classes2 = sorted(set(key[1] for key in counts.keys()), key=key)
 
     if axes is None:

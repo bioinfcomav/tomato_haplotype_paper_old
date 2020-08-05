@@ -36,7 +36,7 @@ if __name__ == '__main__':
     diversity_index = 'num_poly95'
 
     introgression_source_pop = 'sp_pe'
-    target_pop = 'slc_pe'
+    target_pop = 'slc_pe_n'
     label = pop_labels[introgression_source_pop] + ' → ' + pop_labels[target_pop]
     samples_in_pop_with_possible_introgressions = pops_rank1[target_pop]
     samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]

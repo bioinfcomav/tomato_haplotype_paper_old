@@ -148,8 +148,9 @@ if __name__ == '__main__':
     'sp_x_sp', 'sp_x_sl', 'slc_ma', 'slc_pe', 'sp_pe']
 
     popss = [['sp_pe', 'sp_montane', 'sp_ec', 'sp_x_sp'],
-             ['slc_co', 'slc_pe', 'slc_ec', 'slc_ma'],
-             ['sll_mx', 'slc_world', 'slc_ma'],
+             ['slc_co', 'slc_pe_n', 'slc_pe_s', 'slc_ec', 'slc_ma'],
+             ['slc_pe_n', 'slc_pe_s'],
+             ['sll_mx', 'slc_world', 'slc_ma', 'slc_pe_n'],
              ['sll_modern', 'sll_vint','sll_mx']]
 
     axes_row_heights = [0.1] + [1 / len(popss)] * len(popss)

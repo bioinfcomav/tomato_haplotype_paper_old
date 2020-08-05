@@ -34,8 +34,8 @@ def get_sample_selection_criteria():
     samples_to_remove = []
     samples_to_keep = []
 
-    if False:
-        criteria.append((rank1, ['sp_pe', 'sp_ec', 'sp_inter-andean'], keep))
+    if True:
+        criteria.append((rank1, ['slc_pe'], keep))
         #criteria.append((RANK2, ['slc_ecu_big'], REMOVE))
 
     return {'criteria': criteria, 'samples_to_remove': samples_to_remove,

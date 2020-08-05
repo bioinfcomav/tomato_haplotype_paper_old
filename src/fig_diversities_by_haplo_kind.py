@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
     passports = get_sample_passports()
 
-    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
     vintage_pops = ['sll_old_cultivars', 'sll_vint', 'slc_world']
     hybrid_pops = ['sll_modern', 'sp_x_sl']
     all_pops = main_pops + vintage_pops + hybrid_pops
@@ -142,13 +142,9 @@ if __name__ == '__main__':
                                                 cache_dir=cache_dir)
     haplo_classification = res['classification']
 
-    pop_haplo_type_combinations = [('sp_pe', 'sp_peru'), ('slc_pe', 'sp_peru'),
-                                   ('sp_ec', 'sp_ecu'), ('slc_ec', 'sp_ecu'),
-                                   ('slc_ma', 'sl'), ('slc_ec', 'sl'), ('slc_pe', 'sl'), ('sll_mx', 'sl'), ('sll_vint', 'sl')
-                                   ]
-    pop_haplo_type_combinations = [('sp_pe', 'sp_peru'), ('sp_ec', 'sp_peru'), ('slc_pe', 'sp_peru'),
+    pop_haplo_type_combinations = [('sp_pe', 'sp_peru'), ('sp_ec', 'sp_peru'), ('slc_pe_n', 'sp_peru'), ('slc_pe_s', 'sp_peru'),
                                    ('sp_pe', 'sp_ecu'), ('sp_ec', 'sp_ecu'), ('slc_ec', 'sp_ecu'),
-                                   ('slc_ma', 'sl'), ('slc_ec', 'sl'), ('slc_pe', 'sl'), ('sll_mx', 'sl'), ('sll_vint', 'sl')
+                                   ('slc_ma', 'sl'), ('slc_ec', 'sl'), ('slc_pe_n', 'sl'), ('slc_pe_s', 'sl'), ('sll_mx', 'sl'), ('sll_vint', 'sl')
                                    ]
 
 
