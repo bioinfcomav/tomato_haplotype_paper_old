@@ -229,6 +229,7 @@ def plot_likelihoods(out_dir):
 if __name__ == '__main__':
 
     difference_rate_allowed_for_haplo_block = 0.25
+    #difference_rate_allowed_for_haplo_block = 0.35
     max_maf = 0.95
     cache_dir = config.CACHE_DIR
 
@@ -241,7 +242,7 @@ if __name__ == '__main__':
     n_boostraps = 100
 
     if True:
-        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
         vintage_pops = ['sll_old_cultivars', 'sll_vint', 'slc_world']
         #hybrid_pops = ['sll_modern', 'sp_x_sl']
         all_pops = main_pops + vintage_pops #+ hybrid_pops
@@ -250,14 +251,7 @@ if __name__ == '__main__':
         num_migration_range = range(0, 5)
 
     if True:
-        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
-        all_pops = main_pops
-        out_fname = 'only_america'
-        out_group = 'sp_pe'
-        num_migration_range = range(0, 6)
-
-    if True:
-        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
         vintage_pops = ['sll_vint', 'slc_world']
         all_pops = main_pops + vintage_pops
         out_fname = 'america_and_vint'
@@ -265,7 +259,7 @@ if __name__ == '__main__':
         num_migration_range = range(0, 6)
 
     if True:
-        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
         vintage_pops = ['sll_vint', 'slc_world']
         hybrid_pops = ['sll_modern', 'sp_x_sl']
         all_pops = main_pops + vintage_pops + hybrid_pops
@@ -274,10 +268,17 @@ if __name__ == '__main__':
         num_migration_range = range(0, 6)
 
     if True:
-        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
         hybrid_pops = ['sp_x_sl']
         all_pops = main_pops + hybrid_pops
         out_fname = 'america_and_hyb'
+        out_group = 'sp_pe'
+        num_migration_range = range(0, 6)
+
+    if True:
+        main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
+        all_pops = main_pops
+        out_fname = 'only_america'
         out_group = 'sp_pe'
         num_migration_range = range(0, 6)
 

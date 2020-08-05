@@ -87,7 +87,7 @@ if __name__ == '__main__':
     samples_to_use = {sample for samples in pops.values() for sample in samples}
 
     pop_order = ['sp_pe', 'sp_montane', 'sp_x_sp', 'sp_ec',
-                 'slc_ec', 'slc_co', 'slc_ma', 'slc_pe', 'slc_world',
+                 'slc_ec', 'slc_co', 'slc_ma', 'slc_pe_n', 'slc_pe_s', 'slc_world',
                  'sll_mx', 'sll_vint', 'sll_modern',
                  'sp_x_sl', None]
     pop_order = [labels.LABELS[pop] for pop in pop_order]

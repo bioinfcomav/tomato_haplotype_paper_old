@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     pop_order = ['sp_pe', 'sp_montane', 'sp_ec',
                  'slc_co',
-                 'slc_ma', 'slc_ec', 'slc_pe', 'slc_world', 'sll_mx']
+                 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'slc_world', 'sll_mx']
 
     if True:
         res = allele_freq.calc_mean_haplo_allele_freqs(variations, ref_pops, pops, n_succesful_attempts=100)
@@ -107,14 +107,14 @@ if __name__ == '__main__':
     genes = genome.Genes()
 
     founder_pop = 'slc_ma'
-    if False:
-        target_pop = 'slc_pe'
-        introgression_source_pop = 'sp_pe'
+    if True:
+        target_pop = 'slc_pe_n'
+        introgression_source_pop = 'sp_pe_n'
         most_introgressed_pe_gene_id = get_gene_with_most_introgressions(founder_pop, target_pop, introgression_source_pop, pops)
     else:
         most_introgressed_pe_gene_id = 'Solyc07g061780'
 
-    if False:
+    if True:
         target_pop = 'slc_ec'
         introgression_source_pop = 'sp_ec'
         most_introgressed_ec_gene_id = get_gene_with_most_introgressions(founder_pop, target_pop, introgression_source_pop, pops)

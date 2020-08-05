@@ -116,7 +116,7 @@ if __name__ == '__main__':
     morpho_classes = ['sp_pe', 'sp_montane', 'sp_ec',
                       'slc_ec', 'slc_small', 'slc_big', 'sll']
     morpho_classes = ['sp_pe', 'sp_ec',
-                      'slc_ec', 'slc_ma', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
+                      'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
     morpho_classes = [labels.LABELS[klass] for klass in morpho_classes]
     background_colors = {klass: colors.modify_color(color_schema[klass], saturation_mod=-0.1, luminosity_mod=0.15) for klass in morpho_classes}
 
@@ -142,7 +142,7 @@ if __name__ == '__main__':
                                            top_margin=top_margin, left_margin=left_margin, bottom_margin=bottom_margin,
                                            axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.22, 0.29])
         if True:
-            pop_order = ['sp_pe', 'sp_ec', 'slc_ec', 'slc_pe_s', 'slc_ma', 'slc_pe_n', 'sll_mx']
+            pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_s', 'slc_pe_n', 'sll_mx']
             #['sll_vint', 'slc_co', 'slc_world', , None, , , 'sp_x_sp', , , , 'sp_x_sl', , , 'sll_modern']
             classes_for_accessions = {sample: labels.LABELS[pop] for pop, samples in pops.items() for sample in samples if pop in pop_order}
             morpho_accs = set(data.index)

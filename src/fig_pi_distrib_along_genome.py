@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     passports = passport.get_sample_passports()
 
-    pop_names = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+    pop_names = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
 
     pops_descriptions = {config.RANK1: pop_names}
     pops = pop_building.get_pops(pops_descriptions, passports)

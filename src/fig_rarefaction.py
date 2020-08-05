@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     passports = passport.get_sample_passports()
 
-    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'sll_mx']
+    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
     vintage_pops = ['sll_vint', 'slc_world']
     hybrid_pops = ['sll_modern', 'sp_x_sl', 'sp_x_sp']
     all_pops = main_pops + vintage_pops + hybrid_pops

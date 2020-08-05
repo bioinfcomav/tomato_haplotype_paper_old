@@ -20,7 +20,9 @@ if __name__ == '__main__':
 
     taxon_mapping = {('SLC', 'CRI'): ('SLC', 'MA'),
                      ('SLC', 'MEX'): ('SLC', 'MA')}
-    taxon_order = ('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'), ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'), ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX')
+    taxon_order = (('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'),
+                   ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'),
+                   ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX'))
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later

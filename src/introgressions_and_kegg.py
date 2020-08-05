@@ -120,7 +120,8 @@ if __name__ == '__main__':
 
     founder_pop = 'slc_ma'
 
-    target_and_introgression_source = [('slc_pe', config.RANK1, 'sp_pe'),
+    target_and_introgression_source = [('slc_pe_n', config.RANK1, 'sp_pe'),
+                                       ('slc_pe_s', config.RANK1, 'sp_pe'),
                                        ('slc_ec', config.RANK1, 'sp_ec'),
                                        #('slc_pe_n_400m', config.RANK2, 'sp_pe'),
                                        #('slc_pe_n_1000m', config.RANK2, 'sp_pe'),
