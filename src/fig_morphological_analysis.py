@@ -1,18 +1,54 @@
 
 import config
 
+import pandas
+
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-
-import cartopy.crs as ccrs
 
 import morphological
 import passport
 import labels
 import colors
 import matplotlib_support
-import plot_geo_map
+import plot
 import morphological_progression
+import pop_building
+
+
+def compare_classifications(passports, morpho_classification, genetic_rank,
+                            genetic_classes_to_ignore=None,
+                            morpho_classes_to_ignore=None):
+
+    if genetic_classes_to_ignore is None:
+        genetic_classes_to_ignore = []
+    if morpho_classes_to_ignore is None:
+        morpho_classes_to_ignore = []
+
+    genetic_classification = pop_building.get_classifications_for_classification_key_path(passports, genetic_rank)
+
+    common_accs = sorted(set(genetic_classification.keys()).intersection(morpho_classification))
+
+    common_morpho_classification = []
+    common_genetic_classification = []
+    final_accs = []
+    for acc in common_accs:
+        genetic_class = genetic_classification[acc]
+        morpho_class = morpho_classification[acc]
+
+        if genetic_class in genetic_classes_to_ignore:
+            continue
+        if morpho_class in morpho_classes_to_ignore:
+            continue
+
+        common_genetic_classification.append(labels.LABELS[genetic_class])
+        common_morpho_classification.append(labels.LABELS.get(morpho_class, morpho_class))
+        final_accs.append(acc)
+
+    common_genetic_classification = pandas.Series(common_genetic_classification, index=final_accs)
+    common_morpho_classification = pandas.Series(common_morpho_classification, index=final_accs)
+    return {'genetic_classification': common_genetic_classification,
+            'morpho_classification': common_morpho_classification}
 
 
 if __name__ == '__main__':
@@ -46,21 +82,31 @@ if __name__ == '__main__':
 
     axes = matplotlib_support.add_axes(fig, row_idx=0, col_idx=1,
                                        axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.5],
-                                       right_margin=0, left_margin=0, bottom_margin=0.05,
-                                       projection=ccrs.PlateCarree())
+                                       left_margin=0.20, bottom_margin=0.25)
 
-    passports = {acc: {'longitude': data.get('location', {}).get('longitude'), 'latitude': data.get('location', {}).get('latitude')} for acc, data in original_data.items()}
-    plot_geo_map.plot_geo_map(passports, axes=axes,
-                              classifications=morpho_classification,
-                              color_schema=color_schema,
-                              plot_sample_ids=False, longitude_range=(-116, -60),
-                              images=[{'ignore': False,
-                                       'path': config.NE_BACKGROUND_CUT_PNG,
-                                       'extent': (-111.5, -65.0, -19.5, 30),
-                                       'zorder': 1,
-                                       'hsv_modification': {'luminosity_addition': 0.2,
-                                                            'saturation_addition': -0.2}}])
-    axes.legend()
+    genetic_classes_to_ignore = [None, 'sp_x_sl', 'slc_co']
+    morpho_classes_to_ignore = [None, '', 'Unclassified']
+    #genetic_classes_to_ignore = [None]
+
+    res = compare_classifications(passports, morpho_classification, config.RANK1,
+                                  genetic_classes_to_ignore=genetic_classes_to_ignore,
+                                  morpho_classes_to_ignore=morpho_classes_to_ignore)
+
+    # genetic
+    classes1_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SP x SP', 'SLC Ec', 'SLC Co',
+                      'SLC MA', 'SLC Pe N', 'SLC Pe S', 'SLC world', 'SLL MX', 'SP x SL', 'SP-SL', 'Unclassified']
+
+    classes2_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SLC Ec',
+                      'SLC small', 'SLC big', 'SLL', 'SP x SL', 'SP-SL', 'Unclassified']
+
+    plot.plot_table_classification_comparison(res['genetic_classification'],
+                                              res['morpho_classification'],
+                                              axes=axes,
+                                              x_label='genetic',
+                                              y_label='morphological',
+                                              size_multiplier=10,
+                                              classes1_order=classes1_order,
+                                              classes2_order=classes2_order)
 
     morpho_classes = ['sp_pe', 'sp_montane', 'sp_ec',
                       'slc_ec', 'slc_small', 'slc_big', 'sll']

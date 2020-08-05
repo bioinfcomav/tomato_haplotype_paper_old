@@ -52,6 +52,9 @@ LABELS = [
 
           ('slc_small', 'SLC small'),
           ('slc_big', 'SLC big'),
+          ('SLC small', 'SLC small'),
+          ('SLC big', 'SLC big'),
+          ('SP Montane', 'SP Montane'),
 
           (None, 'Unclassified'),
           ('None', 'Unclassified'),
