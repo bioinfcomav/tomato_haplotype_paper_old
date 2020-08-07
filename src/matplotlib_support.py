@@ -24,11 +24,16 @@ def turn_off_both_axis(axes):
                      )
 
 def turn_off_x_axis(axes):
-    axes.tick_params(axis='x', which='both', bottom=True, top=False, labelbottom=False)
+    axes.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 
 
 def turn_off_y_axis(axes):
     axes.tick_params(axis='y', which='both', right=False, left=False, labelleft=False)
+
+
+def turn_off_both_axis(axes):
+    turn_off_x_axis(axes)
+    turn_off_y_axis(axes)
 
 
 def set_y_ticks_right(axes):
@@ -40,7 +45,7 @@ def set_y_ticks_right(axes):
 def set_axis_color(axes, color='black'):
     for child in axes.get_children():
         if isinstance(child, matplotlib.spines.Spine):
-            child.set_color('#dddddd')
+            child.set_color(color)
 
 
 def set_axes_background(axes, color='white',
@@ -72,6 +77,7 @@ def plot_legend(labels, colors, axes, fontize=fig_style.LEGEND_FONT_SIZE,
     legend = axes.legend(handles=legend_elements, prop={'size': fontize},
                          ncol=ncol, loc=location)
     set_legend_background(legend)
+
 
 def set_y_ticks(tick_poss, tick_labels, axes, rotation=0, va='center', fontsize=10):
     axes.set_yticklabels(tick_labels, rotation=rotation, va=va, fontsize=fontsize)

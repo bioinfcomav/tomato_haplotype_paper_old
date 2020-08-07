@@ -72,18 +72,21 @@ TRAIT_TYPES = {'leaf_type': {1: 'Pimpinellifolium', 2: 'intermediate', 3: 'stand
                'leaflet_margin': {1: 'entire', 2: 'lobulate', 3: 'serrate', 4: 'very serrated'},
                'stem_hairiness': {1: 'none', 2: 'intermidiate', 3: 'high'},
                'inflorescence': {1: 'very long', 2: 'long', 3: 'intermediate', 4: 'short', 5: 'irregular'},
+               'inflorescence_ordinal' : {4: 'very long', 3: 'long', 2: 'intermediate', 1: 'short'},
                'petal_position': {1: 'folded back', 2: 'between back and medium', 3: 'medium', 4: 'none'},
                'style_exsertion': {1: 'high', 2: 'medium', 3: 'same level', 4: 'inserted'},
                'style_curvature': {1: 'yes', 2: 'no'},
                'petal_width': {1: 'wide', 2: 'medium', 3: 'thin'},
-               'fruit_size': {1: 'sp small', 2: 'sp medium', 3: 'sp big', 4: 'slc', 5: 'bigger'},
+               'fruit_size': {1: 'sp small', 2: 'sp medium', 3: 'sp big', 4: 'slc', 5: 'bigger', 6: 'big', 7: 'biggest'},
                'fruit_shape': {1: 'round', 2: 'peanut', 3: 'slightly flattened', 4: 'flattened', 5: 'long'},
+               'fruit_elongation': {1: 'round', 2: 'slightly flattened', 3: 'flattened', 4: 'long'},
                'stripy_fruit': {1: 'yes', 2: 'no'},
                'stem_width': {1: 'thin', 2: 'medium', 3: 'wide'},
                'ribbing': {1: 'none', 2: 'slight', 3: 'moderate', 4: 'strong'},
                'presence_of_irregular_inflorescence': {0: 'not present', 1: 'present'},
                'peanut_fruit_shape': {0: 'not present', 1: 'present'}
               }
+
 
 ORDINAL_TRAITS = ['leaf_type', 'leaflet_margin', 'stem_hairiness', 'inflorescence_ordinal', 'petal_position',
                   'style_exsertion', 'style_curvature', 'petal_width', 'fruit_size', 'fruit_elongation',
@@ -99,7 +102,7 @@ TRAIT_ABREVIATIONS = {'leaf_type': 'Leaf type',
                       'style_curvature': 'Style Curv',
                       'petal_width': 'Petal width',
                       'fruit_size': 'Fruit Size',
-                      'fruit_elongation': 'Fruit E',
+                      'fruit_elongation': 'Fruit Elon',
                       'stripy_fruit': 'F stripes',
                       'stem_width': 'Stem width',
                       'ribbing': 'Rib',
@@ -268,18 +271,18 @@ def read_morphological_data():
                         chracterization['presence_of_irregular_inflorescence'] = 0
                 if trait == 'fruit_shape':
                     if value in (1, 2):
-                        ordinal_value = 1
                         if value == 2:
                             chracterization['peanut_fruit_shape'] = 1
                         else:
                             chracterization['peanut_fruit_shape'] = 0
+                        value = 1
                     elif value is None:
                         value = None
                         chracterization['peanut_fruit_shape'] = None
                     else:
                         value = value - 1
                         chracterization['peanut_fruit_shape'] = 0
-                    chracterization['fruit_elongation'] = ordinal_value
+                    chracterization['fruit_elongation'] = value
             acc['characterization'] = chracterization
             accs[acc_id] = acc
     return accs
@@ -396,15 +399,19 @@ def plot_morphological_pca(pca_result, axes, classification, color_schema=None,
         pops[klass].append(sample)
 
     projections = pca_result['projections']
+    artists = []
+    labels = []
     for pop, samples in pops.items():
         samples_in_projections = set(samples).intersection(projections.index)
         this_pop_projections = projections.reindex(samples_in_projections)
 
         color = None if color_schema is None else color_schema[pop]
     
-        axes.scatter(this_pop_projections.values[:, 0],
-                     this_pop_projections.values[:, 1], label=pop,
-                     color=color)
+        artist = axes.scatter(this_pop_projections.values[:, 0],
+                              this_pop_projections.values[:, 1], label=pop,
+                              color=color)
+        artists.append(artist)
+        labels.append(pop)
 
     if 'var_percentages' in pca_result:
         axes.set_xlabel(f'Dim. 1 ({pca_result["var_percentages"][0]:.1f} %)')
@@ -431,6 +438,7 @@ def plot_morphological_pca(pca_result, axes, classification, color_schema=None,
             color = '#aaaaaa'
             axes.arrow(0, 0, x_pos, y_pos, color=color, width=arrow_width)
             axes.text(x_pos, y_pos, trait)
+    return {'labels': labels, 'artists': artists}
 
 
 def do_collecting_source_stats(morphological_data, remove_unknown_sources=True, calc_freqs=True, taxon_mapping=None):
@@ -485,6 +493,47 @@ def plot_collecting_sources(morphological_data, axes, color_schema, source_order
     axes.set_ylabel('Freq.')
 
 
+def _to_int(value):
+    if math.isnan(value) or value is None:
+        return None
+    else:
+        return int(value)
+
+
+def calc_ordinal_character_counts_per_acc_type(pops):
+
+    morpho_data = get_morphological_table_for_ordinal_traits()
+    morpho_data.columns = [TRAIT_ABREVIATIONS[trait] for trait in morpho_data.columns]
+
+    accs_in_morpho_data = set(morpho_data.index)
+    common_accs = {}
+    for pop, accs in pops.items():
+        common_accs[pop] = accs_in_morpho_data.intersection(accs)
+
+    counts = {}
+    for character, character_data in morpho_data.iteritems():
+        counts[character] = {}
+        for pop, accs in common_accs.items():
+            this_pop_character_data = character_data.reindex(accs)
+            counts[character][pop] = Counter([_to_int(value) for value in this_pop_character_data])
+
+    return counts
+
+
+def get_trait_labels():
+    trait_labels = {}
+    for trait, trait_forms in TRAIT_TYPES.items():
+        trait_abreviation = TRAIT_ABREVIATIONS.get(trait, trait)
+
+        if trait in TRAITS_TO_REVERSE_SCALE:
+            trait_forms = {TRAITS_TO_REVERSE_SCALE.get(trait, {}).get(value, value): label for value, label in trait_forms.items()}
+        
+        trait_labels[trait] = trait_forms
+        trait_labels[trait_abreviation] = trait_forms
+
+    return trait_labels
+
+
 if __name__ == '__main__':
     original_data = read_morphological_data()
 
@@ -519,7 +568,7 @@ if __name__ == '__main__':
     passports = passport.get_sample_passports()
     morpho_classification = read_morphological_classification()
 
-    morpho_classification = {acc: labels.LABELS[klass] for acc, klass in morpho_classification.items()}
+    morpho_classification = {acc: klass for acc, klass in morpho_classification.items()}
 
     morpho_classification_old = read_morphological_classification('morpho_class_old')
     write_morphological_curlywirly(pca_result, original_data, passports, morpho_classification, morpho_classification_old)

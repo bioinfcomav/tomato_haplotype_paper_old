@@ -5,8 +5,8 @@ import pandas
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from labels import LABELS
 
+from labels import LABELS
 import morphological
 import passport
 import labels
@@ -76,14 +76,22 @@ if __name__ == '__main__':
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
     axes = matplotlib_support.add_axes(fig, row_idx=0, col_idx=0,
-                                       axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.5],
+                                       axes_col_widths=[0.5, 0.5], axes_row_heights=[0.415, 0.085, 0.5],
                                        bottom_margin=0.1, left_margin=0.13)
     color_schema = colors.ColorSchema(colors.CLASSIFICATION_RANK1_COLORS)
-    morphological.plot_morphological_pca(pca_result, axes, morpho_classification,
+    res = morphological.plot_morphological_pca(pca_result, axes, morpho_classification,
                                          color_schema=color_schema,
                                          plot_principal_components=True,
                                          principal_component_scaler=3)
     matplotlib_support.set_axes_background(axes)
+
+    legend_axes = matplotlib_support.add_axes(fig, row_idx=1, col_idx=0,
+                                       axes_col_widths=[0.5, 0.5], axes_row_heights=[0.415, 0.085, 0.5],
+                                       bottom_margin=0, left_margin=0, top_margin=0, right_margin=0)
+    artists, labels_ = list(zip(*reversed(sorted(zip(res['artists'], res['labels']), key=lambda x: x[1]))))
+    legend_axes.legend(artists, labels_, ncol=3, facecolor='white')
+    matplotlib_support.set_axes_background(legend_axes)
+    matplotlib_support.turn_off_both_axis(legend_axes)
 
     axes = matplotlib_support.add_axes(fig, row_idx=0, col_idx=1,
                                        axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.5],
@@ -98,7 +106,7 @@ if __name__ == '__main__':
                                   morpho_classes_to_ignore=morpho_classes_to_ignore)
 
     # genetic
-    classes1_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SP x SP', 'SLC Ec', 'SLC Co',
+    classes1_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SLC Ec', 'SLC Co',
                       'SLC MA', 'SLC Pe N', 'SLC Pe S', 'SLC world', 'SLL MX', 'SP x SL', 'SP-SL', 'Unclassified']
 
     classes2_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SLC Ec',
@@ -142,7 +150,7 @@ if __name__ == '__main__':
                                            top_margin=top_margin, left_margin=left_margin, bottom_margin=bottom_margin,
                                            axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.22, 0.29])
         if True:
-            pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_s', 'slc_pe_n', 'sll_mx']
+            pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_pe_n', 'sll_mx', 'slc_ec', 'slc_pe_s']
             #['sll_vint', 'slc_co', 'slc_world', , None, , , 'sp_x_sp', , , , 'sp_x_sl', , , 'sll_modern']
             classes_for_accessions = {sample: labels.LABELS[pop] for pop, samples in pops.items() for sample in samples if pop in pop_order}
             morpho_accs = set(data.index)
@@ -170,7 +178,8 @@ if __name__ == '__main__':
             axes.set_ylabel('Mean normalized index')
         axes.set_ylim((0, 1))
 
-        axes.legend(loc='lower right')
+        legend = axes.legend(loc='lower right')
+        legend.set_zorder(100)
         axes.text(0.1, 0.9, structure, fontsize=12)
         matplotlib_support.set_axes_background(axes)
     fig.savefig(str(plot_path))

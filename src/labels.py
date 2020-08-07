@@ -55,6 +55,7 @@ LABELS = [
           ('SLC small', 'SLC small'),
           ('SLC big', 'SLC big'),
           ('SP Montane', 'SP Montane'),
+          ('sp_intermediate', 'SP intermediate'),
 
           (None, 'Unclassified'),
           ('None', 'Unclassified'),
