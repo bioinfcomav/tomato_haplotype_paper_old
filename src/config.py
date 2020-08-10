@@ -216,7 +216,7 @@ RAZIFARD_CLASSIFICATION = SOURCE_DATA_DIR / 'razifard_classification.csv'
 
 ECOSYSTEM_DATA = SOURCE_DATA_DIR / 'ecosystem_data.csv'
 
-TABLE_MAPPING_STATS = FIGURES_DIR / 'suppl_table_1_mapping_stats.csv'
+TABLE_MAPPING_STATS = FIGURES_DIR / 'suppl_table_1_sample_data_and_mapping_stats.csv'
 TABLE_PASSPORT_AND_MORPHOLOGICAL_DATA = FIGURES_DIR / 'suppl_table_2_passport_and_morphological_data.csv'
 TABLE_GENES_WITH_MANY_INTROGRESSIONS = FIGURES_DIR / 'suppl_table_3_genes_with_many_introgressions.csv'
 

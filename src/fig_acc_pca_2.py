@@ -153,33 +153,23 @@ if __name__ == '__main__':
              ['sll_mx', 'slc_world', 'slc_ma', 'slc_pe_n'],
              ['sll_modern', 'sll_vint','sll_mx']]
 
-    axes_row_heights = [0.1] + [1 / len(popss)] * len(popss)
+    axes_row_heights = [1 / len(popss)] * len(popss)
 
     uniq_pops = None
     for pops_idx, pops in enumerate(popss):
-        axes = matplotlib_support.add_axes(fig, row_idx=pops_idx + 1, axes_row_heights=axes_row_heights)
+        axes = matplotlib_support.add_axes(fig, row_idx=pops_idx,
+                                           axes_row_heights=axes_row_heights,
+                                           bottom_margin=0.1)
         criteria = {'criteria': [((config.RANK1, pops, config.KEEP))], 'samples_to_remove': [],
                     'samples_to_keep': []}
         res = plot_samples_pca(axes, variations, criteria, passports=sample_passports,
-                            color_schema=color_schema,
-                            alpha=alpha, marker_size=marker_size)
+                               color_schema=color_schema,
+                               alpha=alpha, marker_size=marker_size)
         matplotlib_support.set_axes_background(axes, 'white')
+        axes.legend(prop={'size': 14})
         if uniq_pops is None:
             uniq_pops = set(res['uniq_pops'])
         else:
             uniq_pops.update(res['uniq_pops'])
-
-    axes0 = matplotlib_support.add_axes(fig, row_idx=0, axes_row_heights=axes_row_heights)
-    pops = [(labels.LABELS[pop], color_schema[pop]) for pop in uniq_pops]
-    pops = sorted(pops, key=lambda x: x[0])
-    pop_labels, pop_colors = zip(*pops)
-    matplotlib_support.plot_legend(pop_labels, pop_colors, axes0,
-                                   fontize=int(fig_style.LEGEND_FONT_SIZE * 0.7), nrows=4,
-                                   location='center')
-    matplotlib_support.turn_off_both_axis(axes0)
-    matplotlib_support.set_axes_background(axes0, 'white')
-    axes0.spines['left'].set_color('white')
-    axes0.spines['bottom'].set_color('white')
-
 
     fig.savefig(plot_path)
