@@ -7,6 +7,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 import cartopy.crs as ccrs
+from labels import LABELS
 
 from variation.variations import VariationsH5
 
@@ -115,7 +116,8 @@ def plot_structure(axes, prior, k, pops_for_samples, ancestral_pop_colors, pop_o
 
     admixtures_per_pop = _calc_admixtures_per_pop(results[k]['admixtures'],
                                                   pops_for_samples)
-    sorted_index = sorted(admixtures_per_pop.index, key=lambda x: pop_order.index(x))
+    pops = set(admixtures_per_pop.index).intersection(pop_order)
+    sorted_index = sorted(pops, key=lambda x: pop_order.index(x))
     admixtures_per_pop = admixtures_per_pop.reindex(sorted_index)
     plot_hbar_admixtures(admixtures_per_pop, axes=axes,
                          composition_classes_colors=ancestral_pop_colors)
@@ -129,7 +131,9 @@ def plot_haplo_compositions(pops, haplo_classification, axes, pop_order):
     haplo_label_mapping = labels.HAPLO_LABELS
     pop_composition_freqs = calc_haplo_pop_composition_freq_dframe(pops, haplo_classification)
     pop_composition_freqs.columns = [haplo_label_mapping[col] for col in pop_composition_freqs.columns]
-    sorted_index = sorted(pop_composition_freqs.index, key=lambda x: pop_order.index(labels.LABELS[x]))
+
+    pops = [pop for pop in pop_composition_freqs.index if labels.LABELS[pop] in pop_order]
+    sorted_index = sorted(pops, key=lambda x: pop_order.index(labels.LABELS[x]))
     pop_composition_freqs = pop_composition_freqs.reindex(sorted_index)
 
     haplo_colors = {haplo_label_mapping[haplo]: color for haplo, color in colors.HAPLO_COLORS.items()}
@@ -186,15 +190,10 @@ if __name__ == '__main__':
                                'sp_ec': (1, 0), 'slc_pe_n': (1, 1), 'sll_vint': (1, 2),
                                'sp_pe': (2, 0), 'slc_pe_s': (2, 1), 'sll_modern': (2, 2)}
 
-    fontsize = 25
-    matplotlib_support.write_text_in_figure('Wild', 0.065, 0.95, fig, fontsize=fontsize)
-    matplotlib_support.write_text_in_figure('Semi-domesticated', 0.16, 0.95, fig, fontsize=fontsize)
-    matplotlib_support.write_text_in_figure('Cultivated', 0.38, 0.95, fig, fontsize=fontsize)
-
     plot_haplo_pop_pcas(fig, pcas_col_width, haplo_pop_pca_locations,
                         aligned_pcoas_df, haplo_classification,
                         pops, alpha=halpos_pca_alpha, legend_pos=(0, 1),
-                        common_top_margin=0.08)
+                        common_top_margin=0)
 
     axes_col_widths = [pcas_col_width, 1 - pcas_col_width]
     axes_row_heights = [0.6, 0.4]
@@ -207,7 +206,7 @@ if __name__ == '__main__':
     plot_geo_rank1_for_main_pops(sample_passports, axes=axes)
 
     axes_col_widths = [0.25, 0.25, 0.22, 0.28]
-    structure_pop_order = ['sp_pe', 'sp_x_sp', 'sp_montane',
+    structure_pop_order = ['sp_pe', 'sp_montane',
                            'sp_ec',
                            'slc_co',
                            'slc_ma',
@@ -215,7 +214,6 @@ if __name__ == '__main__':
                            'sll_mx', 'sll_vint', 'sll_old_cultivars',
                            'sll_modern',
                            'sp_x_sl',
-                           None,
                            'slc_pe',
                            'slc_pe_n',
                            'slc_pe_s',

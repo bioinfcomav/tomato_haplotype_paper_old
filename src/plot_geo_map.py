@@ -117,8 +117,8 @@ def plot_geo_rank1_for_main_pops(passports, axes=None, plot_legend=True):
 
     rank = 'rank1'
 
-    revelant_pops = {'rank1': ['sp_ec', 'sll_mx', 'slc_ec', 'sp_pe_inter-andean',
-                    'slc_ma', 'slc_pe', 'sp_pe', 'slc_co']}
+    revelant_pops = {'rank1': ['sp_ec', 'sll_mx', 'slc_ec', 'slc_ma',
+                               'slc_pe_n', 'slc_pe_s', 'sp_pe', 'sp_montane', 'slc_co']}
     revelant_pops = revelant_pops[rank]
 
     passports = {sample_id: samples_info for sample_id, samples_info in passports.items() if samples_info.get('classification', {}).get(rank) in revelant_pops}
