@@ -97,7 +97,7 @@ if __name__ == '__main__':
                                        axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.5],
                                        left_margin=0.20, bottom_margin=0.25)
 
-    genetic_classes_to_ignore = [None, 'sp_x_sl', 'slc_co']
+    genetic_classes_to_ignore = [None, 'slc_co', 'sp_x_sp', 'sp_x_sl']
     morpho_classes_to_ignore = [None, '', 'Unclassified']
     #genetic_classes_to_ignore = [None]
 
@@ -109,8 +109,8 @@ if __name__ == '__main__':
     classes1_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SLC Ec', 'SLC Co',
                       'SLC MA', 'SLC Pe N', 'SLC Pe S', 'SLC world', 'SLL MX', 'SP x SL', 'SP-SL', 'Unclassified']
 
-    classes2_order = ['SP Pe', 'SP Montane', 'SP Ec', 'SLC Ec',
-                      'SLC small', 'SLC big', 'SLL', 'SP x SL', 'SP-SL', 'Unclassified']
+    classes2_order = ['SP Pe', 'SP intermediate', 'SP Ec', 'SLC Ec',
+                      'SLC small', 'SLC big', 'SLL', 'SP-SL', 'Unclassified']
 
     plot.plot_table_classification_comparison(res['genetic_classification'],
                                               res['morpho_classification'],
@@ -121,9 +121,7 @@ if __name__ == '__main__':
                                               classes1_order=classes1_order,
                                               classes2_order=classes2_order)
 
-    morpho_classes = ['sp_pe', 'sp_montane', 'sp_ec',
-                      'slc_ec', 'slc_small', 'slc_big', 'sll']
-    morpho_classes = ['sp_pe', 'sp_ec',
+    morpho_classes = ['sp_pe', 'sp_intermediate', 'sp_ec',
                       'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
     morpho_classes = [labels.LABELS[klass] for klass in morpho_classes]
     background_colors = {klass: colors.modify_color(color_schema[klass], saturation_mod=-0.1, luminosity_mod=0.15) for klass in morpho_classes}
@@ -180,6 +178,12 @@ if __name__ == '__main__':
 
         legend = axes.legend(loc='lower right')
         legend.set_zorder(100)
-        axes.text(0.1, 0.9, structure, fontsize=12)
+        axes.text(0.1, 0.1, structure, fontsize=12)
         matplotlib_support.set_axes_background(axes)
+
+    fontsize = 20
+    matplotlib_support.write_text_in_figure('A', x_pos=0.08, y_pos=0.95, fig=fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('B', x_pos=0.62, y_pos=0.95, fig=fig, fontsize=fontsize)
+    matplotlib_support.write_text_in_figure('C', x_pos=0.08, y_pos=0.47, fig=fig, fontsize=fontsize)
+
     fig.savefig(str(plot_path))

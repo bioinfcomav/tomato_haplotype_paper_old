@@ -34,6 +34,8 @@ def turn_off_y_axis(axes):
 def turn_off_both_axis(axes):
     turn_off_x_axis(axes)
     turn_off_y_axis(axes)
+    axes.spines['left'].set_alpha(0)
+    axes.spines['bottom'].set_alpha(0)
 
 
 def set_y_ticks_right(axes):

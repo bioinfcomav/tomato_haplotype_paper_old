@@ -478,11 +478,14 @@ def plot_collecting_sources(morphological_data, axes, color_schema, source_order
     width = x_poss[1] - x_poss[0]
 
     bottoms = None
+    artists = []
+    labels = []
     for source in sorted_sources:
         heights = numpy.array([freqs[taxon].get(source, 0) for taxon in sorted_taxons])
         color = color_schema[source]
-        axes.bar(x_poss, heights, bottom=bottoms, width=width, label=source, color=color)
-
+        artist =axes.bar(x_poss, heights, bottom=bottoms, width=width, label=source, color=color)
+        artists.append(artist)
+        labels.append(source)
         if bottoms is None:
             bottoms = heights
         else:
@@ -491,6 +494,7 @@ def plot_collecting_sources(morphological_data, axes, color_schema, source_order
     tick_labels = [f'{taxon} {country}' for taxon, country in sorted_taxons]
     matplotlib_support.set_x_ticks(x_poss, tick_labels, axes=axes, rotation=45)
     axes.set_ylabel('Freq.')
+    return {'artists': artists, 'labels': labels}
 
 
 def _to_int(value):
