@@ -4,6 +4,7 @@ import config
 import csv
 
 import bam_stats
+import passport
 
 
 def get_projects_for_samples(samples):
@@ -37,7 +38,7 @@ def get_projects_for_samples(samples):
     return projects
 
 
-def write_mapping_stats(fhand):
+def write_mapping_stats(fhand, sample_passports):
 
     stats = bam_stats.read_bam_stats()['per_sample']
 
@@ -47,14 +48,33 @@ def write_mapping_stats(fhand):
     sorted_samples = sorted(sorted_samples, key=lambda x: projects[x])
 
     writer = csv.writer(fhand)
-    writer.writerow(['Accession', 'Reference', 'Mean cov.', 'Mean MAPQ57 cov.'])
+    writer.writerow(['Accession',
+                     'Reference',
+                     'Passport taxon',
+                     'Country', 'Latitude', 'Longitude',
+                     'Mean cov.', 'Mean MAPQ57 cov.',
+                     'Genetic classification 1', 'Genetic classification 2'
+                     ])
 
 
     for sample in sorted_samples:
         sample_stats = stats[sample]
-        writer.writerow([sample, projects[sample], sample_stats['coverages']['all_reads'], sample_stats['coverages']['mapq57']])
+        passport = sample_passports.get(sample.lower(), {})
+        country = passport.get('country', '')
+        taxon = passport.get('taxon', '')
+        latitude = passport.get('latitude', '')
+        longitude = passport.get('longitude', '')
+        rank1 = passport.get('classification', {}).get('rank1', '')
+        rank2 = passport.get('classification', {}).get('rank2', '')
+        writer.writerow([sample, projects[sample],
+                         taxon, country, latitude, longitude,
+                         sample_stats['coverages']['all_reads'],
+                         sample_stats['coverages']['mapq57'],
+                         rank1, rank2]
+                         )
 
 
 if __name__ == '__main__':
     path = config.TABLE_MAPPING_STATS
-    write_mapping_stats(path.open('wt'))
+    sample_passports = passport.get_sample_passports()
+    write_mapping_stats(path.open('wt'), sample_passports)
