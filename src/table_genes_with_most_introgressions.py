@@ -49,7 +49,7 @@ def remove_suffix(string, suffix):
 def write_genes_with_introgressions_table(fhand, genes_with_most_introgessions, genes):
 
     writer = csv.writer(fhand, delimiter='\t')
-    writer.writerow(['Population', 'Gene id', 'Introgression freq.', 'Annotated function', 'Kegg pathways'])
+    writer.writerow(['Population', 'Gene id', 'Chromosome', 'Start', 'End', 'Introgression freq.', 'Annotated function', 'Kegg pathways'])
 
     kegg_genes = kegg.KeggGenes(cache_dir=config.CACHE_DIR)
     for pop in sorted(genes_with_most_introgessions.keys()):
@@ -64,7 +64,9 @@ def write_genes_with_introgressions_table(fhand, genes_with_most_introgessions, 
             except KeyError:
                 kegg_pathways = ''
             #print(pop, gene_id, introgression_freq, function, kegg_pathways)
-            writer.writerow([labels.LABELS[pop], gene_id, introgression_freq, function, kegg_pathways])
+            writer.writerow([labels.LABELS[pop], gene_id,
+                             gene['Chromosome'], str(gene['Start']), str(gene['End']),
+                             introgression_freq, function, kegg_pathways])
 
 if __name__ == '__main__':
     vars_path = config.WORKING_H5
