@@ -87,7 +87,8 @@ def plot_pca(axes, multivar_result, pops_for_samples, color_schema, alpha, marke
     for pop in uniq_pops:
         mask = pops == pop
         color = color_schema[pop]
-        axes.scatter(projections[mask,0], projections[mask,1], label=labels.LABELS[pop], color=color, alpha=alpha, s=marker_size)
+        axes.scatter(projections[mask,0], projections[mask,1], label=labels.LABELS[pop],
+                     color=color, alpha=alpha, s=marker_size)
 
     axes.set_xlabel(f'Dim 1 ({var_percentages[0]:.1f}%)', fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)
     axes.set_ylabel(f'Dim 2 ({var_percentages[1]:.1f}%)', fontsize=fig_style.X_LABEL_SMALL_FONT_SIZE)

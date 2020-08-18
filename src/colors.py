@@ -74,7 +74,9 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'sp_ecu': '#a35c11',
                          'gal': '#FFA500',
                          'sll_vint': '#CD5C5C',
+                         'sll_vint': '#893101',
                          'sll_vint_small': '#E9967A',
+                         'sll_modern':  '#ed7014',
                         
                          'slc_ma': SOME_NICE_COLORS['dark_pink'],
                          'sp_ec': SOME_NICE_COLORS['middle_blue'], #
@@ -87,6 +89,8 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'slc_pe': '#ffabb1',
                          'slc_pe_n': '#ffabb1',
                          'slc_pe_s': '#cdae29',
+                         None: '#cccccc',
+                         'sp_x_sp': '#137e6d'
                          }
 
 CLASSIFICATION_RANK2_COLORS = {

@@ -156,6 +156,8 @@ if __name__ == '__main__':
     axes0 = matplotlib_support.add_axes(fig, row_idx=0, axes_row_heights=axes_row_heights)
     pops = [(labels.LABELS[pop], color_schema[pop]) for pop in res['uniq_pops']]
     pops = sorted(pops, key=lambda x: x[0])
+    print(res['uniq_pops'])
+    print(pops)
     pop_labels, pop_colors = zip(*pops)
     matplotlib_support.plot_legend(pop_labels, pop_colors, axes0,
                                    fontize=int(fig_style.LEGEND_FONT_SIZE * 0.7), nrows=4,
