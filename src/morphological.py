@@ -590,3 +590,24 @@ if __name__ == '__main__':
     axes.legend()
     fig.tight_layout()
     fig.savefig(str(plot_path))
+
+    counts_per_pop = do_collecting_source_stats(original_data, remove_unknown_sources=True, calc_freqs=False, taxon_mapping=None)
+    tot_num_accs = sum(count for counts in counts_per_pop.values() for count in counts.values())
+    print('tot_num_accs', tot_num_accs)
+    slc_ma_pops = [('SLC', 'CRI'), ('SLC', 'MEX')]
+    slc_ec = [('SLC', 'ECU'), ('SLC', 'PER')]
+    sp_pops = [('SP', 'ECU')]
+
+    natural_or_disturbed_labels = ['natural_or_disturbed', 'natural', 'disturbed']
+    cultivated = ['cultivated', 'semi-cultivated', 'market', 'semi-cultivated_or_cultivated', 'weed_or_semi-cultivated']
+
+    pops = slc_ec
+    labels = cultivated
+    total_accs_in_pops_for_labels = 0
+    total_accs_in_pops_for_labels_not = 0
+    for pop in pops:
+        total_accs_in_pops_for_labels += sum([count for label, count in counts_per_pop[pop].items() if label in labels])
+        total_accs_in_pops_for_labels_not += sum([count for label, count in counts_per_pop[pop].items() if label not in labels])
+
+    percent = total_accs_in_pops_for_labels / (total_accs_in_pops_for_labels + total_accs_in_pops_for_labels_not) * 100
+    print(pops, labels, total_accs_in_pops_for_labels, total_accs_in_pops_for_labels_not, percent)
