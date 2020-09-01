@@ -28,6 +28,7 @@ if USER == 'jose':
     sys.path.insert(0, str(VARIATION_DIR))
 
     TOMATO_GENOME_DIR = HOME_DIR / 'magnet/genomes/s_lycopersicum/sl40/'
+    ARABIDOPSIS_GENOME_DIR = HOME_DIR / 'magnet/genomes/arabidopsis/tair10/'
 
     PYTHON2_BIN_FOR_FASTSTRUCTURE = ANALYSES_DIR / 'population_ultimate_env2/bin/python'
     FASTSTRUCTURE_BIN = ANALYSES_DIR / 'population_ultimate_env2/fastStructure-master/structure.py' 
@@ -59,6 +60,10 @@ elif USER == 'jope':
     TOMATO_GENOME_FASTA = HOME_DIR / 'S_lycopersicum_chromosomes.4.00.fa'
 
 TOMATO_GENOME_FASTA = HOME_DIR / 'S_lycopersicum_chromosomes.4.00.fa'
+
+ARABIDOPSIS_CDNAS_FASTA = ARABIDOPSIS_GENOME_DIR / 'TAIR10_cdna_20101214_updated'
+ARABIDOPSIS_PEPS_FASTA = ARABIDOPSIS_GENOME_DIR / 'TAIR10_pep_20101214_updated'
+
 
 SOURCE_CODE_DIR = BASE_DIR / 'src'
 TREE_MIX_PLOTTING_R_SOURCE = SOURCE_CODE_DIR / 'plotting_funcs.R'
@@ -240,3 +245,10 @@ FIG_HSL_SHARED_HAPLOS_2 = FIGURES_DIR / 'suppl_fig_9_shared_hsl_haplos.svg'
 FIG_HAPLO_FREQS = FIGURES_DIR / 'suppl_fig_10_haplo_freqs.svg'
 FIG_MORPHOLOGICAL_TYPES_CHARACTERIZATION = FIGURES_DIR / 'suppl_fig_11_morphological_types_characterization.svg'
 FIG_COLLECTING_SOURCES = FIGURES_DIR / 'suppl_fig_12_collecting_sources.svg'
+
+CIRCADIAN_LOCI = SOURCE_DATA_DIR / 'circadian_and_flowering_time_genes.csv'
+
+UPSTREAM_REGION_IN_BP = 3000
+
+SNPS_PER_CHUNK = 10000
+CHUNK_SIZE = SNPS_PER_CHUNK

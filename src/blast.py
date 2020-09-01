@@ -15,6 +15,8 @@ def prepare_blast_db(fasta_file, out_dir, db_type, skip_if_exists=False):
 
     if db_type == 'nucl':
         out_path = Path(str(out_base_path) + '.nhr')
+    if db_type == 'prot':
+        out_path = Path(str(out_base_path) + '.phr')
 
     if skip_if_exists and out_path.exists():
         return {'db_path': out_base_path}
@@ -39,14 +41,14 @@ TABBLAST_OUTFMT = "6 qseqid sseqid pident length mismatch gapopen qstart qend ss
 
 def blast_seqs(seqs, db_path, blast_program, tmp_dir=None, evalue_threshold=1e-5):
     
-    assert blast_program in ['blastn', 'blastp', 'blastx']
+    assert blast_program in ['blastn', 'blastp', 'blastx', 'tblastn']
 
     fasta_fhand = create_fasta_file(seqs, tmp_dir)
 
     cmd = [blast_program, '-query', fasta_fhand.name, '-db', str(db_path),
            '-evalue', str(evalue_threshold), '-outfmt', TABBLAST_OUTFMT]
 
-    process = subprocess.run(cmd, check=True, capture_output=True)
+    process = subprocess.run(cmd, check=False, capture_output=True)
 
     lines = process.stdout.decode().splitlines()
     result = defaultdict(dict)
@@ -103,12 +105,13 @@ def filter_hsps_by_identity(hsps, threshold=None):
     return filtered_hsps
 
 
-def get_cdna_ids_by_blasting(seq, evalue_threshold=1e-20, evalue_error=10, cache_dir=None):
+def get_cdna_ids_by_blasting(seq, evalue_threshold=1e-20,
+                             blast_program='blastn',
+                             cache_dir=None):
 
     if cache_dir:
         key = str(seq)
         key += str(evalue_threshold)
-        key += str(evalue_error)
         key = hashlib.md5(str(key).encode()).hexdigest()
         cache_path = cache_dir / ('blasted_cdnas' + key + '.pickle')
         if cache_path.exists():
@@ -116,13 +119,19 @@ def get_cdna_ids_by_blasting(seq, evalue_threshold=1e-20, evalue_error=10, cache
 
     blast_db_dir = config.CACHE_DIR / 'tomato_blast_db'
 
-    res = prepare_blast_db(config.CDNA_FASTA, out_dir=blast_db_dir, db_type='nucl',
+    if blast_program in ('blastn', 'blastx'):
+        db_type = 'nucl'
+    elif blast_program in ('blastp', 'tblastn'):
+        db_type = 'prot'
+
+    res = prepare_blast_db(config.CDNA_FASTA, out_dir=blast_db_dir, db_type=db_type,
                            skip_if_exists=True)
+
     db_path = res['db_path']
 
     seq = {'name': 'cdna', 'seq': seq}
     res = blast_seqs([seq],
-                     db_path, 'blastn', tmp_dir=None, evalue_threshold=evalue_threshold)
+                     db_path, blast_program=blast_program, tmp_dir=None, evalue_threshold=evalue_threshold)
 
     cdnas = [cdna_name for cdna_name in res.get('cdna', {}).keys()]
 

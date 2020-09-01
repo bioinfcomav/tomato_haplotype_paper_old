@@ -21,6 +21,7 @@ from passport import get_sample_passports
 from pop_building import get_pops
 import colors
 from snp_filtering import keep_variations_variable_in_samples
+import matrix_methods
 
 
 class NotEnoughSamplesError(RuntimeError):
@@ -50,7 +51,7 @@ def calc_pop_stats_per_var(variations, allowed_missing_gts=0,
     if ploidy is None:
         ploidy = gts.shape[2]
 
-    allele_counts_per_allele_and_snp, alleles = counts_and_allels_by_row(gts)
+    allele_counts_per_allele_and_snp, alleles = matrix_methods.counts_and_alleles_by_row(gts)
 
     if allele_counts_per_allele_and_snp is None:
         raise ValueError('No genotypes to calc')

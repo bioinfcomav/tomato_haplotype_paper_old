@@ -1,4 +1,5 @@
 
+import config
 
 import hashlib
 import pickle
@@ -36,7 +37,7 @@ def render_histogram(res, fhand, vlines, hrange=None):
 def filter_variations(variations, samples_to_keep=None,
                       samples_to_remove=None, cache_dir=None,
                       min_gt_dp_setter=None,
-                      chunk_size=600,
+                      chunk_size=config.CHUNK_SIZE,
                       filter_out_vars_with_non_major_allele_count_le=None, 
                       max_maf=None, min_called=None,
                       max_het=None, regions_to_keep=None, min_call_for_het=0,

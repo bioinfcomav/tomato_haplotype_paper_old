@@ -14,10 +14,24 @@ import introgressions
 import kegg
 
 
-def _calc_gene_introgression_freqs(solgenomics_gene_id, genes, vars_index, introgression_freqs):
+def _calc_gene_introgression_freqs(solgenomics_gene_id, genes, vars_index, introgression_freqs, upstream_region=0):
     gene = genes.get_gene(solgenomics_gene_id)
-    idx0 = vars_index.index_pos(gene['Chromosome'].encode(), gene['Start'])
-    idx1 = vars_index.index_pos(gene['Chromosome'].encode(), gene['End'])
+
+    chrom = gene['Chromosome'].encode()
+    start = gene['Start']
+    end = gene['End']
+
+    if upstream_region:
+        forward = start < end
+        if forward:
+            start = start - upstream_region
+        else:
+            start = start + upstream_region
+        if start < 0:
+            start = 0
+
+    idx0 = vars_index.index_pos(chrom, start)
+    idx1 = vars_index.index_pos(chrom, end)
     mask = numpy.logical_and(introgression_freqs.index >= idx0,
                              introgression_freqs.index <= idx1)
     gene_introgression_freqs = introgression_freqs.loc[mask].values

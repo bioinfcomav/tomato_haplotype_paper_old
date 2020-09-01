@@ -2,6 +2,7 @@
 import config
 
 from collections import OrderedDict
+import hashlib, pickle, gzip
 
 import numpy
 
@@ -14,14 +15,53 @@ import introgressions
 from introgressions_and_kegg import _calc_gene_introgression_freqs
 
 
-def calc_introgression_freqs_for_genes(variations, introgression_freqs, genes, method='mean_highest'):
+def calc_introgression_freqs_for_genes_from_variations(variations,
+                                                       introgession_config,
+                                                       genes,
+                                                       method='mean_highest',
+                                                       upstream_region=0,
+                                                       cache_dir=None):
+
+    cache_path = None
+    if cache_dir:
+        key = ','.join(sorted(variations.samples))
+        key += str(variations.num_variations)
+        key += 'introgession_config' + introgressions._dict_to_str(introgession_config)
+        key += 'genes' + str(list(genes.gene_ids))
+        key += 'method' + str(method)
+        key += 'upstream_region' + str(upstream_region)
+        key = hashlib.md5(key.encode()).hexdigest()
+        cache_path = cache_dir / ('introgression_freqs_for_genes.' + key + '.pickle')
+        if cache_path.exists():
+            return pickle.load(gzip.open(cache_path, 'rb'))
+
+
+    introgression_freqs = introgressions.calc_introgession_freq_for_vars(variations,
+                                                                         introgession_config,
+                                                                         cache_dir=cache_dir)
+
+    introgression_freqs_for_genes = calc_introgression_freqs_for_genes(variations,
+                                                                       introgression_freqs,
+                                                                       genes,
+                                                                       method=method,
+                                                                       upstream_region=upstream_region)
+    if cache_dir:
+        pickle.dump(introgression_freqs_for_genes, gzip.open(cache_path, 'wb'))
+    return introgression_freqs_for_genes
+
+
+def calc_introgression_freqs_for_genes(variations, introgression_freqs, genes, method='mean_highest', upstream_region=0):
 
     vars_index = variations.pos_index
 
     mean_gene_introgression_freqs = {}
     for gene_id in genes.gene_ids:
         try:
-            gene_introgression_freqs = _calc_gene_introgression_freqs(gene_id, genes, vars_index, introgression_freqs)
+            gene_introgression_freqs = _calc_gene_introgression_freqs(gene_id,
+                                                                      genes,
+                                                                      vars_index,
+                                                                      introgression_freqs,
+                                                                      upstream_region=upstream_region)
         except KeyError:
             continue
 
@@ -81,7 +121,9 @@ if __name__ == '__main__':
                                'freq_threshold_to_consider_allele_present_in_founder_pop' : config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT,
                                'freq_threshold_to_consider_allele_common_in_introgression_source_pop': config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_COMMON,
                                }
-        introgression_freqs = introgressions.calc_introgession_freq_for_vars(variations, introgession_config)
+        introgression_freqs = introgressions.calc_introgession_freq_for_vars(variations,
+                                                                             introgession_config,
+                                                                             cache_dir=cache_dir)
 
         gene_introgression_freqs = get_genes_with_most_introgressions(variations,
                                                                       introgression_freqs,

@@ -24,9 +24,9 @@ def get_genes_with_most_introgressions_for_target_pops(variations, target_and_in
         samples_in_founder_pop = pops[founder_pop]
         samples_in_introgression_source_pop = pops[introgression_source_pop]
 
-        introgession_config = {'samples_in_pop_with_introgressions': samples_in_pop_with_possible_introgressions,
-                               'samples_in_founder_pop': samples_in_founder_pop,
-                               'samples_in_introgression_source_pop': samples_in_introgression_source_pop,
+        introgession_config = {'samples_in_pop_with_introgressions': sorted(samples_in_pop_with_possible_introgressions),
+                               'samples_in_founder_pop': sorted(samples_in_founder_pop),
+                               'samples_in_introgression_source_pop': sorted(samples_in_introgression_source_pop),
                                'freq_threshold_to_consider_allele_present_in_founder_pop' : config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT,
                                'freq_threshold_to_consider_allele_common_in_introgression_source_pop': config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_COMMON,
                                }
