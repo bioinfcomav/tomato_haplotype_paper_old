@@ -12,23 +12,13 @@ import pop_building
 import genome
 import introgressions
 import kegg
+from allele_freq import calc_region_for_gene
 
 
 def _calc_gene_introgression_freqs(solgenomics_gene_id, genes, vars_index, introgression_freqs, upstream_region=0):
     gene = genes.get_gene(solgenomics_gene_id)
 
-    chrom = gene['Chromosome'].encode()
-    start = gene['Start']
-    end = gene['End']
-
-    if upstream_region:
-        forward = start < end
-        if forward:
-            start = start - upstream_region
-        else:
-            start = start + upstream_region
-        if start < 0:
-            start = 0
+    chrom, start, end = calc_region_for_gene(gene, upstream_region=upstream_region)
 
     idx0 = vars_index.index_pos(chrom, start)
     idx1 = vars_index.index_pos(chrom, end)

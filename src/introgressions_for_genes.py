@@ -74,8 +74,17 @@ def calc_introgression_freqs_for_genes(variations, introgression_freqs, genes, m
     return mean_gene_introgression_freqs 
 
 
-def get_genes_with_most_introgressions(variations, introgression_freqs, genes, num_genes=10):
-    introgression_freqs = calc_introgression_freqs_for_genes(variations, introgression_freqs, genes)
+#def get_genes_with_most_introgressions(variations, introgression_freqs, genes, num_genes=10):
+def get_genes_with_most_introgressions(variations, introgession_config, genes, num_genes=10,
+                                       method='mean_highest', upstream_region=0, cache_dir=None):
+
+    introgression_freqs = calc_introgression_freqs_for_genes_from_variations(variations,
+                                                       introgession_config=introgession_config,
+                                                       genes=genes,
+                                                       method=method,
+                                                       upstream_region=upstream_region,
+                                                       cache_dir=cache_dir)
+
     gene_ids = list(reversed(sorted(introgression_freqs.keys(), key=lambda gene_id: introgression_freqs[gene_id])))[:num_genes]
     gene_introgression_freqs = OrderedDict([(gene_id, introgression_freqs[gene_id]) for gene_id in gene_ids])
     return gene_introgression_freqs

@@ -96,7 +96,7 @@ def get_tomato_genes_similar_to_arabidopsis_circadian_mutants(cache_dir=config.C
                                           only_first=only_first)
 
 
-def get_circadian_loci(cache_dir=config.CACHE_DIR, evalue_threshold=1e-30,
+def _get_circadian_loci(cache_dir=config.CACHE_DIR, evalue_threshold=1e-30,
                        only_first=False, only_references=None):
 
     genes = genome.Genes()
@@ -137,6 +137,30 @@ def get_circadian_loci(cache_dir=config.CACHE_DIR, evalue_threshold=1e-30,
             #print(gene)
             tomato_genes[gene['locus_id']] = gene
     return tomato_genes
+
+
+def get_tomato_genes_annotations():
+    reader = csv.DictReader(config.TOMATO_GENE_ANNOTATIONS.open('rt'), delimiter='\t')
+    annotations = {}
+    for row in reader:
+        annotation = {}
+        annotation['molecular_functions'] = row['molecular_functions'].split(';')
+        annotations[row['Gene id']] = annotation
+    return annotations
+
+
+def get_circadian_loci(cache_dir=config.CACHE_DIR, evalue_threshold=1e-30,
+                       only_first=False, only_references=None):
+    genes = _get_circadian_loci(cache_dir=cache_dir, evalue_threshold=evalue_threshold,
+                               only_first=only_first, only_references=only_references)
+    annotations = get_tomato_genes_annotations()
+    for gene_id, gene_data in genes.items():
+        try:
+            annotation = annotations[gene_id]
+        except:
+            continue
+        gene_data.update(annotation)
+    return genes
 
 
 if __name__ == '__main__':

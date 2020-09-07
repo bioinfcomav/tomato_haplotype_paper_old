@@ -224,6 +224,8 @@ ECOSYSTEM_DATA = SOURCE_DATA_DIR / 'ecosystem_data.csv'
 TABLE_MAPPING_STATS = FIGURES_DIR / 'suppl_table_1_sample_data_and_mapping_stats.csv'
 TABLE_PASSPORT_AND_MORPHOLOGICAL_DATA = FIGURES_DIR / 'suppl_table_2_passport_and_morphological_data.csv'
 TABLE_GENES_WITH_MANY_INTROGRESSIONS = FIGURES_DIR / 'suppl_table_3_genes_with_many_introgressions.csv'
+TABLE_CIRCADIAN_GENES_WITH_MANY_INTROGRESSIONS_IN_SLC_EC = FIGURES_DIR / 'suppl_table_4_flowering_time_and_circadian_genes_hihgly_introgressed_in_slc_ec.csv'
+
 
 FIG_HAPLO_PCA = FIGURES_DIR / 'fig_1_haplo_pca.svg'
 FIG_ACC_PCA = FIGURES_DIR / 'fig_2_acc_pca.svg'
@@ -252,3 +254,5 @@ UPSTREAM_REGION_IN_BP = 3000
 
 SNPS_PER_CHUNK = 10000
 CHUNK_SIZE = SNPS_PER_CHUNK
+
+TOMATO_GENE_ANNOTATIONS = SOURCE_DATA_DIR / 'tomato_genes_curated_annotations.csv'

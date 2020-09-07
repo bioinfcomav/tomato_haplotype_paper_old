@@ -75,7 +75,7 @@ def _dict_to_str(dict_):
     str_ = ''
     for key in sorted(dict_, key=str):
         str_ += str(dict_[key])
-        return str_
+    return str_
 
 
 def calc_introgession_freq_for_vars(variations, introgession_config,

@@ -10,64 +10,19 @@ from matplotlib.figure import Figure
 
 import morphological
 import matplotlib_support
-
-def plot_morphological_progression(morpho_data, morpho_classification, axes,
-                                   sorted_morpho_classes=None, traits=None,
-                                   normalize=True,
-                                   background_colors=None,
-                                   bar_alpha=1):
-
-    if sorted_morpho_classes is None:
-        sorted_morpho_classes = sorted({klass for klass in morpho_classification.values()})
-
-    accs_by_morpho_class = defaultdict(list)
-    for acc, morpho_class in morpho_classification.items():
-        accs_by_morpho_class[morpho_class].append(acc)
-
-    means_per_morpho_class = {}
-    for morpho_class, accs in accs_by_morpho_class.items():
-        morpho_data_for_this_morpho_class = morpho_data.reindex(accs)
-        means = morpho_data_for_this_morpho_class.mean()
-        for trait, mean in means.to_dict().items():
-            if trait not in means_per_morpho_class:
-                means_per_morpho_class[trait] = {}
-            means_per_morpho_class[trait][morpho_class] = mean
-
-    if traits is None:
-        traits = list(means_per_morpho_class.keys())
-
-    edge_poss = numpy.arange(len(sorted_morpho_classes) + 1)
-    x_values = (edge_poss[:-1] + edge_poss[1:]) / 2
-
-    for trait in traits:
-        y_values = [means_per_morpho_class[trait][morpho_class] for morpho_class in sorted_morpho_classes]
-
-        if normalize:
-            y_values = numpy.array(y_values)
-            min_ = numpy.min(y_values)
-            max_ = numpy.max(y_values)
-            y_values = (y_values -min_) / (max_ - min_)
-
-        axes.plot(x_values, y_values, label=trait, zorder=10)
-
-    if background_colors:
-        y_lims = axes.get_ylim()
-        height = y_lims[1], y_lims[0]
-        width = edge_poss[1] - edge_poss[0]
-        bottom = y_lims[0]
-        for morpho_class, x0 in zip(sorted_morpho_classes, edge_poss[:-1]):
-            color = background_colors[morpho_class]
-            axes.bar([x0], height, width=width, bottom=bottom, align='edge', zorder=1, color=color, alpha=bar_alpha)
-        axes.set_xlim((edge_poss[0], edge_poss[-1]))
-
-    matplotlib_support.set_x_ticks(x_values, sorted_morpho_classes, axes, rotation=45)
+import colors
 
 
 def plot_morphological_progression(morpho_data, classes_for_accessions, axes,
                                    sorted_classes=None, traits=None,
                                    normalize=True,
                                    background_colors=None,
-                                   bar_alpha=1):
+                                   bar_alpha=1, linestyle='-', marker='',
+                                   color_schema=None,
+                                   add_label=True):
+
+    if color_schema is None:
+        color_schema = colors.ColorSchema()
 
     if sorted_classes is None:
         sorted_classes = sorted({klass for klass in classes_for_accessions.values()}, key=str)
@@ -101,7 +56,14 @@ def plot_morphological_progression(morpho_data, classes_for_accessions, axes,
             max_ = numpy.max(y_values)
             y_values = (y_values -min_) / (max_ - min_)
 
-        axes.plot(x_values, y_values, label=trait, zorder=10)
+        color = color_schema[trait]
+
+        if add_label:
+            axes.plot(x_values, y_values, label=trait, zorder=10,
+                    linestyle=linestyle, marker=marker, color=color)
+        else:
+            axes.plot(x_values, y_values, zorder=10,
+                    linestyle=linestyle, marker=marker, color=color)
 
     if background_colors:
         y_lims = axes.get_ylim()
@@ -114,6 +76,7 @@ def plot_morphological_progression(morpho_data, classes_for_accessions, axes,
         axes.set_xlim((edge_poss[0], edge_poss[-1]))
 
     matplotlib_support.set_x_ticks(x_values, sorted_classes, axes, rotation=45)
+    return {'color_schema': color_schema}
 
 
 if __name__ == '__main__':

@@ -183,15 +183,16 @@ if __name__ == '__main__':
     debug = False
     cache_dir = config.CACHE_DIR
 
-    diversity_range = 0, 0.2
+    diversity_range = 0, 0.1
     introgression_range = 0, 0.8
-    n_bins_introgressions = 10
-    n_bins_diversities = 30
+    n_bins_introgressions = 20
+    n_bins_diversities = 10
 
     circadian_references = ['https://doi.org/10.1016/j.molp.2020.02.006',
                             'https://doi.org/10.1093/jxb/eru441',
                             'https://doi.org/10.3389/fpls.2020.00864',
                             'https://doi.org/10.1073/pnas.1801862115',
+                            'https://doi.org/10.1073/pnas.1310631110',
                             'tair']
     reference_id = 'all_references'
 
@@ -200,6 +201,7 @@ if __name__ == '__main__':
                                 'https://doi.org/10.1093/jxb/eru441',
                                 'https://doi.org/10.3389/fpls.2020.00864',
                                 'https://doi.org/10.1073/pnas.1801862115',
+                                'https://doi.org/10.1073/pnas.1310631110'
                                 ]
         reference_id = 'papers'
 
@@ -268,11 +270,11 @@ if __name__ == '__main__':
         samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
 
         introgession_config = {'samples_in_pop_with_introgressions': sorted(samples_in_pop_with_possible_introgressions),
-                                'samples_in_founder_pop': sorted(samples_in_founder_pop),
-                                'samples_in_introgression_source_pop': sorted(samples_in_introgression_source_pop),
-                                'freq_threshold_to_consider_allele_present_in_founder_pop' : config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT,
-                                'freq_threshold_to_consider_allele_common_in_introgression_source_pop': config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_COMMON,
-                                }
+                               'samples_in_founder_pop': sorted(samples_in_founder_pop),
+                               'samples_in_introgression_source_pop': sorted(samples_in_introgression_source_pop),
+                               'freq_threshold_to_consider_allele_present_in_founder_pop' : config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_PRESENT,
+                               'freq_threshold_to_consider_allele_common_in_introgression_source_pop': config.FREQ_THRESHOLD_TO_CONSIDER_ALLELE_COMMON,
+                              }
         introgression_freqs_for_genes = calc_introgression_freqs_for_genes_from_variations(variations,
                                                                                            introgession_config=introgession_config,
                                                                                            genes=genes,
@@ -280,8 +282,12 @@ if __name__ == '__main__':
                                                                                            cache_dir=cache_dir
                                                                                            )
 
-        introgression_freqs_for_circadian_genes = get_introgression_freqs_for_genes(tomato_genes.keys(), introgression_freqs_for_genes)
-        introgression_freqs_for_all_genes = get_introgression_freqs_for_genes(genome.Genes().gene_ids, introgression_freqs_for_genes)
+        introgression_freqs_for_circadian_genes = get_introgression_freqs_for_genes(tomato_genes.keys(),
+                                                                                    introgression_freqs_for_genes)
+        print(introgression_freqs_for_circadian_genes[introgression_freqs_for_circadian_genes > 0.4])
+
+        introgression_freqs_for_all_genes = get_introgression_freqs_for_genes(genome.Genes().gene_ids,
+                                                                              introgression_freqs_for_genes)
 
         fig = Figure((10, 10))
         FigureCanvas(fig) # Don't remove it or savefig will fail later

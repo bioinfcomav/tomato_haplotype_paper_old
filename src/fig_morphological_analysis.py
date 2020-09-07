@@ -137,6 +137,10 @@ if __name__ == '__main__':
                   ('Leaf', leaf_traits),
                   ('Fruit', fruit_traits) 
                  )
+    legend_locs = {'Inflorescence': 'upper right',
+                   'Stem': 'upper right',
+                   'Leaf': 'lower right',
+                   'Fruit': 'upper right'}
     for idx, (structure, traits) in enumerate(all_traits):
         traits = [morphological.TRAIT_ABREVIATIONS[trait] for trait in traits]
         row_idx = idx // 2 + 1
@@ -147,21 +151,38 @@ if __name__ == '__main__':
         axes = matplotlib_support.add_axes(fig, row_idx=row_idx, col_idx=col_idx,
                                            top_margin=top_margin, left_margin=left_margin, bottom_margin=bottom_margin,
                                            axes_col_widths=[0.5, .5], axes_row_heights=[0.5, 0.22, 0.29])
+        color_schema = colors.ColorSchema()
         if True:
             pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_pe_n', 'sll_mx', 'slc_ec', 'slc_pe_s']
-            #['sll_vint', 'slc_co', 'slc_world', , None, , , 'sp_x_sp', , , , 'sp_x_sl', , , 'sll_modern']
             classes_for_accessions = {sample: labels.LABELS[pop] for pop, samples in pops.items() for sample in samples if pop in pop_order}
             morpho_accs = set(data.index)
             genet_accs = set(classes_for_accessions.keys())
             common_accs = morpho_accs.intersection(genet_accs)
             data = data.reindex(common_accs)
 
+            pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_pe_n', 'sll_mx']
+            pop_order = [labels.LABELS[pop] for pop in pop_order]
+
+            res = morphological_progression.plot_morphological_progression(data, classes_for_accessions, axes,
+                                                                    sorted_classes=pop_order,
+                                                                    traits=traits,
+                                                                    background_colors=None,
+                                                                    bar_alpha=0.4,
+                                                                    marker='o',
+                                                                    linestyle='-',
+                                                                    color_schema=color_schema,
+                                                                    add_label=False)
+
+            pop_order = ['sp_pe', 'sp_ec', 'slc_ma', 'slc_pe_n', 'sll_mx', 'slc_ec', 'slc_pe_s']
             pop_order = [labels.LABELS[pop] for pop in pop_order]
             morphological_progression.plot_morphological_progression(data, classes_for_accessions, axes,
                                                                     sorted_classes=pop_order,
                                                                     traits=traits,
                                                                     background_colors=background_colors,
-                                                                    bar_alpha=0.4)
+                                                                    bar_alpha=0.4,
+                                                                    marker='o', linestyle='',
+                                                                    color_schema=color_schema)
+
         else:
             morphological_progression.plot_morphological_progression(data, morpho_classification, axes,
                                                                     sorted_classes=morpho_classes,
@@ -176,7 +197,7 @@ if __name__ == '__main__':
             axes.set_ylabel('Mean normalized index')
         axes.set_ylim((0, 1))
 
-        legend = axes.legend(loc='lower right')
+        legend = axes.legend(loc=legend_locs[structure])
         legend.set_zorder(100)
         axes.text(0.1, 0.1, structure, fontsize=12)
         matplotlib_support.set_axes_background(axes)

@@ -1,0 +1,171 @@
+Gene id	interest	molecular_functions	biological_processes	reference
+Solyc03g083445	gene highly introgessed in SLC Pe N	reverse transcriptase		
+Solyc03g083440	gene highly introgessed in SLC Pe N	glutamate synthase (NADH) activity	photosynthesis	https://doi.org/10.1105/tpc.108.063289
+Solyc08g075050	gene highly introgessed in SLC Pe N	pectin acetylesterase		
+Solyc08g075020	gene highly introgessed in SLC Pe N	pectin acetylesterase		
+Solyc03g005370	gene highly introgessed in SLC Pe N			
+Solyc03g005120	gene highly introgessed in SLC Pe N	cystinosin		
+Solyc03g005490	gene highly introgessed in SLC Pe N	RING-H2 finger protein		
+Solyc03g005270	gene highly introgessed in SLC Pe N	transmembrane emp24 domain-containing protein		
+Solyc03g005330	gene highly introgessed in SLC Pe N	CBL-interacting serine/threonine-protein kinase		
+Solyc03g005110	gene highly introgessed in SLC Pe N			
+Solyc03g005320	gene highly introgessed in SLC Pe N	3-ketoacyl-CoA synthase 11	osmosis/drought;fungi resistance	https://doi.org/10.1111/j.1365-313X.2009.03973.x;https://dx.doi.org/10.1104%2Fpp.114.246348
+Solyc03g005213	gene highly introgessed in SLC Pe N	leucine-rich repeat extensin-like protein	osmotic stress	https://doi.org/10.1073/pnas.1816991115
+Solyc03g005210	gene highly introgessed in SLC Pe N	classical arabinogalactan protein	osmosis/drought	https://en.wikipedia.org/wiki/Arabinogalactan_protein
+Solyc03g005020	gene highly introgessed in SLC Pe N	triacylglycerol lipase	lipid metabolism	https://doi.org/10.1105/tpc.114.130377
+Solyc03g005350	gene highly introgessed in SLC Pe N	transcription factor UNE12		
+Solyc03g005680	gene highly introgessed in SLC Pe N	nuclear ribonucleoprotein		
+Solyc03g005090	gene highly introgessed in SLC Pe N	ankyrin		
+Solyc03g005500	gene highly introgessed in SLC Pe N	ethylene-responsive transcription factor		
+Solyc03g006930	gene highly introgessed in SLC Pe N	protein phosphatase		
+Solyc03g005340	gene highly introgessed in SLC Pe N	acylamino-acid-releasing enzyme	antioxidative system	https://doi.org/10.1007/s00425-012-1614-1
+Solyc03g005455	gene highly introgessed in SLC Pe N	RNA methyltransferase		
+Solyc03g005010	gene highly introgessed in SLC Pe N	RNA methyltransferase		
+Solyc03g006900	gene highly introgessed in SLC Pe N	Crinkler effector protein	fungi resistance	
+Solyc03g005480	gene highly introgessed in SLC Pe N	WAT1 related protein	xylem vessels and fibers development	https://doi.org/10.1111/j.1365-313x.2010.04256.x
+Solyc03g005750	gene highly introgessed in SLC Pe N	GBF-interacting protein	blue light-mediated hypocotyl elongation	https://www.uniprot.org/uniprot/Q8VZS6
+Solyc03g005760	gene highly introgessed in SLC Pe N	chlorophyll a-b binding protein	photosynthesis	
+Solyc03g005217	gene highly introgessed in SLC Pe N			
+Solyc03g006910	gene highly introgessed in SLC Pe N	transcription factor bHLH	photosynthesis	
+Solyc03g005030	gene highly introgessed in SLC Pe N			
+Solyc03g005730	gene highly introgessed in SLC Pe N	isopropylmalate dehydratase large subunit	glucosinolate and leucine biosynthesis	
+Solyc03g005740	gene highly introgessed in SLC Pe N	Probable signal peptidase complex subunit 1		
+Solyc03g005470	gene highly introgessed in SLC Pe N			
+Solyc03g005200	gene highly introgessed in SLC Pe N	Non-specific lipid-transfer protein-like protein	lipid metabolism	
+Solyc03g005310	gene highly introgessed in SLC Pe N	Armadillo repeat-containing protein LFR	cell morphogenesis	https://doi.org/10.1111/j.1365-313x.2007.03327.x
+Solyc03g005300	gene highly introgessed in SLC Pe N	ADP-ribosylation factor protein		
+Solyc03g005430	gene highly introgessed in SLC Pe N	TNF receptor-associated factor	cell morphogenesis	
+Solyc08g014540	gene highly introgessed in SLC Pe N	Polygalacturonase	cell morphogenesis	
+Solyc08g075047	gene highly introgessed in SLC Pe N	Retrovirus-related Pol polyprotein from transposon		
+Solyc03g005140	gene highly introgessed in SLC Pe N	Sugar transport protein		
+Solyc03g005100	gene highly introgessed in SLC Pe N	carboxylesterase	herbicide formation	doi: 10.1074/jbc.M701985200
+Solyc03g005060	gene highly introgessed in SLC Pe N			
+Solyc03g005280	gene highly introgessed in SLC Pe N	Aspartic proteinase A1	drought response	https://doi.org/10.1016/j.plantsci.2020.110406
+Solyc04g077460	gene highly introgessed in SLC Pe N	Amino acid transporter AVT6		
+Solyc03g005670	gene highly introgessed in SLC Pe N	Disease resistance RPP8-like protein	disease resistance	
+Solyc03g005220	gene highly introgessed in SLC Pe N	Histone H2A		
+Solyc03g006915	gene highly introgessed in SLC Pe N	late blight resistance protein	fungi resistance	
+Solyc03g006920	gene highly introgessed in SLC Pe N	Receptor-like serine/threonine-protein kinase		
+Solyc03g005640	gene highly introgessed in SLC Pe N			
+Solyc04g026210	gene highly introgessed in SLC Pe N	threonine-protein kinase		
+Solyc09g010840	circadian gene introgressed in SLC Pe N	R2R3MYB transcription factor	leaf development	
+Solyc01g109700	circadian gene introgressed in SLC Pe N	transcription factor bHLH		
+Solyc02g021650	circadian gene introgressed in SLC Pe N	UV damaged DNA binding protein 1	response to light	
+Solyc08g060840	circadian gene introgressed in SLC Pe N	Far-red impaired response	response to light	doi: 10.1104/pp.113.224386
+Solyc03g081260	circadian gene introgressed in SLC Pe N	Serine/threonine-protein kinase STY8		
+Solyc11g008320	circadian gene introgressed in SLC Pe N	Lysine-specific histone demethylase		
+Solyc03g063100	circadian gene introgressed in SLC Pe N	Florigen precursor	response to light	
+Solyc04g071990	circadian gene introgressed in SLC Pe N	Gigantea	response to light;circadian	
+Solyc08g061130	circadian gene introgressed in SLC Pe N	Transcription factor HY5	response to light	doi: 10.1111/j.1365-313X.2004.02052.x
+Solyc03g079950	circadian gene introgressed in SLC Pe N	DNA-binding protein BIN4		
+Solyc02g071260	circadian gene introgressed in SLC Pe N	Phytochrome E	response to light	
+Solyc03g006830	circadian gene introgressed in SLC Pe N	MADS-box protein SOC1-like		
+Solyc11g010570	circadian gene introgressed in SLC Pe N	MADS box transcription factor	flowering time	
+Solyc03g117360	circadian gene introgressed in SLC Pe N	topless gene repression		
+Solyc04g054150	circadian gene introgressed in SLC Pe N	Nuclear transcription factor Y subunit B-3		
+Solyc08g160500	gene highly introgessed in SLC Ec	protein Sentitiviy to red light reduced 1	flowering time	
+Solyc09g005780	gene highly introgessed in SLC Ec			
+Solyc09g005790	gene highly introgessed in SLC Ec			
+Solyc02g160830	gene highly introgessed in SLC Ec			
+Solyc02g032555	gene highly introgessed in SLC Ec			
+Solyc06g062980	gene highly introgessed in SLC Ec	sm-like protein LSM1B		
+Solyc02g032560	gene highly introgessed in SLC Ec	apyrase-like	plant development	
+Solyc08g065590	gene highly introgessed in SLC Ec	vacuolar-processing enzyme		
+Solyc06g062430	gene highly introgessed in SLC Ec	inositol oxygenase 1		
+Solyc06g062400	gene highly introgessed in SLC Ec	CHUP1, chloroplastic	choroplast location	
+Solyc06g062440	gene highly introgessed in SLC Ec	Cc-nbs-lrr, resistance protein	disease resistance	
+Solyc06g062910	gene highly introgessed in SLC Ec	probable inactive serine/threonine-protein kinase		
+Solyc06g062765	gene highly introgessed in SLC Ec			
+Solyc06g063080	gene highly introgessed in SLC Ec	ariadne-1		
+Solyc06g062650	gene highly introgessed in SLC Ec			
+Solyc06g062760	gene highly introgessed in SLC Ec	50S ribosomal protein L34		
+Solyc06g062500	gene highly introgessed in SLC Ec	60S ribosomal protein L28		
+Solyc06g062700	gene highly introgessed in SLC Ec	ribosomal L1 domain-containing protein		
+Solyc06g062670	gene highly introgessed in SLC Ec	zinc finger family protein		
+Solyc06g062510	gene highly introgessed in SLC Ec	ESCRT-related protein CHMP1A	plant development	
+Solyc06g062960	gene highly introgessed in SLC Ec			
+Solyc06g062990	gene highly introgessed in SLC Ec	exocyst complex component EXO70A1		
+Solyc06g062930	gene highly introgessed in SLC Ec			
+Solyc06g062570	gene highly introgessed in SLC Ec	DUF724 domain-containing protein 6-like		
+Solyc06g062750	gene highly introgessed in SLC Ec	5'-nucleotidase SurE-like		
+Solyc06g061270	gene highly introgessed in SLC Ec	amino acid transporter AVT1I-like		
+Solyc06g062940	gene highly introgessed in SLC Ec	RING-box protein		
+Solyc08g065620	gene highly introgessed in SLC Ec	NADH-quinone oxidoreductase subunit C		
+Solyc06g062840	gene highly introgessed in SLC Ec	Threonine synthase		
+Solyc06g063010	gene highly introgessed in SLC Ec;circadian gene introgressed in SLC Pe N	phytochrome dependent late-flowering	flowering time	
+Solyc06g150124	gene highly introgessed in SLC Ec	FCS-Like Zinc finger	abiotic stress	
+Solyc06g062850	gene highly introgessed in SLC Ec	PHD finger protein ALFIN-LIKE		
+Solyc06g062780	gene highly introgessed in SLC Ec	phospholipid-transporting ATPase 6	lipid metabolism	
+Solyc06g063000	gene highly introgessed in SLC Ec	oligouridylate-binding protein 1B	oxigen stress	
+Solyc06g062830	gene highly introgessed in SLC Ec	60S ribosomal protein L18a		
+Solyc06g062880	gene highly introgessed in SLC Ec	Brevis radix	root development	
+Solyc06g071500	gene highly introgessed in SLC Ec	boron transporter	root boron transport	
+Solyc06g062450	gene highly introgessed in SLC Ec	leucine-rich repeat receptor-like		
+Solyc04g162460	gene highly introgessed in SLC Ec			
+Solyc08g065610	gene highly introgessed in SLC Ec	vacuolar processing enzyme VPE3 precursor		
+Solyc06g062350	gene highly introgessed in SLC Ec	ruvB-like protein		
+Solyc08g067450	gene highly introgessed in SLC Ec	cyclin-dependent kinase F-4-like		
+Solyc04g053037	gene highly introgessed in SLC Ec			
+Solyc06g062480	gene highly introgessed in SLC Ec	early flowering 3	flowering time	
+Solyc06g063120	gene highly introgessed in SLC Ec	O-fucosyltransferase	response to light	
+Solyc08g067440	gene highly introgessed in SLC Ec	N-alpha-acetyltransferase		
+Solyc06g062530	gene highly introgessed in SLC Ec	serine/threonine protein phosphatase		
+Solyc08g065627	gene highly introgessed in SLC Ec			
+Solyc08g160200	gene highly introgessed in SLC Ec			
+Solyc04g015820	gene highly introgessed in SLC Ec			
+Solyc04g016000	gene highly introgessed in SLC Ec	heat stress transcription factor B-3	heat stress	
+Solyc08g067470	gene highly introgessed in SLC Ec	6-hydroxynicotinate 3-monooxygenase		
+Solyc08g067460	gene highly introgessed in SLC Ec	pre-mRNA-splicing factor syf2-like		
+Solyc06g072860	gene highly introgessed in SLC Ec	UDP-glycosyltransferase		
+Solyc01g100910	gene highly introgessed in SLC Ec	WAT1-related protein	xylem vessels and fibers development	
+Solyc06g072850	gene highly introgessed in SLC Ec			
+Solyc06g062950	gene highly introgessed in SLC Ec	subtilisin-like protease	stomatal development	
+Solyc06g076650	gene highly introgessed in SLC Ec	cytosolic enolase 3		
+Solyc06g062920	gene highly introgessed in SLC Ec	serine/threonine-protein kinase RIPK-like		
+Solyc06g072870	gene highly introgessed in SLC Ec	UDP-glycosyltransferase		
+Solyc06g062860	gene highly introgessed in SLC Ec	polyadenylate-binding protein-interacting protein		
+Solyc06g076770	gene highly introgessed in SLC Ec	transcription factor DIVARICATA	osmotic stress	
+Solyc06g063020	gene highly introgessed in SLC Ec	zinc finger CCCH domain-containing protein		
+Solyc09g005760	gene highly introgessed in SLC Ec	U3 small nucleolar RNA-associated protein		
+Solyc08g067480	gene highly introgessed in SLC Ec	V-type proton ATPase subunit c		
+Solyc04g162450	gene highly introgessed in SLC Ec			
+Solyc06g076490	gene highly introgessed in SLC Ec	autophagy-related protein		
+Solyc06g072980	gene highly introgessed in SLC Ec			
+Solyc06g072790	gene highly introgessed in SLC Ec			
+Solyc06g076800	gene highly introgessed in SLC Ec	cytochrome P450 86A1		
+Solyc01g102400	gene highly introgessed in SLC Ec	germin-like protein		
+Solyc06g062600	gene highly introgessed in SLC Ec	Hothead	flower development	
+Solyc04g025400	gene highly introgessed in SLC Ec	lipid phosphate phosphatase 4		
+Solyc06g064673	gene highly introgessed in SLC Ec			
+Solyc09g005770	gene highly introgessed in SLC Ec	F-box protein		
+Solyc08g067540	gene highly introgessed in SLC Ec	non-specific lipid-transfer protein 1		
+Solyc09g074110	gene highly introgessed in SLC Ec	piezo-type mechanosensitive ion channel		
+Solyc06g064670	gene highly introgessed in SLC Ec	2-alkenal reductase (NADP(+)-dependent)		
+Solyc06g063200	gene highly introgessed in SLC Ec	glutamate receptor 2.9		
+Solyc04g015680	gene highly introgessed in SLC Ec	insulin degrading enzyme	defense against herbivorous insects	
+Solyc06g076690	gene highly introgessed in SLC Ec	acyl-coenzyme A thioesterase 13		
+Solyc04g016210	gene highly introgessed in SLC Ec	zeatin O-xylosyltransferase		
+Solyc09g074300	gene highly introgessed in SLC Ec	Histone H2A		
+Solyc06g076640	gene highly introgessed in SLC Ec	tubulin beta chain		
+Solyc06g064720	gene highly introgessed in SLC Ec	Disease resistance protein RPP13	disease resistance	
+Solyc06g072800	gene highly introgessed in SLC Ec	ADP-ribosylation factor 1		
+Solyc04g015830	gene highly introgessed in SLC Ec	villin-2	pollen function	
+Solyc06g062490	gene highly introgessed in SLC Ec	glycosyltransferase BC10		
+Solyc04g051630	gene highly introgessed in SLC Ec			
+Solyc06g062290	gene highly introgessed in SLC Ec	zeatin O-glucosyltransferase	photoperiod stress	
+Solyc04g015990	gene highly introgessed in SLC Ec	cation/H(+) antiporter 28		
+Solyc06g076780	gene highly introgessed in SLC Ec	beta-glucosidase BoGH3B		
+Solyc06g062690	gene highly introgessed in SLC Ec	nucleosome assembly protein		
+Solyc06g076600	gene highly introgessed in SLC Ec	serine/threonine-protein kinase BSK5		
+Solyc01g104040	gene highly introgessed in SLC Ec	UDP-glucose:glycoprotein glucosyltransferase		
+Solyc04g015760	gene highly introgessed in SLC Ec	protein N-terminal glutamine amidohydrolase		
+Solyc09g074160	gene highly introgessed in SLC Ec	E3 ubiquitin-protein ligase		
+Solyc06g064660	gene highly introgessed in SLC Ec	serine/threonine-protein kinase		
+Solyc05g056620	circadian gene introgressed in SLC Ec	macrocalix/apetala		
+Solyc02g067230	circadian gene introgressed in SLC Ec	cyclic dof factor 2	flowering time	
+Solyc09g090100	circadian gene introgressed in SLC Ec	cryptochrome 2 	circadian	
+Solyc07g043270	circadian gene introgressed in SLC Ec	Far-red elongated hypotoyl 3	light response; flowering time	
+Solyc06g053320	circadian gene introgressed in SLC Ec	flowering time control protein FPA	flowering time	
+Solyc01g102300	circadian gene introgressed in SLC Ec	phytochrome interacting factor 3		
+Solyc06g084360	circadian gene introgressed in SLC Ec	E3 ubiquitin-protein ligase SP1		
+Solyc12g070100	circadian gene introgressed in SLC Ec	mediator of RNA polymerase II transcription subunit 25		

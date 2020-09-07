@@ -22,6 +22,22 @@ import pop_building
 import matplotlib_support
 
 
+def calc_region_for_gene(gene, upstream_region=0):
+    chrom = gene['Chromosome'].encode()
+    start = gene['Start']
+    end = gene['End']
+
+    if upstream_region:
+        forward = start < end
+        if forward:
+            start = start - upstream_region
+        else:
+            start = start + upstream_region
+        if start < 0:
+            start = 0
+    return chrom, start, end
+
+
 def _allele_freqs_to_dframe(freqs):
     pops = sorted(freqs.keys(), key=str)
     alleles = sorted({allele for pop_freqs in freqs.values() for allele in pop_freqs.keys()})
@@ -151,13 +167,15 @@ def get_chunk_with_n_uniq_haplos(variations, start_pos, num_desired_haplos):
             'haplo_counts': counts}
 
 
-def get_chunk_for_gene(variations, genes, gene_id, min_num_desired_haplos=0):
+def get_chunk_for_gene(variations, genes, gene_id, min_num_desired_haplos=0,
+                       upstream_region=0):
     gene = genes.get_gene(gene_id)
 
     vars_index = variations.pos_index
     gene = genes.get_gene(gene_id)
-    idx0 = vars_index.index_pos(gene['Chromosome'].encode(), gene['Start'])
-    idx1 = vars_index.index_pos(gene['Chromosome'].encode(), gene['End'])
+    chrom, start, end = calc_region_for_gene(gene, upstream_region=upstream_region)
+    idx0 = vars_index.index_pos(chrom, start)
+    idx1 = vars_index.index_pos(chrom, end)
 
     chunk = variations.get_chunk(slice(idx0, idx1 + 1))
 
