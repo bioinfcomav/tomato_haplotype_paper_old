@@ -12,13 +12,14 @@ if False:
     print('Num vars: ', variations.num_variations)
     # Num vars:  25358552
 
-vars_path = config.TIER1_H5_LOWQ_085
-variations = VariationsH5(str(vars_path), 'r')
-print('tier1 lowq 85')
-print('Num samples: ', len(variations.samples))
-# Num samples:  598
-print('Num vars: ', variations.num_variations)
-# Num vars:  11803366
+if False:
+    vars_path = config.TIER1_H5_LOWQ_085
+    variations = VariationsH5(str(vars_path), 'r')
+    print('tier1 lowq 85')
+    print('Num samples: ', len(variations.samples))
+    # Num samples:  598
+    print('Num vars: ', variations.num_variations)
+    # Num vars:  11803366
 
 vars_path = config.WORKING_H5
 variations = VariationsH5(str(vars_path), 'r')
