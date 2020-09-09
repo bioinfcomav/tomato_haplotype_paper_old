@@ -17,7 +17,7 @@ import morphological_progression
 import pop_building
 
 
-def compare_classifications(passports, morpho_classification, genetic_rank,
+def compare_classifications(passports, morpho_classification, genetic_classification,
                             genetic_classes_to_ignore=None,
                             morpho_classes_to_ignore=None):
 
@@ -25,8 +25,6 @@ def compare_classifications(passports, morpho_classification, genetic_rank,
         genetic_classes_to_ignore = []
     if morpho_classes_to_ignore is None:
         morpho_classes_to_ignore = []
-
-    genetic_classification = pop_building.get_classifications_for_classification_key_path(passports, genetic_rank)
 
     common_accs = sorted(set(genetic_classification.keys()).intersection(morpho_classification))
 
@@ -56,6 +54,9 @@ if __name__ == '__main__':
 
     sample_passports = passport.get_sample_passports()
     pops = pop_building.get_pops({config.RANK1: config.ALL_POPS}, sample_passports)
+    pops2 = pop_building.get_pops({config.RANK2: ['slc_pe_n', 'slc_pe_s']}, sample_passports)
+    pops.update(pops2)
+    del pops['slc_pe']
 
     original_data = morphological.read_morphological_data()
     data = morphological.get_morphological_table_for_ordinal_traits()
@@ -101,7 +102,9 @@ if __name__ == '__main__':
     morpho_classes_to_ignore = [None, '', 'Unclassified']
     #genetic_classes_to_ignore = [None]
 
-    res = compare_classifications(passports, morpho_classification, config.RANK1,
+    genetic_classification = {sample: pop for pop, samples in pops.items() for sample in samples}
+
+    res = compare_classifications(passports, morpho_classification, genetic_classification,
                                   genetic_classes_to_ignore=genetic_classes_to_ignore,
                                   morpho_classes_to_ignore=morpho_classes_to_ignore)
 

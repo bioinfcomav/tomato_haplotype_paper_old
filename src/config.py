@@ -243,10 +243,9 @@ FIG_ACC_PCA_HIERALCHICAL = FIGURES_DIR / 'suppl_fig_4_hieralchical_acc_pcas.svg'
 FIG_RAZIFARD_VS_CURRENT_CLASSIFICATION = FIGURES_DIR / 'suppl_fig_5_suppl_razifard_classification_comparison.svg'
 FIG_RAREFACTION = FIGURES_DIR / 'suppl_fig_7_rarefaction.svg'
 FIG_PI_DISTRIBUTIONS = FIGURES_DIR / 'suppl_fig_8_pi_distributions.svg'
-FIG_HSL_SHARED_HAPLOS_2 = FIGURES_DIR / 'suppl_fig_9_shared_hsl_haplos.svg'
-FIG_HAPLO_FREQS = FIGURES_DIR / 'suppl_fig_10_haplo_freqs.svg'
-FIG_MORPHOLOGICAL_TYPES_CHARACTERIZATION = FIGURES_DIR / 'suppl_fig_11_morphological_types_characterization.svg'
-FIG_COLLECTING_SOURCES = FIGURES_DIR / 'suppl_fig_12_collecting_sources.svg'
+FIG_HAPLO_FREQS = FIGURES_DIR / 'suppl_fig_9_haplo_freqs.svg'
+FIG_MORPHOLOGICAL_TYPES_CHARACTERIZATION = FIGURES_DIR / 'suppl_fig_10_morphological_types_characterization.svg'
+FIG_COLLECTING_SOURCES = FIGURES_DIR / 'suppl_fig_11_collecting_sources.svg'
 
 CIRCADIAN_LOCI = SOURCE_DATA_DIR / 'circadian_and_flowering_time_genes.csv'
 

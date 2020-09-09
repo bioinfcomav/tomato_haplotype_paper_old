@@ -45,7 +45,6 @@ def plot_morphological_characterization(ordinal_trait_counts, sorted_ordinal_tra
 
     if sorted_ordinal_traits is None:
         sorted_ordinal_traits = sorted(ordinal_trait_counts.keys())
-    print(sorted_ordinal_traits)
 
     if sorted_pops is None:
         sorted_pops = sorted(set([pop for trait in sorted_ordinal_traits for pop in ordinal_trait_counts[trait].keys()]))

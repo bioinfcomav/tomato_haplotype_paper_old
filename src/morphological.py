@@ -27,11 +27,14 @@ import matplotlib_support
 
 ECUADOR_PROVINCES = 'Azuay, Bolívar, Cañar, Carchi, Chimborazo, Cotopaxi, El Oro, Esmeraldas, Galápagos, Guayas, Imbabura, Loja, Los Ríos, Manabí, Morona Santiago, Napo, Orellana, Pastaza, Pichincha, Santa Elena, Santo Domingo de Tsáchilas, Sucumbíos, Tungurahua, Zamora Chinchipe'
 PERU_DEPARTMENTS = 'Amazonas, Áncash, Apurímac, Arequipa, Ayacucho, Cajamarca, Callao, Cusco, Huancavelica, Huánuco, Ica, Junín, La Libertad, Lambayeque, Lima, Loreto, Madre de Dios, Moquegua, Pasco, Piura, Puno, San Martín, Tacna, Tumbes, Ucayali'
+PERU_N_DEPARTMENTS = 'Loreto, San Martín'
 ECUADOR_PROVINCES = [province.strip() for province in ECUADOR_PROVINCES.split(',')]
 PERU_DEPARTMENTS = [department.strip() for department in PERU_DEPARTMENTS.split(',')]
+PERU_N_DEPARTMENTS = [department.strip() for department in PERU_N_DEPARTMENTS.split(',')]
 
 COUNTRY_FOR_REGIONS = {province: 'ECU' for province in ECUADOR_PROVINCES}
 COUNTRY_FOR_REGIONS.update({department: 'PER' for department in PERU_DEPARTMENTS})
+COUNTRY_FOR_REGIONS.update({department: 'PER_N' for department in PERU_N_DEPARTMENTS})
 
 MISSPELLINGS = {'Carchí': 'Carchi',
                 'Manabi': 'Manabí',
@@ -44,7 +47,7 @@ MISSPELLINGS = {'Carchí': 'Carchi',
                 'Huanuco': 'Huánuco',
                }
 
-VALID_COUNTRIES = {'ECU', 'PER', 'MEX', 'COL', 'NIC', 'HND', 'CRI', 'SLV'}
+VALID_COUNTRIES = {'ECU', 'PER', 'PER_N', 'MEX', 'COL', 'NIC', 'HND', 'CRI', 'SLV'}
 
 TAXONS_FOR_EXCEL_SHEET = {0: 'SP',
                           1: 'SLC',
@@ -550,7 +553,8 @@ if __name__ == '__main__':
 
     taxon_mapping = {('SLC', 'CRI'): ('SLC', 'MA'),
                      ('SLC', 'MEX'): ('SLC', 'MA')}
-    taxon_order = ('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'), ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'), ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX')
+    taxon_order = (('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'), ('SLC', 'CRI'), ('SLC', 'MEX'),
+                   ('SLC', 'MA'), ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX'))
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later

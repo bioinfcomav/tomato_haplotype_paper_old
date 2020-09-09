@@ -21,8 +21,8 @@ if __name__ == '__main__':
     taxon_mapping = {('SLC', 'CRI'): ('SLC', 'MA'),
                      ('SLC', 'MEX'): ('SLC', 'MA')}
     taxon_order = (('SP', 'PER'), ('SP', 'ECU'), ('SLC', 'COL'),
-                   ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'),
-                   ('SLC', 'PER'), ('SLC', 'ECU'), ('SLL', 'MEX'))
+                   ('SLC', 'CRI'), ('SLC', 'MEX'), ('SLC', 'MA'), ('SLC', 'PER'),
+                   ('SLC', 'PER_N'), ('SLC', 'ECU'), ('SLL', 'MEX'))
 
     fig = Figure()
     FigureCanvas(fig) # Don't remove it or savefig will fail later
@@ -30,7 +30,9 @@ if __name__ == '__main__':
     axes = matplotlib_support.add_axes(fig, row_idx=1, col_idx=0, axes_row_heights=axes_row_heights,
                                        bottom_margin=0.2)
     res = morphological.plot_collecting_sources(original_data, axes, color_schema=colors.ColorSchema(colors.SOURCE_COLORS),
-                            source_order=source_order, taxon_mapping=taxon_mapping, taxon_order=taxon_order)
+                                                source_order=source_order,
+                                                taxon_mapping=taxon_mapping,
+                                                taxon_order=taxon_order)
     matplotlib_support.set_axes_background(axes)
 
     axes = matplotlib_support.add_axes(fig, row_idx=0, col_idx=0, axes_row_heights=axes_row_heights)

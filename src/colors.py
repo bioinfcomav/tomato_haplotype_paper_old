@@ -90,7 +90,9 @@ CLASSIFICATION_RANK1_COLORS = {'sll_mex': '#ff0000',
                          'slc_pe_n': '#ffabb1',
                          'slc_pe_s': '#cdae29',
                          None: '#cccccc',
-                         'sp_x_sp': '#137e6d'
+                         'sp_x_sp': '#137e6d',
+                         'slc_world': '#c294a8',
+                         'sp_x_sl': '#dcd4b1',
                          }
 
 CLASSIFICATION_RANK2_COLORS = {

@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     founder_pop = 'slc_ma'
 
-    target_and_introgression_source = [('slc_pe_n', 'sp_pe'),
+    target_and_introgression_source = [('slc_pe', 'sp_pe'),
                                        ('slc_ec', 'sp_ec'),
                                        ]
     out_dir = config.FIGURES_DIR

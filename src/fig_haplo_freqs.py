@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     pop_order = ['sp_pe', 'sp_montane', 'sp_ec',
                  'slc_co',
-                 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'slc_world', 'sll_mx']
+                 'slc_ma', 'slc_ec', 'slc_pe', 'slc_world', 'sll_mx']
 
     if debug:
         n_succesful_attempts = 2
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     founder_pop = 'slc_ma'
 
-    target_pop = 'slc_pe_n'
+    target_pop = 'slc_pe'
     introgression_source_pop = 'sp_pe'
     most_introgressed_pe_gene_id = get_gene_with_most_introgressions(founder_pop, target_pop,
                                                                      introgression_source_pop, pops)

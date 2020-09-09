@@ -1,4 +1,6 @@
 
+from tkinter import font
+from turtle import position
 import config
 
 import numpy
@@ -95,7 +97,7 @@ def plot_pca(axes, multivar_result, pops_for_samples, color_schema, alpha, marke
     return {'uniq_pops': uniq_pops}
 
 
-def plot_samples_pca(axes, variations, criteria, passports, color_schema,
+def plot_samples_pca(axes, variations, criteria, passports, pops_for_samples, color_schema,
                      alpha, marker_size):
     vars_for_dists = get_vars_for_dists(variations, criteria, passports)
 
@@ -140,16 +142,19 @@ if __name__ == '__main__':
     pops = get_pops(pops_descriptions, sample_passports)
     pops_for_samples = {sample: pop for pop, samples in pops.items() for sample in samples}
 
+    pops_descriptions2 = {config.RANK2: ['slc_pe_n', 'slc_pe_s']}
+    pops_ = get_pops(pops_descriptions2, sample_passports)
+    pops2 = pops.copy()
+    pops2.update(pops_)
+    pops_for_samples2 = {sample: pop for pop, samples in pops_.items() for sample in samples}
+
     plot_path = config.FIG_ACC_PCA_HIERALCHICAL
 
     fig = Figure((10, 30))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
-    ['sp_montane', 'sll_vint', 'slc_world', None, 'slc_co', 'sll_mx', 'slc_ec', 'sp_ec', 'sll_modern',
-    'sp_x_sp', 'sp_x_sl', 'slc_ma', 'slc_pe', 'sp_pe']
-
     popss = [['sp_pe', 'sp_montane', 'sp_ec', 'sp_x_sp'],
-             ['slc_co', 'slc_pe_n', 'slc_pe_s', 'slc_ec', 'slc_ma'],
+             ['slc_co', 'slc_pe', 'slc_ec', 'slc_ma'],
              ['slc_pe_n', 'slc_pe_s'],
              ['sll_mx', 'slc_world', 'slc_ma', 'slc_pe_n'],
              ['sll_modern', 'sll_vint','sll_mx']]
@@ -158,16 +163,32 @@ if __name__ == '__main__':
 
     uniq_pops = None
     for pops_idx, pops in enumerate(popss):
+
+        if pops_idx in (0, 1, 3, 4):
+            criteria = {'criteria': [((config.RANK1, pops, config.KEEP))], 'samples_to_remove': [],
+                        'samples_to_keep': []}
+            pops_for_samples_ = pops_for_samples
+            legend_loc = 'best'
+        else:
+            criteria = {'criteria': [((config.RANK2, pops, config.KEEP))], 'samples_to_remove': [],
+                        'samples_to_keep': []}
+            pops_for_samples_ = pops_for_samples2
+            legend_loc = 'lower right'
+
         axes = matplotlib_support.add_axes(fig, row_idx=pops_idx,
                                            axes_row_heights=axes_row_heights,
                                            bottom_margin=0.1)
-        criteria = {'criteria': [((config.RANK1, pops, config.KEEP))], 'samples_to_remove': [],
-                    'samples_to_keep': []}
         res = plot_samples_pca(axes, variations, criteria, passports=sample_passports,
+                               pops_for_samples=pops_for_samples_,
                                color_schema=color_schema,
                                alpha=alpha, marker_size=marker_size)
         matplotlib_support.set_axes_background(axes, 'white')
-        axes.legend(prop={'size': 14})
+
+        axes.legend(prop={'size': 14}, loc=legend_loc)
+
+        letter = chr(65 + pops_idx)
+        matplotlib_support.write_text_in_figure(letter, 0.12, 0.98 - (axes_row_heights[0] * pops_idx), fig=fig, fontsize=25)
+
         if uniq_pops is None:
             uniq_pops = set(res['uniq_pops'])
         else:

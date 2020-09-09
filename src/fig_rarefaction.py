@@ -49,12 +49,12 @@ def plot_rarefacted_diversities(rarefacted_diversities, fig, pop_sets,
     num_diversity_indexes = len(diversity_indexes)
     num_pop_sets = len(pop_sets)
 
-    axes_col_widths = [1 / num_pop_sets] * num_pop_sets
-    axes_row_heights = [1 / num_diversity_indexes] * num_diversity_indexes
+    axes_col_widths = [0.05] + [1 / num_pop_sets] * num_pop_sets
+    axes_row_heights = [1 / num_diversity_indexes] * num_diversity_indexes + [0.05]
 
     for pop_set_idx, pop_set in enumerate(pop_sets):
         for diversity_index_idx, diversity_index in enumerate(diversity_indexes):
-            col_idx = pop_set_idx
+            col_idx = pop_set_idx + 1
             row_idx = diversity_index_idx
             axes = matplotlib_support.add_axes(fig, row_idx=row_idx,
                                                col_idx=col_idx,
@@ -66,14 +66,15 @@ def plot_rarefacted_diversities(rarefacted_diversities, fig, pop_sets,
 
             matplotlib_support.set_axes_background(axes)
 
-            if not col_idx == 0:
+            if not col_idx == 1:
                 matplotlib_support.turn_off_y_axis(axes)
             else:
-                axes.set_ylabel(diversity_index)
+                axes.set_ylabel(diversity_index.replace('_', ' '))
             if row_idx != (num_diversity_indexes - 1):
                 matplotlib_support.turn_off_x_axis(axes)
-            else:
+            if row_idx == 2:
                 axes.set_xlabel('Num. accs.')
+            if row_idx == 0:
                 axes.legend(loc='upper right')
 
 
@@ -87,7 +88,7 @@ if __name__ == '__main__':
 
     passports = passport.get_sample_passports()
 
-    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe_n', 'slc_pe_s', 'sll_mx']
+    main_pops = ['sp_pe' ,'sp_ec', 'slc_ma', 'slc_ec', 'slc_pe', 'slc_pe', 'sll_mx']
     vintage_pops = ['sll_vint', 'slc_world']
     hybrid_pops = ['sll_modern', 'sp_x_sl', 'sp_x_sp']
     all_pops = main_pops + vintage_pops + hybrid_pops

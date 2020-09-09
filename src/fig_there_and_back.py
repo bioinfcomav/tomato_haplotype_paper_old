@@ -36,21 +36,7 @@ if __name__ == '__main__':
     diversity_index = 'num_poly95'
 
     introgression_source_pop = 'sp_pe'
-    target_pop = 'slc_pe_n'
-    label = pop_labels[introgression_source_pop] + ' → ' + pop_labels[target_pop]
-    samples_in_pop_with_possible_introgressions = pops_rank1[target_pop]
-    samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
-    calculate_and_plot_diversity_in_one_pop_vs_introgression_in_another(variations,
-                                                                        samples_in_pop_with_possible_introgressions,
-                                                                        samples_in_founder_pop,
-                                                                        samples_in_introgression_source_pop,
-                                                                        diversity_index,
-                                                                        win_size,
-                                                                        axes,
-                                                                        plot_line_label=label)
-
-    introgression_source_pop = 'sp_pe'
-    target_pop = 'slc_pe_s'
+    target_pop = 'slc_pe'
     label = pop_labels[introgression_source_pop] + ' → ' + pop_labels[target_pop]
     samples_in_pop_with_possible_introgressions = pops_rank1[target_pop]
     samples_in_introgression_source_pop = pops_rank1[introgression_source_pop]
