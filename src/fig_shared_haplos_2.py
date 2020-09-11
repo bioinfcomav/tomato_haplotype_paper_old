@@ -1,4 +1,5 @@
 
+
 import config
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -14,6 +15,7 @@ import labels
 from haplo_priv import (count_num_shared_and_priv_haplos,
                         plot_shared_and_priv_haplo_counts)
 import matplotlib_support
+import upset
 
 
 if __name__ == '__main__':
@@ -30,7 +32,7 @@ if __name__ == '__main__':
 
     sample_passports = passport.get_sample_passports()
     pops_descriptions = {config.RANK1: config.ALL_POPS}
-    pops = pop_building.get_pops(pops_descriptions, sample_passports)
+    pops = pop_building.get_pops(pops_descriptions, sample_passports, pops_to_merge={'slc_pe': ['slc_pe_n', 'slc_pe_s']})
 
     vars_path = config.WORKING_PHASED_AND_IMPUTED_H5
     variations = VariationsH5(str(vars_path), 'r')
@@ -55,52 +57,34 @@ if __name__ == '__main__':
     else:
         haplo_classification = None
 
-    fig = Figure((10, 12))
+    pop1 = 'slc_ma'
+    pop2 = 'slc_pe'
+    pop3 = 'sll_mx'
+    pop_names = pop1, pop2, pop3
+    pop_combination_order = [('slc_ma', 'slc_pe'), ('slc_pe', 'sll_mx'), ('slc_ma', 'sll_mx'),
+                              'slc_ma', 'slc_pe', 'sll_mx']
+    color_schema = colors.ColorSchema(colors.HAPLO_COLORS)
+
+    pops = {pop: pops[pop] for pop in pop_names}
+
+    counts = count_num_shared_and_priv_haplos(pops,
+                                              variations,
+                                              win_params=win_params,
+                                              haplo_classification=haplo_classification,
+                                              num_wins_to_process=num_wins_to_process)
+
+    print(counts)
+    plot_path = config.FIG_HSL_SHARED_HAPLOS
+    fig = Figure((10, 7))
     FigureCanvas(fig) # Don't remove it or savefig will fail later
 
-    pop1 = 'slc_ma'
-    pop2 = 'slc_pe_n'
-    pop3 = 'sll_mx'
-    pop_names = pop1, pop2, pop3
-    pop_combination_order = [('slc_ma', 'slc_pe_n'), ('slc_pe_n', 'sll_mx'), ('slc_ma', 'sll_mx'),
-                              'slc_ma', 'slc_pe_n', 'sll_mx']
-    color_schema = colors.ColorSchema(colors.HAPLO_COLORS)
+    max_num_pops = max(len(key) for key in counts.keys())
 
-    pops1 = {pop: pops[pop] for pop in pop_names}
+    counts = {key: value for key, value in counts.items() if len(key) != max_num_pops}
 
-    counts = count_num_shared_and_priv_haplos(pops1,
-                                              variations,
-                                              win_params=win_params,
-                                              haplo_classification=haplo_classification,
-                                              num_wins_to_process=num_wins_to_process)
+    axess = upset.create_upset_axess(fig)
+    res = upset.plot_counts_per_type(counts, axess, count_type_color_schema=color_schema)
+    matplotlib_support.set_axes_background(res['axess'][upset.INTERSECTION_AXES])
+    matplotlib_support.set_axes_background(res['axess'][upset.UPSET_AXES])
 
-    axes = fig.add_subplot(211)
-    res = plot_shared_and_priv_haplo_counts(counts, axes, sorted_pop_names=pop_names, ignore_shared_by_all_pops=True, pop_combination_order=pop_combination_order)
-    matplotlib_support.set_axes_background(axes)
-
-    pop1 = 'slc_ma'
-    pop2 = 'slc_pe_s'
-    pop3 = 'sll_mx'
-    pop_names = pop1, pop2, pop3
-    pop_combination_order = [('slc_ma', 'slc_pe_s'), ('slc_pe_s', 'sll_mx'), ('slc_ma', 'sll_mx'),
-                              'slc_ma', 'slc_pe_s', 'sll_mx']
-    color_schema = colors.ColorSchema(colors.HAPLO_COLORS)
-
-    pops2 = {pop: pops[pop] for pop in pop_names}
-
-    counts = count_num_shared_and_priv_haplos(pops2,
-                                              variations,
-                                              win_params=win_params,
-                                              haplo_classification=haplo_classification,
-                                              num_wins_to_process=num_wins_to_process)
-    axes = fig.add_subplot(212)
-    res = plot_shared_and_priv_haplo_counts(counts, axes, sorted_pop_names=pop_names, ignore_shared_by_all_pops=True, pop_combination_order=pop_combination_order)
-
-    matplotlib_support.plot_legend([labels.HAPLO_LABELS[klass] for klass in res['haplo_classes']],
-                                   [color_schema[klass] for klass in res['haplo_classes']], axes,
-                                   location='upper right')
-    matplotlib_support.set_axes_background(axes)
-
-    plot_path = config.FIG_HSL_SHARED_HAPLOS_2
-    fig.tight_layout()
     fig.savefig(plot_path)

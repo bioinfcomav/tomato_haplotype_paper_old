@@ -92,7 +92,7 @@ def plot_upset_dots(axes, present_intersections_data_labels,
     y_poss = _get_poss(num_data_labels)
 
     for intersection_idx, intersection_data_labels in enumerate(present_intersections_data_labels):
-        x_pos = x_poss[intersection_idx]
+        x_pos = sorted_intersections_data_labels.index(intersection_data_labels)
         this_y_poss = [sorted_uniq_data_labels.index(data_label) for data_label in intersection_data_labels]
         if True:
             axes.scatter([x_pos] * len(this_y_poss), this_y_poss, s=full_dot_size,
@@ -141,8 +141,6 @@ def plot_intersection_data(axes,
                            sorted_intersections_data_labels,
                            plot_intersection):
 
-    num_intersections = len(sorted_intersections_data_labels)
-
     for intersection_data_labels, values in intersection_dict.items():
         x_pos = sorted_intersections_data_labels.index(intersection_data_labels)
         plot_intersection(axes, x_pos, values)
@@ -159,7 +157,8 @@ def _plot_counts(intersection_dict, axess, plot_intersection, data_labels_order=
     if data_labels_order is None:
         data_labels_order = sorted(uniq_data_labels, key=str)
 
-    sorted_uniq_data_labels = sorted(uniq_data_labels, key=lambda x: data_labels_order.index(x))
+    sorted_uniq_data_labels = sorted(uniq_data_labels,
+                                     key=lambda x: data_labels_order.index(x))
 
     intersections_data_labels = list(intersection_dict.keys())
 
@@ -191,7 +190,8 @@ def plot_counts(intersection_dict, axess, data_labels_order=None,
                  plot_intersection=plot_intersection)
 
 
-def plot_stacked_bar(axes, x_pos, heights_by_type, count_type_color_schema, sorted_count_types):
+def plot_stacked_bar(axes, x_pos, heights_by_type,
+                     count_type_color_schema, sorted_count_types):
 
     bottom = None
     for count_type in sorted_count_types:
@@ -208,7 +208,8 @@ def plot_stacked_bar(axes, x_pos, heights_by_type, count_type_color_schema, sort
 
 def plot_counts_per_type(intersection_dict, axess, data_labels_order=None,
                          intersections_to_plot=GIVEN_INTERSECTIONS,
-                         sorted_count_types=None, count_type_color_schema=None):
+                         sorted_count_types=None,
+                         count_type_color_schema=None):
 
     if sorted_count_types is None:
         count_types = {count_type for counts_per_type in intersection_dict.values() for count_type in counts_per_type.keys()}
@@ -229,6 +230,7 @@ def plot_counts_per_type(intersection_dict, axess, data_labels_order=None,
                                    [count_type_color_schema[count_type] for count_type in sorted_count_types],
                                    axess[INTERSECTION_AXES],
                                    fontize=DEFAULT_BARS_LEGEND_FONT_SIZE)
+    return {'axess': axess}
 
 
 class PlotCountsTest(unittest.TestCase):
