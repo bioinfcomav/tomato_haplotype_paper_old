@@ -145,6 +145,7 @@ def get_tomato_genes_annotations():
     for row in reader:
         annotation = {}
         annotation['molecular_functions'] = row['molecular_functions'].split(';')
+        annotation['biological_processes'] = row['biological_processes'].split(';')
         annotations[row['Gene id']] = annotation
     return annotations
 

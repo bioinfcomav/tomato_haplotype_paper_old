@@ -149,7 +149,7 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
 
     _plot_diversities(poly95, pops, axes1, color_schema=color_schema)
     matplotlib_support.turn_off_x_axis(axes1)
-    axes1.set_ylabel('Num. poly variations (95%)', fontsize=Y_LABEL_SIZE)
+    axes1.set_ylabel('Num. poly variants (95%)', fontsize=Y_LABEL_SIZE)
 
     x_values = numpy.arange(len(pops))
     axes4 = fig.add_subplot(224)
@@ -162,7 +162,7 @@ def  plot_fig2(var_diversities, haplo_diversities, lds, plot_path):
     axes2 = fig.add_subplot(222)
     _plot_diversities(haplo_diversities['num_variable_vars'], pops, axes2, color_schema=color_schema)
     matplotlib_support.set_y_ticks_right(axes2)
-    axes2.set_ylabel('Mean num. variations in genome region', fontsize=Y_LABEL_SIZE)
+    axes2.set_ylabel('Mean num. variants in genome region', fontsize=Y_LABEL_SIZE)
     matplotlib_support.turn_off_x_axis(axes2)
 
     axes3 = fig.add_subplot(223)

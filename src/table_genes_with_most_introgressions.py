@@ -9,14 +9,14 @@ from variation.variations import VariationsH5
 import passport
 import pop_building
 import genome
-import introgressions
+import circadian
 from introgressions_for_genes import get_genes_with_most_introgressions
 import kegg
 import labels
 
 
 def get_genes_with_most_introgressions_for_target_pops(variations, target_and_introgression_source, pops,
-                                                       upstream_region=0, cache_dir=None):
+                                                       upstream_region=0, cache_dir=None, num_genes=100):
 
     genes_with_most_introgessions = {}
     for target_pop, introgression_source_pop in target_and_introgression_source:
@@ -34,7 +34,7 @@ def get_genes_with_most_introgressions_for_target_pops(variations, target_and_in
 
         gene_introgression_freqs = get_genes_with_most_introgressions(variations,
                                                                       introgession_config=introgession_config,
-                                                                      genes=genes, num_genes=100,
+                                                                      genes=genes, num_genes=num_genes,
                                                                       upstream_region=upstream_region,
                                                                       cache_dir=cache_dir)
         genes_with_most_introgessions[target_pop] = gene_introgression_freqs
@@ -54,6 +54,7 @@ def write_genes_with_introgressions_table(fhand, genes_with_most_introgessions, 
     writer.writerow(['Population', 'Gene id', 'Chromosome', 'Start', 'End', 'Introgression freq.', 'Annotated function', 'Kegg pathways'])
 
     kegg_genes = kegg.KeggGenes(cache_dir=config.CACHE_DIR)
+    tomato_genes = circadian.get_tomato_genes_annotations()
     for pop in sorted(genes_with_most_introgessions.keys()):
         for gene_id, introgression_freq in genes_with_most_introgessions[pop].items():
             gene = genes.get_gene(gene_id)
@@ -66,9 +67,16 @@ def write_genes_with_introgressions_table(fhand, genes_with_most_introgessions, 
             except KeyError:
                 kegg_pathways = ''
             #print(pop, gene_id, introgression_freq, function, kegg_pathways)
-            writer.writerow([labels.LABELS[pop], gene_id,
+            if gene_id not in tomato_genes:
+                print(gene_id)
+            #print(tomato_genes[gene_id])
+            writer.writerow([labels.LABELS[pop],
+                             gene_id,
                              gene['Chromosome'], str(gene['Start']), str(gene['End']),
-                             introgression_freq, function, kegg_pathways])
+                             introgression_freq,
+                             function,
+                             kegg_pathways])
+
 
 if __name__ == '__main__':
     vars_path = config.TIER1_H5_LOWQ_085
