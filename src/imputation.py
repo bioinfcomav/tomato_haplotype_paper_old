@@ -24,18 +24,22 @@ def impute_variations(variations, genetic_map_path, beagle_mem=BEAGLE_MEM):
         imputed_vars = phase_and_impute_vcf_with_beagle(Path(vcf_fhand.name),
                                                         genetic_map_path=genetic_map_path,
                                                         beagle_mem=beagle_mem)
+        vcf_fhand.close()
     return imputed_vars
 
 
 def _sort_vcf(in_unsorted_vcf_path, out_sorted_vcf_path):
     sort_process = subprocess.Popen(['vcf-sort', in_unsorted_vcf_path],
-                                    stdout=subprocess.PIPE)
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout = out_sorted_vcf_path.open('wb')
     gzip_process = subprocess.Popen(['bgzip'],
                                     stdin=sort_process.stdout,
-                                    stdout=stdout)
+                                    stdout=stdout,
+                                    stderr=subprocess.PIPE)
     sort_process.stdout.close()
     gzip_process.communicate()
+    assert gzip_process.returncode == 0
+    stdout.close()
 
 
 def phase_and_impute_vcf_with_beagle(vcf_path, genetic_map_path, imputed_vars=None,
@@ -72,4 +76,5 @@ def phase_and_impute_vcf_with_beagle(vcf_path, genetic_map_path, imputed_vars=No
             imputed_vars = VariationsArrays()
 
         imputed_vars.put_vars(vcf_parser)
+
         return imputed_vars

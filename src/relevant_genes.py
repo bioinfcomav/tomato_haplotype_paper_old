@@ -18,28 +18,6 @@ import haplo_net
 import colors
 
 
-def get_variations_in_region(variations, chrom, start, end, min_num_vars=0):
-
-    chrom = chrom.encode()
-    index = variations.pos_index
-    idx0 = index.index_pos(chrom, start)
-    idx1 = index.index_pos(chrom, end)
-
-    extended = False
-    if min_num_vars:
-        num_vars = idx1 - idx0
-        if num_vars < min_num_vars:
-            vars_to_extend = math.ceil((min_num_vars - num_vars) / 2)
-            idx0 = idx0 - vars_to_extend
-            idx1 = idx1 + vars_to_extend
-            extended = True
-        
-    chunk = variations.get_chunk(slice(idx0, idx1))
-
-    if extended:
-        chunk = SNPPositionFilter([(chrom, )])(chunk)[FLT_VARS]
-
-    return chunk
 
 
 if __name__ == '__main__':

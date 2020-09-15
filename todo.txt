@@ -4,3 +4,7 @@ morphology:
 	- índice de diversidad morfológica por población para ver como cambia a lo largo de la domesticación
 red de alguna región de interés?
 kegg de las regiones introgresadas o con selective sweep
+
+
+
+

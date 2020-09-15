@@ -65,7 +65,8 @@ class Genes:
             if function:
                 parent_gene['mrnas'][mrna_id]['function'] = function
 
-        genes_df = pandas.DataFrame(gene_ranges, columns=('Chromosome', 'Start', 'End'), index=ids)
+        genes_df = pandas.DataFrame(gene_ranges,
+                                    columns=('Chromosome', 'Start', 'End'), index=ids)
         self._genes_df = genes_df
 
         self.gene_annotations = genes
@@ -143,6 +144,26 @@ class Genes:
     def gene_ids(self):
         return iter(self._genes_df.index)
 
+    def get_genes_in_region(self, chrom, start, end):
+        df = {'Chromosome': [chrom],
+              'Start': numpy.array([start], dtype=int),
+              'End': numpy.array([end], dtype=int)}
+        df = pandas.DataFrame(df)
+        df.index = ['region']
+        df_fhand = self._write_bed(df)
+
+        genes_fhand = self._write_bed(self._genes_df)
+
+        cmd = ['bedtools', 'intersect', '-b', genes_fhand.name, '-a', df_fhand.name, '-wb']
+        process = subprocess.run(cmd, check=True, capture_output=True, text=True)
+
+        genes = []
+        for line in process.stdout.splitlines():
+            gene_id = line.split('\t')[-1]
+            genes.append(self.get_gene(gene_id))
+
+        return genes
+
 
 def read_go_annotation():
     first = True
@@ -167,7 +188,7 @@ def write_tomato_go_annotation_for_topgo():
 
 if __name__ == '__main__':
     genes = Genes()
+    genes.get_genes_in_region('SL4.0ch02', 1, 1e5)
     genes.get_annotated_function('Solyc11g008780')
-    print(list(genes.gene_ids))
 
     #write_tomato_go_annotation_for_topgo()
